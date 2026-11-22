@@ -486,21 +486,24 @@
 
         <!-- PRESSOSTATO -->
         <div class="form-group">
-          <label>Pressostato (frequência / sinal)</label>
+          <label>Pressostato (sinal / frequência / chaveamento)</label>
+          <p class="subtitle" style="margin-bottom: 6px; font-size: 0.78rem;">
+            Modelos mecânicos atuam por chaveamento/continuidade; modelos eletrônicos/lineares enviam sinal/frequência.
+          </p>
           <div class="chip-group" id="pressostatoChips">
-            <button type="button" class="chip-btn selected-ok" data-peso="10" data-val="Frequência OK"
-              data-falhas="Sinal de nível coerente na bancada."
-              onclick="marcarItemTeste('pressostato', 'Frequência OK', 'ok', 10, this)">OK</button>
-            <button type="button" class="chip-btn" data-peso="55" data-val="Frequência alterada"
-              data-falhas="Pressostato descalibrado/colado no nível, mangueira ou câmara de ar parcialmente obstruída/com água retida, ou fuga/ruído no sinal."
-              onclick="marcarItemTeste('pressostato', 'Frequência alterada', 'mid', 55, this)">Frequência alterada</button>
-            <button type="button" class="chip-btn" data-peso="90" data-val="Sem frequência"
-              data-falhas="Pressostato aberto/queimado, chicote/conector interrompido, mangueira solta/furada ou entrada de sensor na placa sem alimentação/pull-up."
-              onclick="marcarItemTeste('pressostato', 'Sem frequência', 'warn', 90, this)">Sem frequência</button>
+            <button type="button" class="chip-btn selected-ok" data-peso="10" data-val="Sinal / chaveamento OK"
+              data-falhas="Resposta de nível coerente na bancada (sinal/frequência ou chaveamento conforme o modelo)."
+              onclick="marcarItemTeste('pressostato', 'Sinal / chaveamento OK', 'ok', 10, this)">OK</button>
+            <button type="button" class="chip-btn" data-peso="55" data-val="Resposta / sinal alterado"
+              data-falhas="Pressostato descalibrado/colado no nível, contato mecânico com resistência/oscilação, sinal/frequência fora da faixa, mangueira ou câmara de ar obstruída/com água ou ruído."
+              onclick="marcarItemTeste('pressostato', 'Resposta / sinal alterado', 'mid', 55, this)">Resposta / sinal alterado</button>
+            <button type="button" class="chip-btn" data-peso="90" data-val="Sem sinal / sem chaveamento"
+              data-falhas="Pressostato aberto/com defeito, chicote/conector interrompido, mangueira solta/furada/diafragma furado ou entrada/pull-up na placa sem condição correta."
+              onclick="marcarItemTeste('pressostato', 'Sem sinal / sem chaveamento', 'warn', 90, this)">Sem sinal / chaveamento</button>
           </div>
-          <input type="text" id="pressostatoVal" value="Frequência OK" placeholder="Ex.: 25,4 kHz / OK" />
+          <input type="text" id="pressostatoVal" value="Sinal / chaveamento OK" placeholder="Ex.: Chaveamento OK / 25,4 kHz / Sinal OK" />
           <div class="suspeita-box" id="suspeitaPressostato">
-            <strong>Defeitos prováveis:</strong> Sinal de nível coerente na bancada.
+            <strong>Defeitos prováveis:</strong> Resposta de nível coerente na bancada (sinal/frequência ou chaveamento conforme o modelo).
           </div>
         </div>
 
@@ -595,7 +598,7 @@
               <tr>
                 <td>2</td>
                 <td>Chave de tampa / pressostato</td>
-                <td>Comutação coerente com estado</td>
+                <td>Comutação ou sinal coerente com o modelo</td>
               </tr>
               <tr>
                 <td>3</td>
@@ -652,7 +655,7 @@
           <strong>Defeitos prováveis para as opções marcadas:</strong>
           <ul class="lista-falhas" id="listaDefeitosProvaveis">
             <li><strong>Fonte:</strong> Alimentação estável; conferir apenas cargas e sinais.</li>
-            <li><strong>Pressostato:</strong> Sinal de nível coerente na bancada.</li>
+            <li><strong>Pressostato:</strong> Resposta de nível coerente na bancada (sinal/frequência ou chaveamento conforme o modelo).</li>
             <li><strong>Atuadores/Válvulas/Bomba:</strong> Saída comutando normalmente.</li>
             <li><strong>Trava/Tampa:</strong> Malha de segurança fechada e reconhecida.</li>
           </ul>
@@ -783,7 +786,7 @@
 
     const PLACAS_REFERENCIA = [
       { fabricante: "Brastemp", linha: "Lavadoras linha Ative / BW / BWL", obs: "Conferir fonte/alimentação, chave de tampa, triacs/relés e chicote." },
-      { fabricante: "Consul", linha: "Lavadoras linha CWE / CWL / Facilite", obs: "Verificar sinal do pressostato, bomba de drenagem, acionamentos e chicote." },
+      { fabricante: "Consul", linha: "Lavadoras linha CWE / CWL / Facilite", obs: "Verificar sinal/chaveamento do pressostato, bomba de drenagem, acionamentos e chicote." },
       { fabricante: "Electrolux", linha: "Lavadoras linha LT / LAC / LTE", obs: "Checar fonte, umidade/solda fria, sensor de nível e circuitos de saída." },
       { fabricante: "Colormaq", linha: "Lavadoras automáticas / linha LCA", obs: "Testar tensões (110V–240V), válvulas/atuadores, triacs/resistores e trava de segurança." }
     ];
@@ -797,7 +800,7 @@
 
     const falhasSelecionadas = {
       fonte: "Alimentação estável; conferir apenas cargas e sinais.",
-      pressostato: "Sinal de nível coerente na bancada.",
+      pressostato: "Resposta de nível coerente na bancada (sinal/frequência ou chaveamento conforme o modelo).",
       atuador: "Saída comutando normalmente.",
       porta: "Malha de segurança fechada e reconhecida."
     };
@@ -1062,12 +1065,12 @@
       pesosTeste.porta = 10;
 
       falhasSelecionadas.fonte = "Alimentação estável; conferir apenas cargas e sinais.";
-      falhasSelecionadas.pressostato = "Sinal de nível coerente na bancada.";
+      falhasSelecionadas.pressostato = "Resposta de nível coerente na bancada (sinal/frequência ou chaveamento conforme o modelo).";
       falhasSelecionadas.atuador = "Saída comutando normalmente.";
       falhasSelecionadas.porta = "Malha de segurança fechada e reconhecida.";
 
       document.getElementById("fonteVal").value = "Fonte OK";
-      document.getElementById("pressostatoVal").value = "Frequência OK";
+      document.getElementById("pressostatoVal").value = "Sinal / chaveamento OK";
       document.getElementById("atuadorVal").value = "Acionando OK";
       document.getElementById("portaVal").value = "Fechada / OK";
 
@@ -1119,7 +1122,7 @@
         } else if (f >= p && f >= l) {
           resumoBox.innerHTML = `Foco principal: <strong>Fonte / Entrada (${f}%)</strong> — Priorize alimentação, tensão (110V–240V), capacitores, reguladores, solda fria e umidade.`;
         } else if (p >= f && p >= l) {
-          resumoBox.innerHTML = `Foco principal: <strong>Periféricos / Sensores (${p}%)</strong> — Priorize pressostato, mangueira/câmara, chave/trava de tampa e chicote.`;
+          resumoBox.innerHTML = `Foco principal: <strong>Periféricos / Sensores (${p}%)</strong> — Priorize pressostato (sinal/chaveamento conforme o modelo), mangueira/câmara, chave/trava de tampa e chicote.`;
         } else {
           resumoBox.innerHTML = `Foco principal: <strong>Lógica / Acionamento (${l}%)</strong> — Priorize triacs, relés, resistores de acionamento, chicote e cargas (válvulas/bomba/atuador).`;
         }
