@@ -15,6 +15,7 @@
       --primary-hover: #1d4ed8;
       --success: #16a34a;
       --success-hover: #15803d;
+      --warn: #d97706;
       --danger: #dc2626;
       --danger-hover: #b91c1c;
       --whatsapp: #22c55e;
@@ -146,7 +147,7 @@
       border: 1px solid var(--border);
       padding: 8px 12px;
       border-radius: 999px;
-      font-size: 0.85rem;
+      font-size: 0.84rem;
       font-weight: 600;
       cursor: pointer;
       transition: 0.15s ease;
@@ -165,6 +166,12 @@
     .chip-btn.selected-ok {
       background: var(--success);
       border-color: var(--success);
+      color: #fff;
+    }
+
+    .chip-btn.selected-mid {
+      background: var(--warn);
+      border-color: var(--warn);
       color: #fff;
     }
 
@@ -290,14 +297,14 @@
     }
 
     .bar-item {
-      margin-bottom: 12px;
+      margin-bottom: 14px;
     }
 
     .bar-label {
       display: flex;
       justify-content: space-between;
       font-size: 0.88rem;
-      margin-bottom: 4px;
+      margin-bottom: 5px;
     }
 
     .bar-track {
@@ -417,12 +424,12 @@
       <section id="aba1" class="card">
         <h2>1. Teste Rápido de Bancada (110 V – 240 V)</h2>
         <p class="subtitle" style="margin-bottom: 14px;">
-          Toque nos botões para marcar o teste de forma rápida. O gráfico é atualizado na hora.
+          Marque o estado de cada ponto para refinar a estimativa do gráfico com mais precisão.
         </p>
 
         <!-- TENSÃO 110V A 240V -->
         <div class="form-group">
-          <label>Tensão de entrada / fonte (110 V a 240 V)</label>
+          <label>Tensão de entrada (110 V a 240 V)</label>
           <div class="chip-group" id="tensaoChips">
             <button type="button" class="chip-btn" data-v="110" onclick="selecionarTensaoRapida(110, this)">110 V</button>
             <button type="button" class="chip-btn" data-v="127" onclick="selecionarTensaoRapida(127, this)">127 V</button>
@@ -430,6 +437,17 @@
             <button type="button" class="chip-btn" data-v="240" onclick="selecionarTensaoRapida(240, this)">240 V</button>
           </div>
           <input type="number" id="tensaoEntrada" min="110" max="240" step="1" value="220" oninput="atualizarStatusTensao()" />
+        </div>
+
+        <!-- ESTADO DA FONTE -->
+        <div class="form-group">
+          <label>Fonte primária / secundária</label>
+          <div class="chip-group" id="fonteChips">
+            <button type="button" class="chip-btn selected-ok" data-peso="10" data-val="Fonte OK" onclick="marcarItemTeste('fonte', 'Fonte OK', 'ok', 10, this)">Fonte OK</button>
+            <button type="button" class="chip-btn" data-peso="55" data-val="Oscilando / baixa" onclick="marcarItemTeste('fonte', 'Oscilando / baixa', 'mid', 55, this)">Oscilando / baixa</button>
+            <button type="button" class="chip-btn" data-peso="95" data-val="Sem saída / morta" onclick="marcarItemTeste('fonte', 'Sem saída / morta', 'warn', 95, this)">Sem saída / morta</button>
+          </div>
+          <input type="text" id="fonteVal" value="Fonte OK" placeholder="Ex.: 12V / 5V estável" />
         </div>
 
         <div class="info-box" id="resumoTensaoBox">
@@ -440,9 +458,9 @@
         <div class="form-group">
           <label>Pressostato (frequência / sinal)</label>
           <div class="chip-group" id="pressostatoChips">
-            <button type="button" class="chip-btn selected-ok" data-state="ok" data-val="Frequência OK" onclick="marcarItemTeste('pressostato', 'OK', 'ok', this)">OK</button>
-            <button type="button" class="chip-btn" data-state="warn" data-val="Sem frequência" onclick="marcarItemTeste('pressostato', 'Sem frequência', 'warn', this)">Sem frequência</button>
-            <button type="button" class="chip-btn" data-state="warn" data-val="Sinal alterado" onclick="marcarItemTeste('pressostato', 'Sinal alterado', 'warn', this)">Sinal alterado</button>
+            <button type="button" class="chip-btn selected-ok" data-peso="10" data-val="Frequência OK" onclick="marcarItemTeste('pressostato', 'Frequência OK', 'ok', 10, this)">OK</button>
+            <button type="button" class="chip-btn" data-peso="55" data-val="Frequência alterada" onclick="marcarItemTeste('pressostato', 'Frequência alterada', 'mid', 55, this)">Frequência alterada</button>
+            <button type="button" class="chip-btn" data-peso="90" data-val="Sem frequência" onclick="marcarItemTeste('pressostato', 'Sem frequência', 'warn', 90, this)">Sem frequência</button>
           </div>
           <input type="text" id="pressostatoVal" value="Frequência OK" placeholder="Ex.: 25,4 kHz / OK" />
         </div>
@@ -451,19 +469,21 @@
         <div class="form-group">
           <label>Atuador / bomba / válvulas</label>
           <div class="chip-group" id="atuadorChips">
-            <button type="button" class="chip-btn selected-ok" data-state="ok" data-val="Acionado" onclick="marcarItemTeste('atuador', 'Acionado', 'ok', this)">Acionado</button>
-            <button type="button" class="chip-btn" data-state="warn" data-val="Sem pulso" onclick="marcarItemTeste('atuador', 'Sem pulso', 'warn', this)">Sem pulso</button>
-            <button type="button" class="chip-btn" data-state="warn" data-val="Travado / falha" onclick="marcarItemTeste('atuador', 'Travado / falha', 'warn', this)">Travado / falha</button>
+            <button type="button" class="chip-btn selected-ok" data-peso="10" data-val="Acionando OK" onclick="marcarItemTeste('atuador', 'Acionando OK', 'ok', 10, this)">Acionando OK</button>
+            <button type="button" class="chip-btn" data-peso="50" data-val="Pulso fraco / intermitente" onclick="marcarItemTeste('atuador', 'Pulso fraco / intermitente', 'mid', 50, this)">Pulso intermitente</button>
+            <button type="button" class="chip-btn" data-peso="80" data-val="Sem pulso" onclick="marcarItemTeste('atuador', 'Sem pulso', 'warn', 80, this)">Sem pulso</button>
+            <button type="button" class="chip-btn" data-peso="95" data-val="Travado / curto" onclick="marcarItemTeste('atuador', 'Travado / curto', 'warn', 95, this)">Travado / curto</button>
           </div>
-          <input type="text" id="atuadorVal" value="Acionado" placeholder="Ex.: Acionando / Sem pulso" />
+          <input type="text" id="atuadorVal" value="Acionando OK" placeholder="Ex.: Acionando / Sem pulso" />
         </div>
 
         <!-- TRAVA / TAMPA -->
         <div class="form-group">
           <label>Trava / sensor de tampa</label>
           <div class="chip-group" id="portaChips">
-            <button type="button" class="chip-btn selected-ok" data-state="ok" data-val="Fechada / OK" onclick="marcarItemTeste('porta', 'Fechada / OK', 'ok', this)">Fechada / OK</button>
-            <button type="button" class="chip-btn" data-state="warn" data-val="Aberta / sem contato" onclick="marcarItemTeste('porta', 'Aberta / sem contato', 'warn', this)">Aberta / sem contato</button>
+            <button type="button" class="chip-btn selected-ok" data-peso="10" data-val="Fechada / OK" onclick="marcarItemTeste('porta', 'Fechada / OK', 'ok', 10, this)">Fechada / OK</button>
+            <button type="button" class="chip-btn" data-peso="45" data-val="Intermitente" onclick="marcarItemTeste('porta', 'Intermitente', 'mid', 45, this)">Intermitente</button>
+            <button type="button" class="chip-btn" data-peso="85" data-val="Aberta / sem contato" onclick="marcarItemTeste('porta', 'Aberta / sem contato', 'warn', 85, this)">Aberta / sem contato</button>
           </div>
           <input type="text" id="portaVal" value="Fechada / OK" placeholder="Ex.: Fechada / Aberta" />
         </div>
@@ -474,15 +494,15 @@
           <div class="grid-2" style="margin-top: 10px;">
             <div class="form-group">
               <label for="probFonte">Fonte / Entrada (%)</label>
-              <input type="number" id="probFonte" min="0" max="100" value="20" oninput="atualizarGrafico()" />
+              <input type="number" id="probFonte" min="0" max="100" value="10" oninput="atualizarGrafico()" />
             </div>
             <div class="form-group">
               <label for="probPerifericos">Periféricos / Sensores (%)</label>
-              <input type="number" id="probPerifericos" min="0" max="100" value="20" oninput="atualizarGrafico()" />
+              <input type="number" id="probPerifericos" min="0" max="100" value="10" oninput="atualizarGrafico()" />
             </div>
             <div class="form-group">
               <label for="probLogica">Lógica / Acionamento (%)</label>
-              <input type="number" id="probLogica" min="0" max="100" value="20" oninput="atualizarGrafico()" />
+              <input type="number" id="probLogica" min="0" max="100" value="10" oninput="atualizarGrafico()" />
             </div>
           </div>
         </details>
@@ -531,14 +551,18 @@
       <!-- ABA 2: GRÁFICO -->
       <section id="aba2" class="card hidden">
         <h2>2. Gráfico de Probabilidades</h2>
-        <p class="subtitle" style="margin-bottom: 14px;">
-          Visualização comparativa conforme as marcações da aba Valores.
+        <p class="subtitle" style="margin-bottom: 12px;">
+          Leitura refinada conforme os estados marcados na aba Valores.
         </p>
+
+        <div class="info-box" id="diagnosticoResumoBox">
+          Foco principal: <strong>Avaliação equilibrada</strong> — Sem falha crítica marcada até o momento.
+        </div>
 
         <div class="bar-item">
           <div class="bar-label">
             <span>Fonte / Entrada</span>
-            <strong id="valTextoFonte">20%</strong>
+            <strong id="valTextoFonte">10%</strong>
           </div>
           <div class="bar-track">
             <div class="bar-fill" id="barraFonte"></div>
@@ -548,7 +572,7 @@
         <div class="bar-item">
           <div class="bar-label">
             <span>Periféricos / Sensores</span>
-            <strong id="valTextoPerifericos">20%</strong>
+            <strong id="valTextoPerifericos">10%</strong>
           </div>
           <div class="bar-track">
             <div class="bar-fill" id="barraPerifericos"></div>
@@ -558,7 +582,7 @@
         <div class="bar-item">
           <div class="bar-label">
             <span>Lógica / Acionamento</span>
-            <strong id="valTextoLogica">20%</strong>
+            <strong id="valTextoLogica">10%</strong>
           </div>
           <div class="bar-track">
             <div class="bar-fill" id="barraLogica"></div>
@@ -692,10 +716,11 @@
       { fabricante: "Colormaq", linha: "Lavadoras automáticas / linha LCA", obs: "Testar tensões de entrada, válvulas e chave de segurança." }
     ];
 
-    const estadoTeste = {
-      pressostato: "ok",
-      atuador: "ok",
-      porta: "ok"
+    const pesosTeste = {
+      fonte: 10,
+      pressostato: 10,
+      atuador: 10,
+      porta: 10
     };
 
     let codigo2faAtual = "";
@@ -774,7 +799,7 @@
       document.getElementById("appSection").classList.remove("hidden");
       document.getElementById("statusBadge").textContent = motivoTexto;
       atualizarStatusTensao();
-      recalcularProbabilidadesAutomaticas();
+      recalcularProbabilidadesRefinadas();
       atualizarGrafico();
       renderizarPlacas();
       renderizarListaIds();
@@ -856,7 +881,7 @@
       document.querySelectorAll("#tensaoChips .chip-btn").forEach(b => b.classList.remove("selected"));
       if (btnEl) btnEl.classList.add("selected");
       atualizarStatusTensao();
-      recalcularProbabilidadesAutomaticas();
+      recalcularProbabilidadesRefinadas();
       atualizarGrafico();
     }
 
@@ -874,80 +899,78 @@
 
       if (v < 110 || v > 240) {
         boxEl.innerHTML = `Referência de tensão: <strong>${v} V</strong> — Fora da faixa configurada de <strong>110 V a 240 V</strong>. Revise a medição antes de prosseguir.`;
-        return;
-      }
-
-      if (v <= 140) {
+      } else if (v <= 140) {
         boxEl.innerHTML = `Referência de tensão: <strong>${v} V</strong> — Faixa baixa/nominal (110 V – 140 V). Verifique compatibilidade da placa e componentes na tensão de rede.`;
       } else if (v < 200) {
         boxEl.innerHTML = `Referência de tensão: <strong>${v} V</strong> — Faixa intermediária (141 V – 199 V). Atenção a quedas ou oscilações de rede.`;
       } else {
         boxEl.innerHTML = `Referência de tensão: <strong>${v} V</strong> — Faixa alta (200 V – 240 V). Confirme se a placa e os periféricos suportam 220 V/240 V antes de energizar.`;
       }
-    }
 
-    function marcarItemTeste(campo, textoValor, estado, btnEl) {
-      estadoTeste[campo] = estado;
-      const inputMap = {
-        pressostato: "pressostatoVal",
-        atuador: "atuadorVal",
-        porta: "portaVal"
-      };
-      const grupoMap = {
-        pressostato: "#pressostatoChips .chip-btn",
-        atuador: "#atuadorChips .chip-btn",
-        porta: "#portaChips .chip-btn"
-      };
-
-      document.getElementById(inputMap[campo]).value = textoValor;
-      document.querySelectorAll(grupoMap[campo]).forEach(b => {
-        b.classList.remove("selected-ok", "selected-warn");
-      });
-
-      if (btnEl) {
-        btnEl.classList.add(estado === "ok" ? "selected-ok" : "selected-warn");
-      }
-
-      recalcularProbabilidadesAutomaticas();
+      recalcularProbabilidadesRefinadas();
       atualizarGrafico();
     }
 
-    function recalcularProbabilidadesAutomaticas() {
+    function marcarItemTeste(campo, textoValor, nivel, peso, btnEl) {
+      pesosTeste[campo] = peso;
+
+      const config = {
+        fonte: { input: "fonteVal", chips: "#fonteChips .chip-btn" },
+        pressostato: { input: "pressostatoVal", chips: "#pressostatoChips .chip-btn" },
+        atuador: { input: "atuadorVal", chips: "#atuadorChips .chip-btn" },
+        porta: { input: "portaVal", chips: "#portaChips .chip-btn" }
+      };
+
+      const alvo = config[campo];
+      if (!alvo) return;
+
+      document.getElementById(alvo.input).value = textoValor;
+      document.querySelectorAll(alvo.chips).forEach(b => {
+        b.classList.remove("selected-ok", "selected-mid", "selected-warn");
+      });
+
+      if (btnEl) {
+        if (nivel === "ok") btnEl.classList.add("selected-ok");
+        else if (nivel === "mid") btnEl.classList.add("selected-mid");
+        else btnEl.classList.add("selected-warn");
+      }
+
+      recalcularProbabilidadesRefinadas();
+      atualizarGrafico();
+    }
+
+    function recalcularProbabilidadesRefinadas() {
       const v = Number(document.getElementById("tensaoEntrada")?.value) || 220;
-      const tensaoForaFaixa = v < 110 || v > 240;
+      const penalidadeTensao = (v < 110 || v > 240) ? 25 : (v > 140 && v < 200) ? 10 : 0;
 
-      const fonteProb = tensaoForaFaixa ? 85 : 20;
-      const perifericosProb = estadoTeste.pressostato !== "ok" ? 80 : 20;
-      const logicaProb = (estadoTeste.atuador !== "ok" || estadoTeste.porta !== "ok") ? 80 : 20;
+      const fonteCalc = Math.min(100, Math.round(pesosTeste.fonte * 0.8 + penalidadeTensao));
+      const perifericosCalc = Math.min(100, Math.round((pesosTeste.pressostato * 0.75) + (pesosTeste.porta * 0.25)));
+      const logicaCalc = Math.min(100, Math.round((pesosTeste.atuador * 0.7) + (pesosTeste.fonte * 0.3)));
 
-      document.getElementById("probFonte").value = fonteProb;
-      document.getElementById("probPerifericos").value = perifericosProb;
-      document.getElementById("probLogica").value = logicaProb;
+      document.getElementById("probFonte").value = fonteCalc;
+      document.getElementById("probPerifericos").value = perifericosCalc;
+      document.getElementById("probLogica").value = logicaCalc;
     }
 
     function resetarTesteRapido() {
-      estadoTeste.pressostato = "ok";
-      estadoTeste.atuador = "ok";
-      estadoTeste.porta = "ok";
+      pesosTeste.fonte = 10;
+      pesosTeste.pressostato = 10;
+      pesosTeste.atuador = 10;
+      pesosTeste.porta = 10;
 
+      document.getElementById("fonteVal").value = "Fonte OK";
       document.getElementById("pressostatoVal").value = "Frequência OK";
-      document.getElementById("atuadorVal").value = "Acionado";
+      document.getElementById("atuadorVal").value = "Acionando OK";
       document.getElementById("portaVal").value = "Fechada / OK";
 
-      document.querySelectorAll("#pressostatoChips .chip-btn").forEach((b, idx) => {
-        b.classList.remove("selected-ok", "selected-warn");
-        if (idx === 0) b.classList.add("selected-ok");
-      });
-      document.querySelectorAll("#atuadorChips .chip-btn").forEach((b, idx) => {
-        b.classList.remove("selected-ok", "selected-warn");
-        if (idx === 0) b.classList.add("selected-ok");
-      });
-      document.querySelectorAll("#portaChips .chip-btn").forEach((b, idx) => {
-        b.classList.remove("selected-ok", "selected-warn");
-        if (idx === 0) b.classList.add("selected-ok");
+      ["#fonteChips .chip-btn", "#pressostatoChips .chip-btn", "#atuadorChips .chip-btn", "#portaChips .chip-btn"].forEach(sel => {
+        document.querySelectorAll(sel).forEach((b, idx) => {
+          b.classList.remove("selected-ok", "selected-mid", "selected-warn");
+          if (idx === 0) b.classList.add("selected-ok");
+        });
       });
 
-      recalcularProbabilidadesAutomaticas();
+      recalcularProbabilidadesRefinadas();
       atualizarGrafico();
     }
 
@@ -974,6 +997,20 @@
       document.getElementById("barraFonte").style.width = `${f}%`;
       document.getElementById("barraPerifericos").style.width = `${p}%`;
       document.getElementById("barraLogica").style.width = `${l}%`;
+
+      const resumoBox = document.getElementById("diagnosticoResumoBox");
+      if (resumoBox) {
+        const maxVal = Math.max(f, p, l);
+        if (maxVal <= 15) {
+          resumoBox.innerHTML = "Foco principal: <strong>Sinais dentro do esperado</strong> — Sem anomalia relevante marcada até o momento.";
+        } else if (f >= p && f >= l) {
+          resumoBox.innerHTML = `Foco principal: <strong>Fonte / Entrada (${f}%)</strong> — Priorize alimentação, tensão (110V–240V) e reguladores da placa.`;
+        } else if (p >= f && p >= l) {
+          resumoBox.innerHTML = `Foco principal: <strong>Periféricos / Sensores (${p}%)</strong> — Priorize pressostato, chave/trava de tampa e chicote.`;
+        } else {
+          resumoBox.innerHTML = `Foco principal: <strong>Lógica / Acionamento (${l}%)</strong> — Priorize saídas de atuadores, relés/triacs e atuação na carga.`;
+        }
+      }
     }
 
     function renderizarPlacas() {
@@ -1165,7 +1202,8 @@
       const deviceId = obterOuCriarIdAparelho();
       document.getElementById("deviceIdDisplay").textContent = deviceId;
       atualizarStatusTensao();
-      recalcularProbabilidadesAutomaticas();
+      recalcularProbabilidadesRefinadas();
+      atualizarGrafico();
       if (ehIdSemAtivacao(deviceId)) {
         liberarAplicacao("Acesso direto liberado");
       }
