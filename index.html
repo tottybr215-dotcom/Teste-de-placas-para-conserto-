@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bancada Lavadora • Diagnóstico e Modo ADM</title>
+  <style>
+    * { box-sizing: border-box; font-family: system-ui, -apple-system, sans-serif; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #0b1220;
+      color: #f1f5f9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .card {
+      width: 100%;
+      max-width: 440px;
+      background: #131c31;
+      border: 1px solid #263554;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 12px 30px rgba(0,0,0,.45);
+    }
+    .header { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 14px; }
+    .badge { font-size: 12px; padding: 5px 10px; border-radius: 999px; background: #1e293b; color: #93c5fd; }
+    .badge.active { background: #1d4ed8; color: #fff; font-weight: 600; }
+    h1, h2 { margin: 0 0 8px; font-size: 1.2rem; }
+    p { margin: 0 0 12px; color: #cbd5e1; font-size: 0.9rem; line-height: 1.4; }
+    label { display: block; font-size: 0.85rem; color: #cbd5e1; margin: 10px 0 4px; }
+    input, select {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid #334155;
+      background: #0f172a;
+      color: #fff;
+      font-size: 0.95rem;
+    }
+    button {
+      margin-top: 14px;
+      width: 100%;
+      padding: 11px 14px;
+      border: 0;
+      border-radius: 10px;
+      background: #2563eb;
+      color: #fff;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+    }
+    button.secondary { background: #334155; margin-top: 8px; }
+    button.preset { background: #0f766e; margin-top: 8px; }
+    button.red { background: #b91c1c; margin-top: 8px; }
+    button.small {
+      width: auto;
+      margin-top: 0;
+      padding: 7px 10px;
+      font-size: 0.8rem;
+      border-radius: 8px;
+    }
+    .row-btns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .row-btns button { margin-top: 0; }
+    .code-box {
+      background: #0f172a;
+      border: 1px dashed #3b82f6;
+      border-radius: 10px;
+      padding: 10px;
+      text-align: center;
+      margin: 10px 0;
+    }
+    .id-val { font-size: 1.15rem; letter-spacing: 2px; font-weight: 700; color: #93c5fd; word-break: break-all; }
+    .code-num { font-size: 1.5rem; letter-spacing: 6px; font-weight: 700; color: #60a5fa; }
+    .msg { margin-top: 10px; font-size: 0.85rem; color: #fca5a5; min-height: 18px; }
+    .ok-msg { color: #86efac; }
+    .hidden { display: none; }
+    .tabs { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
+    .tabs button { margin-top: 0; flex: 1 1 22%; background: #1e293b; font-size: 0.82rem; padding: 9px 6px; }
+    .tabs button.tab-active { background: #2563eb; }
+    .grid-item { background: #0f172a; border: 1px solid #263554; border-radius: 10px; padding: 10px; margin-bottom: 10px; }
+    .dica-campo { font-size: 0.8rem; color: #94a3b8; margin: 0 0 8px; line-height: 1.35; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .bar-row { margin-bottom: 12px; }
+    .bar-head { display: flex; justify-content: space-between; font-size: 0.86rem; margin-bottom: 4px; gap: 8px; }
+    .bar-track { width: 100%; height: 14px; background: #1e293b; border-radius: 999px; overflow: hidden; }
+    .bar-fill { height: 100%; background: linear-gradient(90deg, #2563eb, #38bdf8); border-radius: 999px; transition: width 0.3s ease; }
+    .bar-fill.top { background: linear-gradient(90deg, #dc2626, #f97316); }
+    .callout { background: #0f172a; border: 1px solid #263554; border-radius: 10px; padding: 12px; margin-bottom: 12px; }
+    .tag { display: inline-block; font-size: 0.75rem; padding: 3px 8px; border-radius: 999px; background: #1e293b; color: #93c5fd; margin-bottom: 6px; }
+    .tag.adm { background: #134e4a; color: #5eead4; }
+    ul.lista-defeitos { margin: 6px 0 0; padding-left: 18px; color: #cbd5e1; font-size: 0.88rem; line-height: 1.45; }
+    ul.lista-defeitos li { margin-bottom: 4px; }
+    .item-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 6px; }
+    .status-pill { font-size: 0.75rem; font-weight: 700; padding: 3px 9px; border-radius: 999px; }
+    .status-ativo { background: #14532d; color: #86efac; }
+    .status-bloqueado { background: #7f1d1d; color: #fca5a5; }
+    .meta { font-size: 0.82rem; color: #94a3b8; line-height: 1.4; word-break: break-all; }
+    .acoes { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+    .secret-gate {
+      margin-top: 14px;
+      padding-top: 10px;
+      border-top: 1px dashed #263554;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .secret-gate input {
+      padding: 7px 10px;
+      font-size: 0.82rem;
+      background: #0b1220;
+      border-color: #1e293b;
+    }
+    @media (max-width: 460px) { .two-col { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="card" id="authBox">
+    <div class="header">
+      <div>
+        <h1 style="margin:0;">Bancada Lavadora</h1>
+        <small style="color:#94a3b8;">Validação por Chave do ID + 2FA</small>
+      </div>
+      <div style="display:flex;gap:6px;">
+        <span class="badge active" id="b1">1° Nível</span>
+        <span class="badge" id="b2">2° Nível</span>
+      </div>
+    </div>
+
+    <div id="step1">
+      <p>Envie o <strong>ID do aparelho</strong> para liberação, receba a chave vinculada a ele e digite abaixo para liberar o app.</p>
+
+      <div class="code-box">
+        <div style="font-size:0.8rem;color:#94a3b8;">ID gerado para este aparelho</div>
+        <div class="id-val" id="deviceIdDisplay">ID-CARREGANDO</div>
+      </div>
+
+      <button id="btnCopiarId" class="secondary" type="button" style="margin-top:0;">Copiar ID para enviar</button>
+      <button id="btnNovoId" class="secondary" type="button">Gerar novo ID deste aparelho</button>
+
+      <label for="chaveInput">Chave específica deste ID</label>
+      <input
+        id="chaveInput"
+        type="text"
+        placeholder="Ex.: CHV-8F4A2C19-A1B2C3"
+        autocomplete="off"
+      />
+
+      <button id="btnStep1" type="button">Validar Chave e Ir para 2° Nível</button>
+      <div class="msg" id="msg1"></div>
+    </div>
+
+    <div id="step2" class="hidden">
+      <p>Confirme o código de verificação de 6 dígitos para liberar a bancada.</p>
+      <div class="code-box">
+        <div style="font-size:0.8rem;color:#94a3b8;">Código 2FA da bancada</div>
+        <div class="code-num" id="tfaDisplay">------</div>
+      </div>
+      <label for="tfaInput">Digite o código acima</label>
+      <input id="tfaInput" type="text" inputmode="numeric" maxlength="6" placeholder="000000" />
+      <button id="btnStep2" type="button">Entrar no App</button>
+      <button id="btnNewCode" class="secondary" type="button">Gerar novo código</button>
+      <button id="btnBack1" class="secondary" type="button">Voltar ao 1° Nível</button>
+      <div class="msg" id="msg2"></div>
+    </div>
+  </div>
+
+  <div class="card hidden" id="appBox" style="max-width:720px;">
+    <div class="header">
+      <div>
+        <h2 style="margin:0;">Diagnóstico • Lavadora</h2>
+        <small id="sessaoId" style="color:#94a3b8;"></small>
+      </div>
+      <button id="btnLock" class="secondary" type="button" style="width:auto;margin:0;padding:8px 12px;">Bloquear</button>
+    </div>
+
+    <div class="tabs">
+      <button id="tabDiagBtn" class="tab-active" type="button">1. Valores</button>
+      <button id="tabGrafBtn" type="button">2. Gráfico</button>
+      <button id="tabRefBtn" type="button">3. Placas</button>
+      <button id="tabAdminBtn" type="button">4. Modo ADM</button>
+    </div>
+
+    <!-- ABA 1: ENTRADA DE DADOS -->
+    <div id="tabDiag">
+      <label for="modeloPlaca">Placa eletrônica compatível (modelo)</label>
+      <select id="modeloPlaca"></select>
+
+      <div class="callout" id="resumoPlacaDiag" style="margin-top:10px;"></div>
+
+      <label for="condicao">Condição da placa / teste</label>
+      <select id="condicao">
+        <option value="standby">Stand-by (energizada, sem ciclo)</option>
+        <option value="tampa_pressostato" selected>Tampa fechada + pressostato acionado</option>
+        <option value="ciclo_ativo">Ciclo ativo (válvula / motor / bomba)</option>
+      </select>
+
+      <div class="two-col">
+        <div>
+          <label for="estadoTampa">Chave da Tampa</label>
+          <select id="estadoTampa">
+            <option value="fechada" selected>Fechada (chave fechada)</option>
+            <option value="aberta">Aberta (chave aberta)</option>
+          </select>
+        </div>
+        <div>
+          <label for="estadoPress">Pressostato</label>
+          <select id="estadoPress">
+            <option value="cheio" selected>Cheio (chave fechada)</option>
+            <option value="vazio">Vazio (chave aberta)</option>
+          </select>
+        </div>
+      </div>
+
+      <button id="btnExemploBoa" class="preset" type="button">Preencher exemplo de placa 100% boa</button>
+
+      <div class="callout" style="margin-top:12px;margin-bottom:8px;">
+        <strong>Como preencher as medições:</strong><br>
+        <small style="color:#94a3b8;">Digite apenas o número (ex.: <code>5.0</code> ou <code>220</code>; pode usar ponto ou vírgula). Se ainda não mediu algum ponto, deixe em branco.</small>
+      </div>
+
+      <div id="pontosContainer" style="margin-top:10px;"></div>
+      <button id="btnAnalisar" type="button">Analisar e Ir para o Gráfico</button>
+
+      <!-- ACESSO OCULTO AO TESTE DA MÁQUINA -->
+      <div class="secret-gate">
+        <input id="senhaOcultaMaquina" type="password" placeholder="•••" autocomplete="off" />
+        <button id="btnAbrirOcultoMaquina" class="secondary small" type="button">Abrir</button>
+      </div>
+      <div class="msg" id="msgOcultoMaquina" style="min-height:0;margin-top:6px;"></div>
+
+      <div id="painelTesteMaquinaOculto" class="callout hidden" style="margin-top:12px;border-color:#0f766e;">
+        <div class="item-top">
+          <strong style="color:#5eead4;">Teste da Máquina (Modo Oculto)</strong>
+          <button id="btnEsconderMaquina" class="secondary small" type="button">Esconder</button>
+        </div>
+        <p style="margin-bottom:8px;">Avalie o comportamento físico da lavadora durante os ciclos para cruzar com a placa:</p>
+
+        <label for="maqEnchimento">1. Enchimento / Válvula de entrada</label>
+        <select id="maqEnchimento">
+          <option value="ok" selected>Enche e corta no nível correto</option>
+          <option value="nao_enche">Não entra água (ou entra muito fraco)</option>
+          <option value="nao_corta">Não corta a água / transborda</option>
+        </select>
+
+        <label for="maqAgitacao">2. Agitação / Motor</label>
+        <select id="maqAgitacao">
+          <option value="ok" selected>Agita normal nos dois sentidos</option>
+          <option value="ronca_nao_gira">Motor ronca/trava mas não gira</option>
+          <option value="nao_agita">Não agita / sem movimento</option>
+        </select>
+
+        <label for="maqDrenagem">3. Drenagem / Bomba</label>
+        <select id="maqDrenagem">
+          <option value="ok" selected>Escoa a água no tempo normal</option>
+          <option value="nao_drena">Não escoa a água</option>
+        </select>
+
+        <label for="maqCentrifuga">4. Centrifugação / Travamento de tampa</label>
+        <select id="maqCentrifuga">
+          <option value="ok" selected>Centrifuga normalmente</option>
+          <option value="nao_centrifuga">Não centrifuga / trava antes</option>
+        </select>
+
+        <button id="btnDiagnosticoMaquina" class="preset" type="button">Diagnosticar Máquina + Placa</button>
+        <div id="resultadoTesteMaquina" class="callout" style="margin-top:12px;margin-bottom:0;background:#0b1220;">
+          <small style="color:#94a3b8;">Selecione os estados da máquina acima e clique em "Diagnosticar Máquina + Placa".</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- ABA 2: GRÁFICO DO DEFEITO -->
+    <div id="tabGraf" class="hidden">
+      <div class="callout">
+        <div style="font-size:0.8rem;color:#94a3b8;">Placa selecionada e defeito mais provável</div>
+        <div id="topDefeitoTitulo" style="font-size:1.15rem;font-weight:700;color:#60a5fa;margin:4px 0;">Aguardando análise</div>
+        <div id="topDefeitoResumo" style="font-size:0.9rem;color:#cbd5e1;">Preencha as medições na aba 1 e clique em "Analisar e Ir para o Gráfico".</div>
+      </div>
+
+      <div class="callout">
+        <strong style="display:block;margin-bottom:10px;">Probabilidade por Defeito (%)</strong>
+        <div id="graficoBarras"></div>
+      </div>
+
+      <div class="callout" id="detalhesAnalise">
+        <strong>Próximo passo na bancada:</strong><br>
+        Nenhuma medição analisada ainda.
+      </div>
+
+      <div class="callout" id="defeitosPlacaGraf"></div>
+
+      <button id="btnVoltarDiag" class="secondary" type="button">Voltar e editar medições</button>
+    </div>
+
+    <!-- ABA 3: PLACAS COMPATÍVEIS E DEFEITOS ESPECÍFICOS -->
+    <div id="tabRef" class="hidden">
+      <p style="margin-bottom:10px;">Banco de placas eletrônicas de lavadora compatíveis e seus defeitos típicos de bancada:</p>
+      <div id="bancoPlacasLista"></div>
+    </div>
+
+    <!-- ABA 4: MODO ADM -->
+    <div id="tabAdmin" class="hidden">
+      <div id="adminLoginBox" class="callout">
+        <span class="tag adm">Modo ADM</span><br>
+        <strong>Acesso restrito do Modo ADM</strong>
+        <p style="margin:6px 0 10px;">Digite a senha do Modo ADM para gerenciar IDs, ativar/bloquear, gerar chaves e abrir o teste da máquina.</p>
+        <label for="adminPassInput">Senha do Modo ADM</label>
+        <input id="adminPassInput" type="password" placeholder="Digite a senha do Modo ADM" autocomplete="off" />
+        <button id="btnDesbloquearAdmin" type="button">Entrar no Modo ADM</button>
+        <div class="msg" id="adminMsg"></div>
+      </div>
+
+      <div id="adminPainelBox" class="hidden">
+        <div class="callout" style="border-color:#0f766e;">
+          <div class="item-top">
+            <div>
+              <span class="tag adm">Modo ADM Ativo</span><br>
+              <strong>Gerenciar ID e Chave</strong>
+            </div>
+            <button id="btnTrancarAdmin" class="secondary small" type="button">Sair do Modo ADM</button>
+          </div>
+
+          <label for="admIdInput">ID do aparelho</label>
+          <input id="admIdInput" type="text" placeholder="Ex.: ID-8F4A2C19" autocomplete="off" />
+
+          <label for="admNomeInput">Identificação / Nome (opcional)</label>
+          <input id="admNomeInput" type="text" placeholder="Ex.: Bancada 02" autocomplete="off" />
+
+          <label for="admStatusInput">Status</label>
+          <select id="admStatusInput">
+            <option value="ativo" selected>Ativo (Liberado)</option>
+            <option value="bloqueado">Bloqueado (Acesso negado)</option>
+          </select>
+
+          <div class="row-btns">
+            <button id="btnAdmGerarAtivar" class="preset" type="button">Gerar Chave e Ativar</button>
+            <button id="btnAdmBloquear" class="red" type="button">Bloquear ID</button>
+          </div>
+
+          <div class="code-box">
+            <div style="font-size:0.78rem;color:#94a3b8;">Chave gerada para o ID</div>
+            <div class="id-val" id="admChaveDisplay">Nenhuma chave gerada</div>
+            <button id="btnAdmCopiarChave" class="secondary small" type="button" style="margin-top:8px;">Copiar chave</button>
+          </div>
+
+          <div class="msg" id="admActionMsg"></div>
+        </div>
+
+        <div class="callout">
+          <strong>IDs Cadastrados (<span id="admTotalIds">0</span>)</strong>
+          <div id="admListaIds" style="margin-top:10px;"></div>
+        </div>
+
+        <div class="callout">
+          <strong>Atalho • Teste da Máquina (Modo ADM)</strong>
+          <p style="margin:6px 0 8px;">Abra o painel de teste da máquina diretamente na aba 1.</p>
+          <button id="btnIrTesteMaquinaAdm" class="preset" type="button">Abrir Teste da Máquina na Aba 1</button>
+        </div>
+
+        <div class="callout">
+          <strong>Alterar senha do Modo ADM</strong>
+          <label for="novaSenhaAdminInput">Nova senha do Modo ADM (mín. 4 caracteres)</label>
+          <input id="novaSenhaAdminInput" type="password" placeholder="Nova senha" autocomplete="off" />
+          <button id="btnSalvarNovaSenhaAdmin" class="secondary" type="button">Salvar nova senha do Modo ADM</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const KEY_DEVICE_ID = 'bancada_lavadora_device_id_v1';
+    const KEY_PAINEL_MESTRE = 'painel_mestre_ids_chaves_v1';
+    const KEY_ADMIN_PASS_HASH = 'bancada_lavadora_admin_hash_v1';
+
+    // APENAS estes 2 IDs entram direto sem passar por validação de chave e 2FA
+    const IDS_SEM_VALIDACAO = [
+      'ID-1EQ278',
+      'ID-9K4P7X2M'
+    ];
+
+    // Senha inicial padrão do Modo ADM caso ainda não tenha sido alterada
+    const SENHA_ADMIN_PADRAO = 'admin2026';
+
+    // Opcional: caso queira fixar algum ID e chave direto no código também
+    const REGISTROS_FIXOS = {};
+    const IDS_BLOQUEADOS_FIXOS = [];
+
+    let current2FA = '';
+    let deviceIdAtual = '';
+    let adminDesbloqueado = false;
+
+    const PLACAS_LAVADORA = [
+      {
+        id: 'elx_ltd11_lt12',
+        modelo: 'Electrolux • Placa Potência / Interface LTD11 / LT12',
+        compatibilidade: 'Compatível apenas com linhas Electrolux LTD11 / LT12 (verificar código/chicote)',
+        focoScore: 'triacCurto',
+        defeitosComuns: [
+          'Triac de bomba de drenagem, válvula ou atuador em curto (atuador energizado direto ou travando ciclo).',
+          'Queda/ausência de +5V / +12V por capacitor alterado, resistor/fusível aberto ou etapa da fonte.',
+          'Falha de leitura de chave da tampa ou pressostato (fio rompido, conector oxidado ou sinal não chegando).'
+        ],
+        dicaBancada: 'Confira +5V/+12V, teste o fechamento da chave da tampa e do pressostato e meça as saídas AC para descartar Triac em curto ou aberto.'
+      },
+      {
+        id: 'elx_lac11_lac12',
+        modelo: 'Electrolux • Placa Principal LAC11 / LAC12',
+        compatibilidade: 'Compatível apenas com lavadoras Electrolux série LAC11 / LAC12 correspondentes',
+        focoScore: 'fonte',
+        defeitosComuns: [
+          'Placa não liga ou reinicia por falha na fonte chaveada (+5V instável/baixo ou capacitor esgotado).',
+          'Não enche, não drena ou não centrifuga por falha de chave da tampa, pressostato ou acionamento de saída.',
+          'Curto ou fuga em trilhas/conectores por umidade na área de potência.'
+        ],
+        dicaBancada: 'Meça entrada AC e +5V/+12V antes de tudo; se a fonte estiver estável, valide tampa fechada, nível do pressostato e saída dos atuadores.'
+      },
+      {
+        id: 'bst_bwl11_bwk11',
+        modelo: 'Brastemp • Placa Potência BWL11 / BWK11',
+        compatibilidade: 'Compatível apenas com modelos Brastemp BWL11 / BWK11 da mesma versão',
+        focoScore: 'sensores',
+        defeitosComuns: [
+          'Travamento ou falha ao avançar etapas por leitura incorreta de pressostato ou chave/atuador de tampa.',
+          'Ausência de alimentação em válvulas, bomba ou motor por relé/Triac aberto ou falha na fonte de +12V/+5V.',
+          'Saída energizada indevidamente por Triac em curto ou fuga.'
+        ],
+        dicaBancada: 'Confirme se o pressostato fecha no nível cheio e se a chave da tampa comuta corretamente; em seguida confira +12V/+5V e saídas AC.'
+      },
+      {
+        id: 'cns_cwl16_cws11',
+        modelo: 'Consul • Placa Potência CWL16 / CWS11',
+        compatibilidade: 'Compatível apenas com modelos Consul CWL16 / CWS11 equivalentes',
+        focoScore: 'saidaAberta',
+        defeitosComuns: [
+          'Não ativa válvula de entrada ou bomba por falha de comando/gate, relé/Triac aberto ou mau contato em conector.',
+          'Fonte sem +5V / +12V ou com ripple excessivo por capacitores alterados.',
+          'Sinal de tampa ou pressostato ausente na entrada da placa.'
+        ],
+        dicaBancada: 'Com tampa fechada e pressostato acionado no teste, verifique +5V/+12V, sinal dos sensores e se há tensão de acionamento na saída.'
+      }
+    ];
+
+    const pontos = [
+      {
+        id: 'rede',
+        nome: 'Entrada Rede AC (V)',
+        ref: '127 ou 220',
+        instrucao: 'Multímetro em AC (V): meça a tensão de entrada que chega na placa.',
+        exemplo: 'Ex.: 127 ou 220'
+      },
+      {
+        id: 'v5',
+        nome: 'Fonte Lógica +5V DC',
+        ref: '4.75V a 5.25V',
+        instrucao: 'Multímetro em DC (V): meça a saída de +5V que alimenta a lógica/micro.',
+        exemplo: 'Ex.: 5.0'
+      },
+      {
+        id: 'v12',
+        nome: 'Fonte Relés/Drivers +12V DC',
+        ref: '11.0V a 13.5V',
+        instrucao: 'Multímetro em DC (V): meça a linha de +12V usada em relés/drivers.',
+        exemplo: 'Ex.: 12.0'
+      },
+      {
+        id: 'sinal_tampa',
+        nome: 'Sinal Chave da Tampa (V/leitura)',
+        ref: 'Muda ao fechar',
+        instrucao: 'Observe a tensão/leitura do sinal da tampa ao abrir e fechar a tampa.',
+        exemplo: 'Ex.: 0 ou 5'
+      },
+      {
+        id: 'sinal_press',
+        nome: 'Sinal Pressostato (V/leitura)',
+        ref: 'Muda ao encher',
+        instrucao: 'Observe a leitura/sinal do pressostato quando ele comuta/aciona.',
+        exemplo: 'Ex.: 0 ou 5'
+      },
+      {
+        id: 'valvula',
+        nome: 'Saída Válvula (AC)',
+        ref: '0V desligada / Rede ligada',
+        instrucao: 'Multímetro em AC (V): meça na saída da válvula (0 desligada; tensão de rede quando ligada).',
+        exemplo: 'Ex.: 0 ou 220'
+      }
+    ];
+
+    function criarNovoDeviceId() {
+      const rand = Math.floor(10000000 + Math.random() * 90000000).toString(36).toUpperCase();
+      return `ID-${rand}`;
+    }
+
+    function normalizarTexto(val) {
+      return (val || '').trim().toUpperCase();
+    }
+
+    function isIdSemValidacao(id) {
+      const limpo = normalizarTexto(id);
+      const bloqueadosFixos = (IDS_BLOQUEADOS_FIXOS || []).map(normalizarTexto);
+      if (bloqueadosFixos.includes(limpo)) return false;
+      const painelDados = carregarPainelDados();
+      if (painelDados[limpo] && String(painelDados[limpo].status || '').toLowerCase() === 'bloqueado') {
+        return false;
+      }
+      return (IDS_SEM_VALIDACAO || []).map(normalizarTexto).includes(limpo);
+    }
+
+    function abrirAppDireto() {
+      document.getElementById('msg1').textContent = '';
+      document.getElementById('msg2').textContent = '';
+      document.getElementById('sessaoId').textContent = `Aparelho: ${deviceIdAtual}`;
+      document.getElementById('authBox').classList.add('hidden');
+      document.getElementById('appBox').classList.remove('hidden');
+      renderSelectPlacas();
+      renderPontos();
+      renderBancoPlacas();
+      renderGrafico([{ nome: 'Sem dados ainda', pct: 0, dica: 'Analise na aba 1.' }]);
+      atualizarVisibilidadeAdmin();
+    }
+
+    function initDeviceId(forcarNovo = false) {
+      let id = localStorage.getItem(KEY_DEVICE_ID);
+      if (!id || forcarNovo) {
+        id = criarNovoDeviceId();
+        localStorage.setItem(KEY_DEVICE_ID, id);
+      }
+      deviceIdAtual = id.trim().toUpperCase();
+      document.getElementById('deviceIdDisplay').textContent = deviceIdAtual;
+      if (!forcarNovo && isIdSemValidacao(deviceIdAtual)) {
+        abrirAppDireto();
+      }
+    }
+
+    function carregarPainelDados() {
+      try {
+        return JSON.parse(localStorage.getItem(KEY_PAINEL_MESTRE) || '{}');
+      } catch {
+        return {};
+      }
+    }
+
+    function salvarPainelDados(dados) {
+      localStorage.setItem(KEY_PAINEL_MESTRE, JSON.stringify(dados));
+    }
+
+    function obterRegistrosCombinados() {
+      const painelDados = carregarPainelDados();
+      const combinado = {};
+
+      Object.entries(REGISTROS_FIXOS || {}).forEach(([k, v]) => {
+        const idLimpo = normalizarTexto(k);
+        if (idLimpo && v) {
+          combinado[idLimpo] = {
+            id: idLimpo,
+            apelido: v.apelido || '',
+            chave: normalizarTexto(v.chave),
+            status: String(v.status || 'ativo').toLowerCase(),
+            atualizadoEm: v.atualizadoEm || '-'
+          };
+        }
+      });
+
+      Object.entries(painelDados || {}).forEach(([k, v]) => {
+        const idLimpo = normalizarTexto(k);
+        if (idLimpo && v) {
+          combinado[idLimpo] = {
+            id: idLimpo,
+            apelido: v.apelido || '',
+            chave: normalizarTexto(v.chave),
+            status: String(v.status || 'ativo').toLowerCase(),
+            atualizadoEm: v.atualizadoEm || '-'
+          };
+        }
+      });
+
+      return combinado;
+    }
+
+    async function sha256(text) {
+      const buf = new TextEncoder().encode(text);
+      const hash = await crypto.subtle.digest('SHA-256', buf);
+      return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    async function verificarSenhaAdmin(senhaDigitada) {
+      const hashDigitado = await sha256(senhaDigitada);
+      const hashSalvo = localStorage.getItem(KEY_ADMIN_PASS_HASH);
+      if (hashSalvo) {
+        return hashDigitado === hashSalvo;
+      }
+      const hashPadrao = await sha256(SENHA_ADMIN_PADRAO);
+      return hashDigitado === hashPadrao;
+    }
+
+    document.getElementById('btnAbrirOcultoMaquina').addEventListener('click', async () => {
+      const senha = document.getElementById('senhaOcultaMaquina').value;
+      const msg = document.getElementById('msgOcultoMaquina');
+      const ok = await verificarSenhaAdmin(senha);
+      if (!ok) {
+        msg.textContent = 'Senha inválida para abrir o teste da máquina.';
+        return;
+      }
+      msg.textContent = '';
+      document.getElementById('senhaOcultaMaquina').value = '';
+      document.getElementById('painelTesteMaquinaOculto').classList.remove('hidden');
+    });
+
+    document.getElementById('btnEsconderMaquina').addEventListener('click', () => {
+      document.getElementById('painelTesteMaquinaOculto').classList.add('hidden');
+      document.getElementById('msgOcultoMaquina').textContent = '';
+    });
+
+    document.getElementById('btnIrTesteMaquinaAdm').addEventListener('click', () => {
+      setTab('diag');
+      document.getElementById('painelTesteMaquinaOculto').classList.remove('hidden');
+    });
+
+    document.getElementById('btnDiagnosticoMaquina').addEventListener('click', () => {
+      const ench = document.getElementById('maqEnchimento').value;
+      const agit = document.getElementById('maqAgitacao').value;
+      const dren = document.getElementById('maqDrenagem').value;
+      const cent = document.getElementById('maqCentrifuga').value;
+
+      const achados = [];
+
+      if (ench === 'nao_enche') {
+        achados.push('Válvula/enchimento: verifique torneira/filtro, bobina da válvula, chicote e saída AC da placa.');
+      } else if (ench === 'nao_corta') {
+        achados.push('Excesso/não corta água: confira mangueira do pressostato obstruída, pressostato com defeito ou fuga/curto na válvula.');
+      }
+
+      if (agit === 'ronca_nao_gira') {
+        achados.push('Motor roncando sem girar: teste o capacitor de partida/agitação, mecânica/transmissão travada ou chave/relé.');
+      } else if (agit === 'nao_agita') {
+        achados.push('Sem agitação: valide tampa fechada, pressostato, chicote do motor/atuador e saída de comando da placa.');
+      }
+
+      if (dren === 'nao_drena') {
+        achados.push('Não drena: inspecione bomba de drenagem travada/queimada, mangueira/filtro obstruído ou Triac/relé de drenagem.');
+      }
+
+      if (cent === 'nao_centrifuga') {
+        achados.push('Não centrifuga: confira drenagem completa, atuador de acoplamento/freio, sensor/chave da tampa e acionamento.');
+      }
+
+      const box = document.getElementById('resultadoTesteMaquina');
+      if (!achados.length) {
+        box.innerHTML = '<strong style="color:#86efac;">Máquina em teste sem falhas aparentes nas 4 etapas.</strong>';
+      } else {
+        box.innerHTML = `
+          <strong style="color:#fbbf24;">Pontos identificados no teste da máquina:</strong>
+          <ul class="lista-defeitos" style="margin-top:6px;">
+            ${achados.map(a => `<li>${a}</li>`).join('')}
+          </ul>
+        `;
+      }
+    });
+
+    function atualizarVisibilidadeAdmin() {
+      document.getElementById('adminLoginBox').classList.toggle('hidden', adminDesbloqueado);
+      document.getElementById('adminPainelBox').classList.toggle('hidden', !adminDesbloqueado);
+      if (adminDesbloqueado) {
+        renderAdminLista();
+      }
+    }
+
+    function gerarChaveParaId(idLimpo) {
+      const base = idLimpo.replace(/[^A-Z0-9]/g, '').slice(-8) || 'USER';
+      const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+      let sufixo = '';
+      for (let i = 0; i < 6; i++) {
+        sufixo += chars[Math.floor(Math.random() * chars.length)];
+      }
+      return `CHV-${base}-${sufixo}`;
+    }
+
+    function agoraFormatado() {
+      return new Date().toLocaleString('pt-BR');
+    }
+
+    function setAdminMsg(texto, ok = false) {
+      const el = document.getElementById('admActionMsg');
+      el.textContent = texto;
+      el.className = ok ? 'msg ok-msg' : 'msg';
+    }
+
+    async function copiarTextoAdmin(texto) {
+      if (!texto || texto === 'Nenhuma chave gerada') return;
+      try {
+        await navigator.clipboard.writeText(texto);
+        setAdminMsg(`Copiado: ${texto}`, true);
+      } catch {
+        setAdminMsg(`Chave: ${texto}`, true);
+      }
+    }
+
+    function renderAdminLista() {
+      const dados = carregarPainelDados();
+      const itens = Object.values(dados);
+      document.getElementById('admTotalIds').textContent = itens.length;
+      const box = document.getElementById('admListaIds');
+
+      if (!itens.length) {
+        box.innerHTML = '<p style="color:#94a3b8;margin:0;">Nenhum ID cadastrado ainda.</p>';
+        return;
+      }
+
+      box.innerHTML = itens.map(item => {
+        const isAtivo = item.status === 'ativo';
+        return `
+          <div class="grid-item">
+            <div class="item-top">
+              <strong>${item.id}</strong>
+              <span class="status-pill ${isAtivo ? 'status-ativo' : 'status-bloqueado'}">
+                ${isAtivo ? 'ATIVO' : 'BLOQUEADO'}
+              </span>
+            </div>
+            <div class="meta">
+              ${item.apelido ? `<strong>Nome:</strong> ${item.apelido}<br>` : ''}
+              <strong>Chave:</strong> ${item.chave}<br>
+              <strong>Atualizado:</strong> ${item.atualizadoEm || '-'}
+            </div>
+            <div class="acoes">
+              <button class="small ${isAtivo ? 'red' : 'preset'}" type="button" onclick="admAlternarStatus('${item.id}')">
+                ${isAtivo ? 'Bloquear' : 'Ativar'}
+              </button>
+              <button class="small secondary" type="button" onclick="admNovaChave('${item.id}')">
+                Nova Chave
+              </button>
+              <button class="small secondary" type="button" onclick="copiarTextoAdmin('${item.chave}')">
+                Copiar
+              </button>
+              <button class="small secondary" type="button" onclick="admExcluirId('${item.id}')">
+                Excluir
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    document.getElementById('btnDesbloquearAdmin').addEventListener('click', async () => {
+      const pass = document.getElementById('adminPassInput').value;
+      const msg = document.getElementById('adminMsg');
+      if (!pass) {
+        msg.textContent = 'Digite a senha do Modo ADM.';
+        return;
+      }
+      const ok = await verificarSenhaAdmin(pass);
+      if (!ok) {
+        msg.textContent = 'Senha do Modo ADM incorreta.';
+        return;
+      }
+      msg.textContent = '';
+      document.getElementById('adminPassInput').value = '';
+      adminDesbloqueado = true;
+      atualizarVisibilidadeAdmin();
+    });
+
+    document.getElementById('btnTrancarAdmin').addEventListener('click', () => {
+      adminDesbloqueado = false;
+      atualizarVisibilidadeAdmin();
+    });
+
+    document.getElementById('btnAdmGerarAtivar').addEventListener('click', () => {
+      const id = normalizarTexto(document.getElementById('admIdInput').value);
+      const apelido = document.getElementById('admNomeInput').value.trim();
+      const statusEscolhido = document.getElementById('admStatusInput').value;
+
+      if (!id || id.length < 3) {
+        setAdminMsg('Informe um ID válido.', false);
+        return;
+      }
+
+      const dados = carregarPainelDados();
+      const existente = dados[id];
+      const chave = existente && existente.chave ? existente.chave : gerarChaveParaId(id);
+
+      dados[id] = {
+        id,
+        apelido: apelido || (existente ? existente.apelido : ''),
+        chave,
+        status: statusEscolhido || 'ativo',
+        atualizadoEm: agoraFormatado()
+      };
+
+      salvarPainelDados(dados);
+      document.getElementById('admChaveDisplay').textContent = chave;
+      setAdminMsg(`ID ${id} salvo (${dados[id].status.toUpperCase()}) • Chave: ${chave}`, true);
+      renderAdminLista();
+    });
+
+    document.getElementById('btnAdmBloquear').addEventListener('click', () => {
+      const id = normalizarTexto(document.getElementById('admIdInput').value);
+      const apelido = document.getElementById('admNomeInput').value.trim();
+
+      if (!id || id.length < 3) {
+        setAdminMsg('Informe um ID válido para bloquear.', false);
+        return;
+      }
+
+      const dados = carregarPainelDados();
+      const existente = dados[id];
+      const chave = existente && existente.chave ? existente.chave : gerarChaveParaId(id);
+
+      dados[id] = {
+        id,
+        apelido: apelido || (existente ? existente.apelido : ''),
+        chave,
+        status: 'bloqueado',
+        atualizadoEm: agoraFormatado()
+      };
+
+      salvarPainelDados(dados);
+      document.getElementById('admStatusInput').value = 'bloqueado';
+      document.getElementById('admChaveDisplay').textContent = chave;
+      setAdminMsg(`ID ${id} bloqueado.`, false);
+      renderAdminLista();
+    });
+
+    document.getElementById('btnAdmCopiarChave').addEventListener('click', () => {
+      copiarTextoAdmin(document.getElementById('admChaveDisplay').textContent);
+    });
+
+    window.admAlternarStatus = function(id) {
+      const dados = carregarPainelDados();
+      if (!dados[id]) return;
+      dados[id].status = dados[id].status === 'ativo' ? 'bloqueado' : 'ativo';
+      dados[id].atualizadoEm = agoraFormatado();
+      salvarPainelDados(dados);
+      setAdminMsg(`ID ${id} alterado para ${dados[id].status.toUpperCase()}.`, dados[id].status === 'ativo');
+      renderAdminLista();
+    };
+
+    window.admNovaChave = function(id) {
+      const dados = carregarPainelDados();
+      if (!dados[id]) return;
+      const nova = gerarChaveParaId(id);
+      dados[id].chave = nova;
+      dados[id].atualizadoEm = agoraFormatado();
+      salvarPainelDados(dados);
+      document.getElementById('admIdInput').value = id;
+      document.getElementById('admChaveDisplay').textContent = nova;
+      setAdminMsg(`Nova chave gerada para ${id}: ${nova}`, true);
+      renderAdminLista();
+    };
+
+    window.admExcluirId = function(id) {
+      const dados = carregarPainelDados();
+      delete dados[id];
+      salvarPainelDados(dados);
+      setAdminMsg(`ID ${id} removido.`, true);
+      renderAdminLista();
+    };
+
+    document.getElementById('btnSalvarNovaSenhaAdmin').addEventListener('click', async () => {
+      const novaSenha = document.getElementById('novaSenhaAdminInput').value;
+      if (!novaSenha || novaSenha.length < 4) {
+        setAdminMsg('A nova senha do Modo ADM deve ter pelo menos 4 caracteres.', false);
+        return;
+      }
+      const novoHash = await sha256(novaSenha);
+      localStorage.setItem(KEY_ADMIN_PASS_HASH, novoHash);
+      document.getElementById('novaSenhaAdminInput').value = '';
+      setAdminMsg('Senha do Modo ADM atualizada com sucesso.', true);
+    });
+
+    function genCode() {
+      current2FA = String(Math.floor(100000 + Math.random() * 900000));
+      document.getElementById('tfaDisplay').textContent = current2FA;
+    }
+
+    document.getElementById('btnCopiarId').addEventListener('click', async () => {
+      const msg1 = document.getElementById('msg1');
+      try {
+        await navigator.clipboard.writeText(deviceIdAtual);
+        msg1.className = 'msg ok-msg';
+        msg1.textContent = `ID ${deviceIdAtual} copiado.`;
+      } catch {
+        msg1.className = 'msg ok-msg';
+        msg1.textContent = `ID do aparelho: ${deviceIdAtual}`;
+      }
+    });
+
+    document.getElementById('btnNovoId').addEventListener('click', () => {
+      initDeviceId(true);
+      const msg1 = document.getElementById('msg1');
+      msg1.className = 'msg ok-msg';
+      msg1.textContent = 'Novo ID gerado para este aparelho. Envie este ID para receber a chave.';
+    });
+
+    document.getElementById('btnStep1').addEventListener('click', () => {
+      const msg1 = document.getElementById('msg1');
+      msg1.className = 'msg';
+
+      const bloqueadosFixos = (IDS_BLOQUEADOS_FIXOS || []).map(normalizarTexto);
+      if (bloqueadosFixos.includes(deviceIdAtual)) {
+        msg1.textContent = `Acesso bloqueado para o ID ${deviceIdAtual}.`;
+        return;
+      }
+
+      if (isIdSemValidacao(deviceIdAtual)) {
+        abrirAppDireto();
+        return;
+      }
+
+      const registros = obterRegistrosCombinados();
+      const reg = registros[deviceIdAtual];
+
+      if (!reg) {
+        msg1.textContent = `ID ${deviceIdAtual} ainda não cadastrado. Envie este ID para gerar sua chave.`;
+        return;
+      }
+
+      if (reg.status === 'bloqueado') {
+        msg1.textContent = `O ID ${deviceIdAtual} está BLOQUEADO.`;
+        return;
+      }
+
+      const chaveDigitada = normalizarTexto(document.getElementById('chaveInput').value);
+      if (!chaveDigitada || chaveDigitada !== reg.chave) {
+        msg1.textContent = 'Chave inválida para este ID.';
+        return;
+      }
+
+      msg1.textContent = '';
+      document.getElementById('step1').classList.add('hidden');
+      document.getElementById('step2').classList.remove('hidden');
+      document.getElementById('b1').classList.remove('active');
+      document.getElementById('b2').classList.add('active');
+      genCode();
+    });
+
+    document.getElementById('btnStep2').addEventListener('click', () => {
+      const val = document.getElementById('tfaInput').value.trim();
+      const msg2 = document.getElementById('msg2');
+      if (val !== current2FA) {
+        msg2.textContent = 'Código 2FA não confere. Tente novamente ou gere um novo código.';
+        return;
+      }
+      abrirAppDireto();
+    });
+
+    document.getElementById('btnNewCode').addEventListener('click', genCode);
+    document.getElementById('btnBack1').addEventListener('click', () => {
+      document.getElementById('step2').classList.add('hidden');
+      document.getElementById('step1').classList.remove('hidden');
+      document.getElementById('b2').classList.remove('active');
+      document.getElementById('b1').classList.add('active');
+    });
+
+    document.getElementById('btnLock').addEventListener('click', () => {
+      adminDesbloqueado = false;
+      document.getElementById('painelTesteMaquinaOculto').classList.add('hidden');
+      document.getElementById('appBox').classList.add('hidden');
+      document.getElementById('authBox').classList.remove('hidden');
+      document.getElementById('step2').classList.add('hidden');
+      document.getElementById('step1').classList.remove('hidden');
+      document.getElementById('b2').classList.remove('active');
+      document.getElementById('b1').classList.add('active');
+      document.getElementById('tfaInput').value = '';
+    });
+
+    function getPlacaAtual() {
+      const id = document.getElementById('modeloPlaca')?.value;
+      return PLACAS_LAVADORA.find(p => p.id === id) || PLACAS_LAVADORA[0];
+    }
+
+    function renderSelectPlacas() {
+      const sel = document.getElementById('modeloPlaca');
+      sel.innerHTML = PLACAS_LAVADORA.map(p => `<option value="${p.id}">${p.modelo}</option>`).join('');
+      sel.addEventListener('change', atualizarInfoPlaca);
+      atualizarInfoPlaca();
+    }
+
+    function montarHtmlDefeitosPlaca(placa) {
+      return `
+        <span class="tag">Placa Compatível</span><br>
+        <strong>${placa.modelo}</strong><br>
+        <small style="color:#94a3b8;">${placa.compatibilidade}</small>
+        <ul class="lista-defeitos">
+          ${placa.defeitosComuns.map(d => `<li>${d}</li>`).join('')}
+        </ul>
+      `;
+    }
+
+    function atualizarInfoPlaca() {
+      const placa = getPlacaAtual();
+      document.getElementById('resumoPlacaDiag').innerHTML = montarHtmlDefeitosPlaca(placa);
+      document.getElementById('defeitosPlacaGraf').innerHTML = montarHtmlDefeitosPlaca(placa);
+    }
+
+    function renderBancoPlacas() {
+      const container = document.getElementById('bancoPlacasLista');
+      container.innerHTML = PLACAS_LAVADORA.map(p => `
+        <div class="grid-item">
+          <span class="tag">${p.modelo}</span><br>
+          <small style="color:#94a3b8;">${p.compatibilidade}</small>
+          <ul class="lista-defeitos">
+            ${p.defeitosComuns.map(d => `<li>${d}</li>`).join('')}
+          </ul>
+          <div style="margin-top:8px;font-size:0.84rem;color:#93c5fd;">
+            <strong>Bancada:</strong> ${p.dicaBancada}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function preencherExemploPlacaBoa() {
+      const cond = document.getElementById('condicao').value;
+      const tensaoRede = 220;
+      const tensaoValvula = cond === 'ciclo_ativo' ? tensaoRede : 0;
+
+      document.getElementById('estadoTampa').value = 'fechada';
+      document.getElementById('estadoPress').value = 'cheio';
+
+      const valoresBons = {
+        rede: String(tensaoRede),
+        v5: '5.0',
+        v12: '12.0',
+        sinal_tampa: '5.0',
+        sinal_press: '5.0',
+        valvula: String(tensaoValvula)
+      };
+
+      Object.entries(valoresBons).forEach(([id, val]) => {
+        const el = document.getElementById('p_' + id);
+        if (el) el.value = val;
+      });
+    }
+
+    function setTab(tabName) {
+      const map = {
+        diag:  ['tabDiag',  'tabDiagBtn'],
+        graf:  ['tabGraf',  'tabGrafBtn'],
+        ref:   ['tabRef',   'tabRefBtn'],
+        admin: ['tabAdmin', 'tabAdminBtn']
+      };
+      Object.entries(map).forEach(([k, [secId, btnId]]) => {
+        document.getElementById(secId).classList.toggle('hidden', k !== tabName);
+        document.getElementById(btnId).classList.toggle('tab-active', k === tabName);
+      });
+      if (tabName === 'admin') {
+        atualizarVisibilidadeAdmin();
+      }
+    }
+
+    document.getElementById('tabDiagBtn').addEventListener('click', () => setTab('diag'));
+    document.getElementById('tabGrafBtn').addEventListener('click', () => setTab('graf'));
+    document.getElementById('tabRefBtn').addEventListener('click', () => setTab('ref'));
+    document.getElementById('tabAdminBtn').addEventListener('click', () => setTab('admin'));
+    document.getElementById('btnVoltarDiag').addEventListener('click', () => setTab('diag'));
+    document.getElementById('btnExemploBoa').addEventListener('click', preencherExemploPlacaBoa);
+
+    function renderPontos() {
+      const box = document.getElementById('pontosContainer');
+      box.innerHTML = pontos.map(p => `
+        <div class="grid-item">
+          <div style="display:flex;justify-content:space-between;gap:8px;margin-bottom:4px;">
+            <strong>${p.nome}</strong>
+            <small style="color:#93c5fd;">Ref: ${p.ref}</small>
+          </div>
+          <div class="dica-campo">${p.instrucao}</div>
+          <input id="p_${p.id}" type="text" placeholder="${p.exemplo}" />
+        </div>
+      `).join('');
+    }
+
+    function num(id) {
+      const raw = (document.getElementById(id)?.value || '').replace(',', '.').trim();
+      if (!raw) return null;
+      const n = parseFloat(raw);
+      return isNaN(n) ? null : n;
+    }
+
+    function renderGrafico(lista) {
+      const barras = document.getElementById('graficoBarras');
+      barras.innerHTML = lista.map((item, idx) => `
+        <div class="bar-row">
+          <div class="bar-head">
+            <span>${item.nome}</span>
+            <strong>${item.pct}%</strong>
+          </div>
+          <div class="bar-track">
+            <div class="bar-fill ${idx === 0 && item.pct > 0 ? 'top' : ''}" style="width:${Math.min(100, Math.max(0, item.pct))}%"></div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    document.getElementById('btnAnalisar').addEventListener('click', () => {
+      const placa = getPlacaAtual();
+      const rede = num('p_rede');
+      const v5 = num('p_v5');
+      const v12 = num('p_v12');
+      const valvula = num('p_valvula');
+      const cond = document.getElementById('condicao').value;
+      const tampa = document.getElementById('estadoTampa').value;
+      const press = document.getElementById('estadoPress').value;
+
+      const scores = {
+        fonte: { nome: 'Falha na Fonte / Alimentação (+5V / +12V)', pts: 10, dica: 'Meça entrada AC, CI da fonte, capacitores e verifique curto na linha de +5V.' },
+        triacCurto: { nome: 'Triac em Curto / Fuga na Saída', pts: 10, dica: 'Saída energizada indevidamente: teste o Triac da carga, umidade/resina e isolamento.' },
+        sensores: { nome: 'Chave da Tampa ou Pressostato', pts: 15, dica: 'Confira se o contato fechou na tampa fechada / nível cheio e se o sinal chega ao pino da placa.' },
+        saidaAberta: { nome: 'Triac Aberto / Sem Comando de Gate', pts: 15, dica: 'Com tampa fechada e pressostato acionado, confira comando/gate, Triac aberto e trilhas.' }
+      };
+
+      if (scores[placa.focoScore]) {
+        scores[placa.focoScore].pts += 12;
+      }
+
+      if (rede !== null && rede < 80) {
+        scores.fonte.pts += 25;
+      }
+      if (v5 !== null && (v5 < 4.5 || v5 > 5.5)) {
+        scores.fonte.pts += 55;
+      }
+      if (v12 !== null && (v12 < 10.5 || v12 > 14)) {
+        scores.fonte.pts += 40;
+      }
+
+      if (valvula !== null) {
+        if (cond === 'standby' && valvula > 20) {
+          scores.triacCurto.pts += 65;
+        }
+        if (cond === 'ciclo_ativo' && valvula < 10) {
+          scores.saidaAberta.pts += 45;
+        }
+      }
+
+      if (tampa === 'aberta' && cond !== 'standby') {
+        scores.sensores.pts += 45;
+      }
+      if (press === 'vazio' && cond === 'tampa_pressostato') {
+        scores.sensores.pts += 40;
+      }
+      if (tampa === 'fechada' && press === 'cheio' && cond === 'ciclo_ativo' && (valvula === null || valvula < 10)) {
+        scores.saidaAberta.pts += 35;
+      }
+
+      const ordenados = Object.values(scores).sort((a, b) => b.pts - a.pts);
+      const totalPts = ordenados.reduce((acc, item) => acc + item.pts, 0) || 1;
+      const listaPct = ordenados.map(item => ({
+        nome: item.nome,
+        pct: Math.round((item.pts / totalPts) * 100),
+        dica: item.dica
+      }));
+
+      renderGrafico(listaPct);
+      atualizarInfoPlaca();
+
+      const top = listaPct[0];
+      document.getElementById('topDefeitoTitulo').textContent = `${top.nome} (${top.pct}%)`;
+      document.getElementById('topDefeitoResumo').textContent =
+        `${placa.modelo} • Condição: ${cond === 'standby' ? 'Stand-by' : cond === 'tampa_pressostato' ? 'Tampa fechada + pressostato acionado' : 'Ciclo ativo'} • Tampa: ${tampa} • Pressostato: ${press}.`;
+
+      document.getElementById('detalhesAnalise').innerHTML = `
+        <strong>Próximo passo na bancada:</strong><br>
+        ${top.dica}<br><br>
+        <small style="color:#94a3b8;">Dica específica (${placa.modelo}): ${placa.dicaBancada}</small>
+      `;
+
+      setTab('graf');
+    });
+
+    initDeviceId(false);
+  </script>
+</body>
+</html>
