@@ -323,7 +323,7 @@
         </div>
       </div>
 
-      <!-- 1º NÍVEL: CHAVE -->
+      <!-- 1º NÍVEL: CHAVE DE ATIVAÇÃO -->
       <div id="step1Box">
         <div class="form-group">
           <label for="chaveInput">1° Nível — Chave de ativação do ID</label>
@@ -588,7 +588,7 @@
   <script>
     const WHATSAPP_NUMERO = "5561995534479";
     const EMAIL_CONTATO = "tottybr215@gmail.com";
-    const WHITELIST_IDS = ["ID-1EQ278", "ID-9K4P7X2M"];
+    const IDS_SEM_ATIVACAO = ["ID-78SW53X6"];
     const STORAGE_KEY_DEVICE_ID = "bancada_lavadora_device_id_v1";
     const STORAGE_KEY_CLIENTS = "bancada_lavadora_clients_v1";
     const STORAGE_KEY_ADM_PASS = "bancada_lavadora_adm_pass_v1";
@@ -632,7 +632,11 @@
         id = "ID-" + sufixo;
         localStorage.setItem(STORAGE_KEY_DEVICE_ID, id);
       }
-      return id;
+      return id.trim().toUpperCase();
+    }
+
+    function ehIdSemAtivacao(id) {
+      return IDS_SEM_ATIVACAO.map(item => item.trim().toUpperCase()).includes(String(id || "").trim().toUpperCase());
     }
 
     function gerarCodigo2fa() {
@@ -680,8 +684,8 @@
       const idAparelho = document.getElementById("deviceIdDisplay").textContent.trim().toUpperCase();
       const chaveDigitada = document.getElementById("chaveInput").value.trim().toUpperCase();
 
-      if (WHITELIST_IDS.includes(idAparelho)) {
-        liberarAplicacao("Acesso direto (ID autorizado)");
+      if (ehIdSemAtivacao(idAparelho) || ehIdSemAtivacao(chaveDigitada)) {
+        liberarAplicacao("Acesso direto liberado");
         return;
       }
 
@@ -959,9 +963,8 @@
     (function init() {
       const deviceId = obterOuCriarIdAparelho();
       document.getElementById("deviceIdDisplay").textContent = deviceId;
-
-      if (WHITELIST_IDS.includes(deviceId.toUpperCase())) {
-        liberarAplicacao("Acesso direto (ID autorizado)");
+      if (ehIdSemAtivacao(deviceId)) {
+        liberarAplicacao("Acesso direto liberado");
       }
     })();
   </script>
