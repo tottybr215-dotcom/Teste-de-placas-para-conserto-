@@ -191,6 +191,27 @@
       color: #e2e8f0;
     }
 
+    .suspeita-box {
+      background: rgba(37, 99, 235, 0.08);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 10px;
+      margin-top: 6px;
+      font-size: 0.83rem;
+      color: #cbd5e1;
+    }
+
+    .lista-falhas {
+      margin-top: 8px;
+      padding-left: 18px;
+      font-size: 0.88rem;
+      color: #e2e8f0;
+    }
+
+    .lista-falhas li {
+      margin-bottom: 6px;
+    }
+
     .btn-row {
       display: flex;
       flex-wrap: wrap;
@@ -424,7 +445,7 @@
       <section id="aba1" class="card">
         <h2>1. Teste Rápido de Bancada (110 V – 240 V)</h2>
         <p class="subtitle" style="margin-bottom: 14px;">
-          Marque o estado de cada ponto para refinar a estimativa do gráfico com mais precisão.
+          Marque o estado de cada ponto para refinar a estimativa do gráfico e ver os defeitos prováveis associados.
         </p>
 
         <!-- TENSÃO 110V A 240V -->
@@ -443,11 +464,20 @@
         <div class="form-group">
           <label>Fonte primária / secundária</label>
           <div class="chip-group" id="fonteChips">
-            <button type="button" class="chip-btn selected-ok" data-peso="10" data-val="Fonte OK" onclick="marcarItemTeste('fonte', 'Fonte OK', 'ok', 10, this)">Fonte OK</button>
-            <button type="button" class="chip-btn" data-peso="55" data-val="Oscilando / baixa" onclick="marcarItemTeste('fonte', 'Oscilando / baixa', 'mid', 55, this)">Oscilando / baixa</button>
-            <button type="button" class="chip-btn" data-peso="95" data-val="Sem saída / morta" onclick="marcarItemTeste('fonte', 'Sem saída / morta', 'warn', 95, this)">Sem saída / morta</button>
+            <button type="button" class="chip-btn selected-ok" data-peso="10" data-val="Fonte OK"
+              data-falhas="Alimentação estável; conferir apenas cargas e sinais."
+              onclick="marcarItemTeste('fonte', 'Fonte OK', 'ok', 10, this)">Fonte OK</button>
+            <button type="button" class="chip-btn" data-peso="55" data-val="Oscilando / baixa"
+              data-falhas="Capacitor eletrolítico esgotado/estufado, regulador de tensão aquecendo/caindo sob carga, solda fria ou umidade na placa."
+              onclick="marcarItemTeste('fonte', 'Oscilando / baixa', 'mid', 55, this)">Oscilando / baixa</button>
+            <button type="button" class="chip-btn" data-peso="95" data-val="Sem saída / morta"
+              data-falhas="Fusível/resistor fusível aberto, varistor/diodo/CI da fonte em curto, trilha rompida ou capacitor/regulador em curto."
+              onclick="marcarItemTeste('fonte', 'Sem saída / morta', 'warn', 95, this)">Sem saída / morta</button>
           </div>
           <input type="text" id="fonteVal" value="Fonte OK" placeholder="Ex.: 12V / 5V estável" />
+          <div class="suspeita-box" id="suspeitaFonte">
+            <strong>Defeitos prováveis:</strong> Alimentação estável; conferir apenas cargas e sinais.
+          </div>
         </div>
 
         <div class="info-box" id="resumoTensaoBox">
@@ -458,34 +488,63 @@
         <div class="form-group">
           <label>Pressostato (frequência / sinal)</label>
           <div class="chip-group" id="pressostatoChips">
-            <button type="button" class="chip-btn selected-ok" data-peso="10" data-val="Frequência OK" onclick="marcarItemTeste('pressostato', 'Frequência OK', 'ok', 10, this)">OK</button>
-            <button type="button" class="chip-btn" data-peso="55" data-val="Frequência alterada" onclick="marcarItemTeste('pressostato', 'Frequência alterada', 'mid', 55, this)">Frequência alterada</button>
-            <button type="button" class="chip-btn" data-peso="90" data-val="Sem frequência" onclick="marcarItemTeste('pressostato', 'Sem frequência', 'warn', 90, this)">Sem frequência</button>
+            <button type="button" class="chip-btn selected-ok" data-peso="10" data-val="Frequência OK"
+              data-falhas="Sinal de nível coerente na bancada."
+              onclick="marcarItemTeste('pressostato', 'Frequência OK', 'ok', 10, this)">OK</button>
+            <button type="button" class="chip-btn" data-peso="55" data-val="Frequência alterada"
+              data-falhas="Pressostato descalibrado/colado no nível, mangueira ou câmara de ar parcialmente obstruída/com água retida, ou fuga/ruído no sinal."
+              onclick="marcarItemTeste('pressostato', 'Frequência alterada', 'mid', 55, this)">Frequência alterada</button>
+            <button type="button" class="chip-btn" data-peso="90" data-val="Sem frequência"
+              data-falhas="Pressostato aberto/queimado, chicote/conector interrompido, mangueira solta/furada ou entrada de sensor na placa sem alimentação/pull-up."
+              onclick="marcarItemTeste('pressostato', 'Sem frequência', 'warn', 90, this)">Sem frequência</button>
           </div>
           <input type="text" id="pressostatoVal" value="Frequência OK" placeholder="Ex.: 25,4 kHz / OK" />
+          <div class="suspeita-box" id="suspeitaPressostato">
+            <strong>Defeitos prováveis:</strong> Sinal de nível coerente na bancada.
+          </div>
         </div>
 
         <!-- ATUADOR / BOMBA / VÁLVULAS -->
         <div class="form-group">
           <label>Atuador / bomba / válvulas</label>
           <div class="chip-group" id="atuadorChips">
-            <button type="button" class="chip-btn selected-ok" data-peso="10" data-val="Acionando OK" onclick="marcarItemTeste('atuador', 'Acionando OK', 'ok', 10, this)">Acionando OK</button>
-            <button type="button" class="chip-btn" data-peso="50" data-val="Pulso fraco / intermitente" onclick="marcarItemTeste('atuador', 'Pulso fraco / intermitente', 'mid', 50, this)">Pulso intermitente</button>
-            <button type="button" class="chip-btn" data-peso="80" data-val="Sem pulso" onclick="marcarItemTeste('atuador', 'Sem pulso', 'warn', 80, this)">Sem pulso</button>
-            <button type="button" class="chip-btn" data-peso="95" data-val="Travado / curto" onclick="marcarItemTeste('atuador', 'Travado / curto', 'warn', 95, this)">Travado / curto</button>
+            <button type="button" class="chip-btn selected-ok" data-peso="10" data-val="Acionando OK"
+              data-falhas="Saída comutando normalmente."
+              onclick="marcarItemTeste('atuador', 'Acionando OK', 'ok', 10, this)">Acionando OK</button>
+            <button type="button" class="chip-btn" data-peso="50" data-val="Pulso fraco / intermitente"
+              data-falhas="Mau contato/oxidação em conector ou chicote, relé com contato gasto, queda da fonte ao acionar carga ou solda fria em triac/driver."
+              onclick="marcarItemTeste('atuador', 'Pulso fraco / intermitente', 'mid', 50, this)">Pulso intermitente</button>
+            <button type="button" class="chip-btn" data-peso="80" data-val="Sem pulso"
+              data-falhas="Triac ou relé de acionamento aberto, resistor de gate/base alterado, driver/transistor de comando queimado ou bobina de válvula/bomba/atuador aberta."
+              onclick="marcarItemTeste('atuador', 'Sem pulso', 'warn', 80, this)">Sem pulso</button>
+            <button type="button" class="chip-btn" data-peso="95" data-val="Travado / curto"
+              data-falhas="Triac em curto (carga ligada direto ou travada), relé colado, capacitor de filtro/snubber alterado ou bobina/atuador em curto derrubando a linha."
+              onclick="marcarItemTeste('atuador', 'Travado / curto', 'warn', 95, this)">Travado / curto</button>
           </div>
           <input type="text" id="atuadorVal" value="Acionando OK" placeholder="Ex.: Acionando / Sem pulso" />
+          <div class="suspeita-box" id="suspeitaAtuador">
+            <strong>Defeitos prováveis:</strong> Saída comutando normalmente.
+          </div>
         </div>
 
         <!-- TRAVA / TAMPA -->
         <div class="form-group">
           <label>Trava / sensor de tampa</label>
           <div class="chip-group" id="portaChips">
-            <button type="button" class="chip-btn selected-ok" data-peso="10" data-val="Fechada / OK" onclick="marcarItemTeste('porta', 'Fechada / OK', 'ok', 10, this)">Fechada / OK</button>
-            <button type="button" class="chip-btn" data-peso="45" data-val="Intermitente" onclick="marcarItemTeste('porta', 'Intermitente', 'mid', 45, this)">Intermitente</button>
-            <button type="button" class="chip-btn" data-peso="85" data-val="Aberta / sem contato" onclick="marcarItemTeste('porta', 'Aberta / sem contato', 'warn', 85, this)">Aberta / sem contato</button>
+            <button type="button" class="chip-btn selected-ok" data-peso="10" data-val="Fechada / OK"
+              data-falhas="Malha de segurança fechada e reconhecida."
+              onclick="marcarItemTeste('porta', 'Fechada / OK', 'ok', 10, this)">Fechada / OK</button>
+            <button type="button" class="chip-btn" data-peso="45" data-val="Intermitente"
+              data-falhas="Chave/trava de tampa com contato desgastado, folga mecânica na tampa ou chicote/conector com mau contato."
+              onclick="marcarItemTeste('porta', 'Intermitente', 'mid', 45, this)">Intermitente</button>
+            <button type="button" class="chip-btn" data-peso="85" data-val="Aberta / sem contato"
+              data-falhas="Chave/atuador de trava de tampa aberto/com defeito, chicote interrompido ou resistor/trilha de leitura da tampa na placa abertos."
+              onclick="marcarItemTeste('porta', 'Aberta / sem contato', 'warn', 85, this)">Aberta / sem contato</button>
           </div>
           <input type="text" id="portaVal" value="Fechada / OK" placeholder="Ex.: Fechada / Aberta" />
+          <div class="suspeita-box" id="suspeitaPorta">
+            <strong>Defeitos prováveis:</strong> Malha de segurança fechada e reconhecida.
+          </div>
         </div>
 
         <!-- AJUSTE FINO OPCIONAL -->
@@ -556,7 +615,7 @@
         </p>
 
         <div class="info-box" id="diagnosticoResumoBox">
-          Foco principal: <strong>Avaliação equilibrada</strong> — Sem falha crítica marcada até o momento.
+          Foco principal: <strong>Sinais dentro do esperado</strong> — Sem anomalia relevante marcada até o momento.
         </div>
 
         <div class="bar-item">
@@ -587,6 +646,19 @@
           <div class="bar-track">
             <div class="bar-fill" id="barraLogica"></div>
           </div>
+        </div>
+
+        <div class="info-box" style="margin-top: 14px;">
+          <strong>Defeitos prováveis para as opções marcadas:</strong>
+          <ul class="lista-falhas" id="listaDefeitosProvaveis">
+            <li><strong>Fonte:</strong> Alimentação estável; conferir apenas cargas e sinais.</li>
+            <li><strong>Pressostato:</strong> Sinal de nível coerente na bancada.</li>
+            <li><strong>Atuadores/Válvulas/Bomba:</strong> Saída comutando normalmente.</li>
+            <li><strong>Trava/Tampa:</strong> Malha de segurança fechada e reconhecida.</li>
+          </ul>
+          <p class="subtitle" style="margin-top: 8px; font-size: 0.78rem;">
+            * Hipóteses de triagem para bancada (Brastemp, Consul, Electrolux e Colormaq); confirme sempre com medição direta na placa e periféricos.
+          </p>
         </div>
 
         <div class="btn-row">
@@ -710,10 +782,10 @@
     const STORAGE_KEY_ADM_PASS = "bancada_lavadora_adm_pass_v1";
 
     const PLACAS_REFERENCIA = [
-      { fabricante: "Brastemp", linha: "Lavadoras linha Ative / BW / BWL", obs: "Conferir alimentação, chave de tampa e atuadores." },
-      { fabricante: "Consul", linha: "Lavadoras linha CWE / CWL / Facilite", obs: "Verificar pressostato, bomba de drenagem e chicote." },
-      { fabricante: "Electrolux", linha: "Lavadoras linha LT / LAC / LTE", obs: "Checar fonte chaveada/linear, sensor de nível e motor." },
-      { fabricante: "Colormaq", linha: "Lavadoras automáticas / linha LCA", obs: "Testar tensões de entrada, válvulas e chave de segurança." }
+      { fabricante: "Brastemp", linha: "Lavadoras linha Ative / BW / BWL", obs: "Conferir fonte/alimentação, chave de tampa, triacs/relés e chicote." },
+      { fabricante: "Consul", linha: "Lavadoras linha CWE / CWL / Facilite", obs: "Verificar sinal do pressostato, bomba de drenagem, acionamentos e chicote." },
+      { fabricante: "Electrolux", linha: "Lavadoras linha LT / LAC / LTE", obs: "Checar fonte, umidade/solda fria, sensor de nível e circuitos de saída." },
+      { fabricante: "Colormaq", linha: "Lavadoras automáticas / linha LCA", obs: "Testar tensões (110V–240V), válvulas/atuadores, triacs/resistores e trava de segurança." }
     ];
 
     const pesosTeste = {
@@ -721,6 +793,13 @@
       pressostato: 10,
       atuador: 10,
       porta: 10
+    };
+
+    const falhasSelecionadas = {
+      fonte: "Alimentação estável; conferir apenas cargas e sinais.",
+      pressostato: "Sinal de nível coerente na bancada.",
+      atuador: "Saída comutando normalmente.",
+      porta: "Malha de segurança fechada e reconhecida."
     };
 
     let codigo2faAtual = "";
@@ -898,7 +977,7 @@
       });
 
       if (v < 110 || v > 240) {
-        boxEl.innerHTML = `Referência de tensão: <strong>${v} V</strong> — Fora da faixa configurada de <strong>110 V a 240 V</strong>. Revise a medição antes de prosseguir.`;
+        boxEl.innerHTML = `Referência de tensão: <strong>${v} V</strong> — Fora da faixa configurada de <strong>110 V a 240 V</strong>. Risco de sobretensão/subtensão ou erro de leitura.`;
       } else if (v <= 140) {
         boxEl.innerHTML = `Referência de tensão: <strong>${v} V</strong> — Faixa baixa/nominal (110 V – 140 V). Verifique compatibilidade da placa e componentes na tensão de rede.`;
       } else if (v < 200) {
@@ -915,14 +994,33 @@
       pesosTeste[campo] = peso;
 
       const config = {
-        fonte: { input: "fonteVal", chips: "#fonteChips .chip-btn" },
-        pressostato: { input: "pressostatoVal", chips: "#pressostatoChips .chip-btn" },
-        atuador: { input: "atuadorVal", chips: "#atuadorChips .chip-btn" },
-        porta: { input: "portaVal", chips: "#portaChips .chip-btn" }
+        fonte: {
+          input: "fonteVal",
+          chips: "#fonteChips .chip-btn",
+          suspeita: "suspeitaFonte"
+        },
+        pressostato: {
+          input: "pressostatoVal",
+          chips: "#pressostatoChips .chip-btn",
+          suspeita: "suspeitaPressostato"
+        },
+        atuador: {
+          input: "atuadorVal",
+          chips: "#atuadorChips .chip-btn",
+          suspeita: "suspeitaAtuador"
+        },
+        porta: {
+          input: "portaVal",
+          chips: "#portaChips .chip-btn",
+          suspeita: "suspeitaPorta"
+        }
       };
 
       const alvo = config[campo];
       if (!alvo) return;
+
+      const textoFalhas = btnEl?.dataset?.falhas || falhasSelecionadas[campo];
+      falhasSelecionadas[campo] = textoFalhas;
 
       document.getElementById(alvo.input).value = textoValor;
       document.querySelectorAll(alvo.chips).forEach(b => {
@@ -933,6 +1031,11 @@
         if (nivel === "ok") btnEl.classList.add("selected-ok");
         else if (nivel === "mid") btnEl.classList.add("selected-mid");
         else btnEl.classList.add("selected-warn");
+      }
+
+      const suspEl = document.getElementById(alvo.suspeita);
+      if (suspEl) {
+        suspEl.innerHTML = `<strong>Defeitos prováveis:</strong> ${textoFalhas}`;
       }
 
       recalcularProbabilidadesRefinadas();
@@ -958,10 +1061,20 @@
       pesosTeste.atuador = 10;
       pesosTeste.porta = 10;
 
+      falhasSelecionadas.fonte = "Alimentação estável; conferir apenas cargas e sinais.";
+      falhasSelecionadas.pressostato = "Sinal de nível coerente na bancada.";
+      falhasSelecionadas.atuador = "Saída comutando normalmente.";
+      falhasSelecionadas.porta = "Malha de segurança fechada e reconhecida.";
+
       document.getElementById("fonteVal").value = "Fonte OK";
       document.getElementById("pressostatoVal").value = "Frequência OK";
       document.getElementById("atuadorVal").value = "Acionando OK";
       document.getElementById("portaVal").value = "Fechada / OK";
+
+      document.getElementById("suspeitaFonte").innerHTML = `<strong>Defeitos prováveis:</strong> ${falhasSelecionadas.fonte}`;
+      document.getElementById("suspeitaPressostato").innerHTML = `<strong>Defeitos prováveis:</strong> ${falhasSelecionadas.pressostato}`;
+      document.getElementById("suspeitaAtuador").innerHTML = `<strong>Defeitos prováveis:</strong> ${falhasSelecionadas.atuador}`;
+      document.getElementById("suspeitaPorta").innerHTML = `<strong>Defeitos prováveis:</strong> ${falhasSelecionadas.porta}`;
 
       ["#fonteChips .chip-btn", "#pressostatoChips .chip-btn", "#atuadorChips .chip-btn", "#portaChips .chip-btn"].forEach(sel => {
         document.querySelectorAll(sel).forEach((b, idx) => {
@@ -1004,12 +1117,28 @@
         if (maxVal <= 15) {
           resumoBox.innerHTML = "Foco principal: <strong>Sinais dentro do esperado</strong> — Sem anomalia relevante marcada até o momento.";
         } else if (f >= p && f >= l) {
-          resumoBox.innerHTML = `Foco principal: <strong>Fonte / Entrada (${f}%)</strong> — Priorize alimentação, tensão (110V–240V) e reguladores da placa.`;
+          resumoBox.innerHTML = `Foco principal: <strong>Fonte / Entrada (${f}%)</strong> — Priorize alimentação, tensão (110V–240V), capacitores, reguladores, solda fria e umidade.`;
         } else if (p >= f && p >= l) {
-          resumoBox.innerHTML = `Foco principal: <strong>Periféricos / Sensores (${p}%)</strong> — Priorize pressostato, chave/trava de tampa e chicote.`;
+          resumoBox.innerHTML = `Foco principal: <strong>Periféricos / Sensores (${p}%)</strong> — Priorize pressostato, mangueira/câmara, chave/trava de tampa e chicote.`;
         } else {
-          resumoBox.innerHTML = `Foco principal: <strong>Lógica / Acionamento (${l}%)</strong> — Priorize saídas de atuadores, relés/triacs e atuação na carga.`;
+          resumoBox.innerHTML = `Foco principal: <strong>Lógica / Acionamento (${l}%)</strong> — Priorize triacs, relés, resistores de acionamento, chicote e cargas (válvulas/bomba/atuador).`;
         }
+      }
+
+      const listaEl = document.getElementById("listaDefeitosProvaveis");
+      if (listaEl) {
+        const v = Number(document.getElementById("tensaoEntrada")?.value) || 220;
+        const alertaTensao = (v < 110 || v > 240)
+          ? `<li><strong>Tensão (${v}V):</strong> Fora da faixa 110V–240V — risco de sobretensão/subtensão ou leitura incorreta.</li>`
+          : "";
+
+        listaEl.innerHTML = `
+          ${alertaTensao}
+          <li><strong>Fonte (${document.getElementById("fonteVal")?.value || "Fonte OK"}):</strong> ${falhasSelecionadas.fonte}</li>
+          <li><strong>Pressostato (${document.getElementById("pressostatoVal")?.value || "OK"}):</strong> ${falhasSelecionadas.pressostato}</li>
+          <li><strong>Atuadores/Válvulas/Bomba (${document.getElementById("atuadorVal")?.value || "OK"}):</strong> ${falhasSelecionadas.atuador}</li>
+          <li><strong>Trava/Tampa (${document.getElementById("portaVal")?.value || "OK"}):</strong> ${falhasSelecionadas.porta}</li>
+        `;
       }
     }
 
