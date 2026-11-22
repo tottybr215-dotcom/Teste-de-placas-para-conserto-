@@ -112,14 +112,15 @@
     }
 
     .form-group {
-      margin-bottom: 12px;
+      margin-bottom: 14px;
     }
 
     label {
       display: block;
       font-size: 0.85rem;
       color: #cbd5e1;
-      margin-bottom: 5px;
+      margin-bottom: 6px;
+      font-weight: 600;
     }
 
     input, select {
@@ -130,6 +131,57 @@
       background: var(--bg);
       color: var(--text);
       font-size: 0.95rem;
+    }
+
+    .chip-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .chip-btn {
+      background: var(--card-2);
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.15s ease;
+    }
+
+    .chip-btn:hover {
+      border-color: var(--primary);
+    }
+
+    .chip-btn.selected {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+
+    .chip-btn.selected-ok {
+      background: var(--success);
+      border-color: var(--success);
+      color: #fff;
+    }
+
+    .chip-btn.selected-warn {
+      background: var(--danger);
+      border-color: var(--danger);
+      color: #fff;
+    }
+
+    .info-box {
+      background: var(--card-2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 14px;
+      font-size: 0.88rem;
+      color: #e2e8f0;
     }
 
     .btn-row {
@@ -363,46 +415,82 @@
 
       <!-- ABA 1: VALORES -->
       <section id="aba1" class="card">
-        <h2>1. Valores de Bancada</h2>
-        <p class="subtitle" style="margin-bottom: 12px;">
-          Informe os valores medidos para atualizar a estimativa de diagnóstico na aba Gráfico.
+        <h2>1. Teste Rápido de Bancada (110 V – 240 V)</h2>
+        <p class="subtitle" style="margin-bottom: 14px;">
+          Toque nos botões para marcar o teste de forma rápida. O gráfico é atualizado na hora.
         </p>
 
-        <div class="grid-2">
-          <div class="form-group">
-            <label for="tensaoEntrada">Tensão de entrada / fonte (V ou estado)</label>
-            <input type="text" id="tensaoEntrada" placeholder="Ex.: 127V / 12V estável" />
+        <!-- TENSÃO 110V A 240V -->
+        <div class="form-group">
+          <label>Tensão de entrada / fonte (110 V a 240 V)</label>
+          <div class="chip-group" id="tensaoChips">
+            <button type="button" class="chip-btn" data-v="110" onclick="selecionarTensaoRapida(110, this)">110 V</button>
+            <button type="button" class="chip-btn" data-v="127" onclick="selecionarTensaoRapida(127, this)">127 V</button>
+            <button type="button" class="chip-btn selected" data-v="220" onclick="selecionarTensaoRapida(220, this)">220 V</button>
+            <button type="button" class="chip-btn" data-v="240" onclick="selecionarTensaoRapida(240, this)">240 V</button>
           </div>
-          <div class="form-group">
-            <label for="pressostatoVal">Pressostato (frequência / sinal)</label>
-            <input type="text" id="pressostatoVal" placeholder="Ex.: 25,4 kHz / OK" />
-          </div>
-          <div class="form-group">
-            <label for="atuadorVal">Atuador / bomba / válvulas</label>
-            <input type="text" id="atuadorVal" placeholder="Ex.: Acionando / Sem pulso" />
-          </div>
-          <div class="form-group">
-            <label for="portaVal">Trava / sensor de tampa</label>
-            <input type="text" id="portaVal" placeholder="Ex.: Fechada / Aberta" />
-          </div>
+          <input type="number" id="tensaoEntrada" min="110" max="240" step="1" value="220" oninput="atualizarStatusTensao()" />
         </div>
 
-        <div class="form-group">
-          <label for="probFonte">Indicador de falha na Fonte / Entrada (0 a 100%)</label>
-          <input type="number" id="probFonte" min="0" max="100" value="35" />
+        <div class="info-box" id="resumoTensaoBox">
+          Referência de tensão: <strong>220 V</strong> — Faixa alta (200 V – 240 V). Confirme se a placa e os periféricos suportam 220 V/240 V antes de energizar.
         </div>
+
+        <!-- PRESSOSTATO -->
         <div class="form-group">
-          <label for="probPerifericos">Indicador de falha em Periféricos / Sensores (0 a 100%)</label>
-          <input type="number" id="probPerifericos" min="0" max="100" value="45" />
+          <label>Pressostato (frequência / sinal)</label>
+          <div class="chip-group" id="pressostatoChips">
+            <button type="button" class="chip-btn selected-ok" data-state="ok" data-val="Frequência OK" onclick="marcarItemTeste('pressostato', 'OK', 'ok', this)">OK</button>
+            <button type="button" class="chip-btn" data-state="warn" data-val="Sem frequência" onclick="marcarItemTeste('pressostato', 'Sem frequência', 'warn', this)">Sem frequência</button>
+            <button type="button" class="chip-btn" data-state="warn" data-val="Sinal alterado" onclick="marcarItemTeste('pressostato', 'Sinal alterado', 'warn', this)">Sinal alterado</button>
+          </div>
+          <input type="text" id="pressostatoVal" value="Frequência OK" placeholder="Ex.: 25,4 kHz / OK" />
         </div>
+
+        <!-- ATUADOR / BOMBA / VÁLVULAS -->
         <div class="form-group">
-          <label for="probLogica">Indicador de falha na Lógica / Acionamento (0 a 100%)</label>
-          <input type="number" id="probLogica" min="0" max="100" value="20" />
+          <label>Atuador / bomba / válvulas</label>
+          <div class="chip-group" id="atuadorChips">
+            <button type="button" class="chip-btn selected-ok" data-state="ok" data-val="Acionado" onclick="marcarItemTeste('atuador', 'Acionado', 'ok', this)">Acionado</button>
+            <button type="button" class="chip-btn" data-state="warn" data-val="Sem pulso" onclick="marcarItemTeste('atuador', 'Sem pulso', 'warn', this)">Sem pulso</button>
+            <button type="button" class="chip-btn" data-state="warn" data-val="Travado / falha" onclick="marcarItemTeste('atuador', 'Travado / falha', 'warn', this)">Travado / falha</button>
+          </div>
+          <input type="text" id="atuadorVal" value="Acionado" placeholder="Ex.: Acionando / Sem pulso" />
         </div>
+
+        <!-- TRAVA / TAMPA -->
+        <div class="form-group">
+          <label>Trava / sensor de tampa</label>
+          <div class="chip-group" id="portaChips">
+            <button type="button" class="chip-btn selected-ok" data-state="ok" data-val="Fechada / OK" onclick="marcarItemTeste('porta', 'Fechada / OK', 'ok', this)">Fechada / OK</button>
+            <button type="button" class="chip-btn" data-state="warn" data-val="Aberta / sem contato" onclick="marcarItemTeste('porta', 'Aberta / sem contato', 'warn', this)">Aberta / sem contato</button>
+          </div>
+          <input type="text" id="portaVal" value="Fechada / OK" placeholder="Ex.: Fechada / Aberta" />
+        </div>
+
+        <!-- AJUSTE FINO OPCIONAL -->
+        <details style="margin-top: 10px; margin-bottom: 12px;">
+          <summary style="cursor: pointer; color: var(--muted); font-size: 0.85rem;">Ajuste manual de percentuais (opcional)</summary>
+          <div class="grid-2" style="margin-top: 10px;">
+            <div class="form-group">
+              <label for="probFonte">Fonte / Entrada (%)</label>
+              <input type="number" id="probFonte" min="0" max="100" value="20" oninput="atualizarGrafico()" />
+            </div>
+            <div class="form-group">
+              <label for="probPerifericos">Periféricos / Sensores (%)</label>
+              <input type="number" id="probPerifericos" min="0" max="100" value="20" oninput="atualizarGrafico()" />
+            </div>
+            <div class="form-group">
+              <label for="probLogica">Lógica / Acionamento (%)</label>
+              <input type="number" id="probLogica" min="0" max="100" value="20" oninput="atualizarGrafico()" />
+            </div>
+          </div>
+        </details>
 
         <div class="btn-row">
           <button type="button" class="btn-primary" onclick="atualizarGrafico()">Atualizar Gráfico</button>
-          <button type="button" class="btn-secondary" onclick="abrirAba(2)">Ir para Gráfico</button>
+          <button type="button" class="btn-success" onclick="abrirAba(2)">Ver Gráfico</button>
+          <button type="button" class="btn-secondary" onclick="resetarTesteRapido()">Limpar / Padrão OK</button>
         </div>
 
         <!-- PAINEL RESERVADO DO MODO ADM -->
@@ -422,7 +510,7 @@
             <tbody>
               <tr>
                 <td>1</td>
-                <td>Alimentação principal e reguladores</td>
+                <td>Alimentação principal (110 V – 240 V) e reguladores</td>
                 <td>Sem curto e tensões estáveis</td>
               </tr>
               <tr>
@@ -444,13 +532,13 @@
       <section id="aba2" class="card hidden">
         <h2>2. Gráfico de Probabilidades</h2>
         <p class="subtitle" style="margin-bottom: 14px;">
-          Visualização comparativa dos percentuais informados na aba Valores.
+          Visualização comparativa conforme as marcações da aba Valores.
         </p>
 
         <div class="bar-item">
           <div class="bar-label">
             <span>Fonte / Entrada</span>
-            <strong id="valTextoFonte">35%</strong>
+            <strong id="valTextoFonte">20%</strong>
           </div>
           <div class="bar-track">
             <div class="bar-fill" id="barraFonte"></div>
@@ -460,7 +548,7 @@
         <div class="bar-item">
           <div class="bar-label">
             <span>Periféricos / Sensores</span>
-            <strong id="valTextoPerifericos">45%</strong>
+            <strong id="valTextoPerifericos">20%</strong>
           </div>
           <div class="bar-track">
             <div class="bar-fill" id="barraPerifericos"></div>
@@ -475,6 +563,10 @@
           <div class="bar-track">
             <div class="bar-fill" id="barraLogica"></div>
           </div>
+        </div>
+
+        <div class="btn-row">
+          <button type="button" class="btn-secondary" onclick="abrirAba(1)">Voltar para Teste Rápido</button>
         </div>
       </section>
 
@@ -600,6 +692,12 @@
       { fabricante: "Colormaq", linha: "Lavadoras automáticas / linha LCA", obs: "Testar tensões de entrada, válvulas e chave de segurança." }
     ];
 
+    const estadoTeste = {
+      pressostato: "ok",
+      atuador: "ok",
+      porta: "ok"
+    };
+
     let codigo2faAtual = "";
     let chavePendenteNivel1 = "";
     let admLogado = false;
@@ -675,6 +773,8 @@
       document.getElementById("gateSection").classList.add("hidden");
       document.getElementById("appSection").classList.remove("hidden");
       document.getElementById("statusBadge").textContent = motivoTexto;
+      atualizarStatusTensao();
+      recalcularProbabilidadesAutomaticas();
       atualizarGrafico();
       renderizarPlacas();
       renderizarListaIds();
@@ -751,11 +851,112 @@
       liberarAplicacao("Acesso ativo (Chave + 2FA)");
     }
 
+    function selecionarTensaoRapida(valor, btnEl) {
+      document.getElementById("tensaoEntrada").value = valor;
+      document.querySelectorAll("#tensaoChips .chip-btn").forEach(b => b.classList.remove("selected"));
+      if (btnEl) btnEl.classList.add("selected");
+      atualizarStatusTensao();
+      recalcularProbabilidadesAutomaticas();
+      atualizarGrafico();
+    }
+
+    function atualizarStatusTensao() {
+      const inputEl = document.getElementById("tensaoEntrada");
+      const boxEl = document.getElementById("resumoTensaoBox");
+      if (!inputEl || !boxEl) return;
+
+      let v = Number(inputEl.value);
+      if (Number.isNaN(v)) v = 220;
+
+      document.querySelectorAll("#tensaoChips .chip-btn").forEach(b => {
+        b.classList.toggle("selected", Number(b.dataset.v) === v);
+      });
+
+      if (v < 110 || v > 240) {
+        boxEl.innerHTML = `Referência de tensão: <strong>${v} V</strong> — Fora da faixa configurada de <strong>110 V a 240 V</strong>. Revise a medição antes de prosseguir.`;
+        return;
+      }
+
+      if (v <= 140) {
+        boxEl.innerHTML = `Referência de tensão: <strong>${v} V</strong> — Faixa baixa/nominal (110 V – 140 V). Verifique compatibilidade da placa e componentes na tensão de rede.`;
+      } else if (v < 200) {
+        boxEl.innerHTML = `Referência de tensão: <strong>${v} V</strong> — Faixa intermediária (141 V – 199 V). Atenção a quedas ou oscilações de rede.`;
+      } else {
+        boxEl.innerHTML = `Referência de tensão: <strong>${v} V</strong> — Faixa alta (200 V – 240 V). Confirme se a placa e os periféricos suportam 220 V/240 V antes de energizar.`;
+      }
+    }
+
+    function marcarItemTeste(campo, textoValor, estado, btnEl) {
+      estadoTeste[campo] = estado;
+      const inputMap = {
+        pressostato: "pressostatoVal",
+        atuador: "atuadorVal",
+        porta: "portaVal"
+      };
+      const grupoMap = {
+        pressostato: "#pressostatoChips .chip-btn",
+        atuador: "#atuadorChips .chip-btn",
+        porta: "#portaChips .chip-btn"
+      };
+
+      document.getElementById(inputMap[campo]).value = textoValor;
+      document.querySelectorAll(grupoMap[campo]).forEach(b => {
+        b.classList.remove("selected-ok", "selected-warn");
+      });
+
+      if (btnEl) {
+        btnEl.classList.add(estado === "ok" ? "selected-ok" : "selected-warn");
+      }
+
+      recalcularProbabilidadesAutomaticas();
+      atualizarGrafico();
+    }
+
+    function recalcularProbabilidadesAutomaticas() {
+      const v = Number(document.getElementById("tensaoEntrada")?.value) || 220;
+      const tensaoForaFaixa = v < 110 || v > 240;
+
+      const fonteProb = tensaoForaFaixa ? 85 : 20;
+      const perifericosProb = estadoTeste.pressostato !== "ok" ? 80 : 20;
+      const logicaProb = (estadoTeste.atuador !== "ok" || estadoTeste.porta !== "ok") ? 80 : 20;
+
+      document.getElementById("probFonte").value = fonteProb;
+      document.getElementById("probPerifericos").value = perifericosProb;
+      document.getElementById("probLogica").value = logicaProb;
+    }
+
+    function resetarTesteRapido() {
+      estadoTeste.pressostato = "ok";
+      estadoTeste.atuador = "ok";
+      estadoTeste.porta = "ok";
+
+      document.getElementById("pressostatoVal").value = "Frequência OK";
+      document.getElementById("atuadorVal").value = "Acionado";
+      document.getElementById("portaVal").value = "Fechada / OK";
+
+      document.querySelectorAll("#pressostatoChips .chip-btn").forEach((b, idx) => {
+        b.classList.remove("selected-ok", "selected-warn");
+        if (idx === 0) b.classList.add("selected-ok");
+      });
+      document.querySelectorAll("#atuadorChips .chip-btn").forEach((b, idx) => {
+        b.classList.remove("selected-ok", "selected-warn");
+        if (idx === 0) b.classList.add("selected-ok");
+      });
+      document.querySelectorAll("#portaChips .chip-btn").forEach((b, idx) => {
+        b.classList.remove("selected-ok", "selected-warn");
+        if (idx === 0) b.classList.add("selected-ok");
+      });
+
+      recalcularProbabilidadesAutomaticas();
+      atualizarGrafico();
+    }
+
     function abrirAba(numero) {
       for (let i = 1; i <= 4; i++) {
         document.getElementById(`aba${i}`).classList.toggle("hidden", i !== numero);
         document.getElementById(`tabBtn${i}`).classList.toggle("active", i === numero);
       }
+      if (numero === 1) atualizarStatusTensao();
       if (numero === 2) atualizarGrafico();
       if (numero === 3) renderizarPlacas();
       if (numero === 4) sincronizarPainelAdm();
@@ -963,6 +1164,8 @@
     (function init() {
       const deviceId = obterOuCriarIdAparelho();
       document.getElementById("deviceIdDisplay").textContent = deviceId;
+      atualizarStatusTensao();
+      recalcularProbabilidadesAutomaticas();
       if (ehIdSemAtivacao(deviceId)) {
         liberarAplicacao("Acesso direto liberado");
       }
