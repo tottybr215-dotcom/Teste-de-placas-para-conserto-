@@ -35,6 +35,8 @@ canvas{background:#fff;border-radius:8px}
 .id-code{font-family:monospace;font-size:16px;font-weight:bold;color:#38bdf8}
 table{width:100%;border-collapse:collapse;margin-top:10px;font-size:.85rem} th,td{border:1px solid var(--border);padding:6px 8px;text-align:left} th{background:var(--card-2)}
 .med{font-family:monospace;background:var(--card-2);border:1px dashed var(--primary);padding:6px;border-radius:4px;margin:6px 0;display:block}
+.box-danger{border:1px solid #dc2626;background:rgba(127,29,29,.85);color:#fecaca;padding:12px;border-radius:10px;margin-bottom:12px;font-size:12.5px;line-height:1.4}
+.box-warn{border:1px solid #d97706;background:rgba(120,53,15,.9);color:#ffedd5;padding:12px;border-radius:10px;margin-bottom:12px;font-size:12.5px;line-height:1.4}
 </style>
 </head>
 <body>
@@ -56,6 +58,13 @@ table{width:100%;border-collapse:collapse;margin-top:10px;font-size:.85rem} th,t
 <section id="aba1" class="card">
 <h2>1. Teste 10 Saídas - Convencional</h2>
 <div id="expiracaoTopo" style="font-size:12px;margin-bottom:10px;padding:8px;border-radius:6px;background:#065f46;color:#d1fae5"></div>
+<div class="box-danger">
+⚠️ <b>SEGURANÇA ELÉTRICA - LEIA ANTES DE ENERGIZAR (110V-240V)</b><br>
+• Confirme se a tensão da rede (110V / 127V / 220V / 240V) é compatível com a placa e com as cargas (válvula, bomba, motor).<br>
+• Faça inspeção visual: curto, umidade, solda fria, trilha rompida, capacitor estufado ou oxidado.<br>
+• Mantenha bancada seca e isolada. Não toque na placa energizada. Use luvas e óculos.<br>
+• Este teste é <b>hipótese de triagem</b>. Sempre confirme com medição direta antes de trocar peças.
+</div>
 <label>Marca:</label>
 <select id="marca"><option value="">Selecione</option><option value="electrolux">Electrolux</option><option value="brastemp">Brastemp</option><option value="consul">Consul</option><option value="colormaq">Colormaq</option></select>
 <label>Modelo:</label>
@@ -75,8 +84,33 @@ table{width:100%;border-collapse:collapse;margin-top:10px;font-size:.85rem} th,t
 <button type="button" class="btn-primary" onclick="analisar()" style="margin-top:12px">TESTAR PLACA</button>
 <div id="descricao" class="hidden" style="margin-top:12px;background:#1e3a5f;border-left:4px solid #3b82f6;padding:12px;border-radius:6px;font-size:12.5px"></div>
 </section>
-<section id="aba2" class="card hidden"><h2>2. Gráfico</h2><div id="modeloGrafico" style="text-align:center;color:#38bdf8;font-weight:bold"></div><canvas id="grafico"></canvas><div id="resumoGrafico" style="margin-top:12px"></div></section>
-<section id="aba3" class="card hidden"><h2>3. Medições</h2><div id="tabelaMedicoes"></div><div class="card" style="background:var(--card-2)"><div id="medTexto">Marque falhas na Aba 1.</div></div></section>
+
+<section id="aba2" class="card hidden">
+<h2>2. Gráfico - Foco Principal Sugerido</h2>
+<div class="box-warn">
+⚠️ <b>ATENÇÃO TÉCNICA:</b> Os defeitos prováveis são hipóteses de triagem para acelerar o diagnóstico. Este gráfico mostra <b>Foco Principal Sugerido</b>, não probabilidade exata.<br>
+<b>Confirme sempre com medição direta no multímetro antes de trocar peças.</b>
+</div>
+<div id="modeloGrafico" style="text-align:center;color:#38bdf8;font-weight:bold"></div><canvas id="grafico"></canvas><div id="resumoGrafico" style="margin-top:12px"></div>
+</section>
+
+<section id="aba3" class="card hidden">
+<h2>3. Medições - Confirmação na Bancada</h2>
+<div class="box-warn">
+⚠️ <b>CONFIRMAÇÃO OBRIGATÓRIA NA BANCADA:</b> Não troque peça só pelo gráfico.<br>
+Use multímetro, confirme trilha, solda fria, umidade e faça medição direta antes de condenar componente.<br>
+<b>Segurança: desligue a placa da rede antes de medir resistência/continuidade (Ohms/BIP).</b>
+</div>
+<div class="box-danger">
+🔧 <b>COMO MEDIR CORRETO:</b><br>
+• V~ (AC) 127V/220V = medir com placa energizada no pino da saída.<br>
+• Ohms / BIP = medir com placa DESLIGADA da rede.<br>
+• Sempre confirme com medição direta no multímetro antes de trocar peças.
+</div>
+<div id="tabelaMedicoes"></div>
+<div class="card" style="background:var(--card-2)"><div id="medTexto">Marque falhas na Aba 1 e clique em TESTAR PLACA para ver o passo-a-passo de medição aqui.</div></div>
+</section>
+
 <section id="aba4" class="card hidden"><h2>4. ADM</h2><div id="admLoginBox"><input type="password" id="admSenhaInput" placeholder="Senha admin2026"><button type="button" class="btn-primary" onclick="entrarModoAdm()" style="margin-top:10px">Entrar ADM</button><div id="admLoginMsg"></div></div><div id="admPainelBox" class="hidden"><button type="button" class="btn-secondary" onclick="sairModoAdm()">Sair</button><div class="card" style="background:var(--card-2);margin-top:12px"><h2>Gerar Chave 1 Ano</h2><input type="text" id="admIdAparelho" placeholder="ID"><input type="text" id="admNomeCliente" placeholder="Nome" style="margin-top:8px"><select id="admStatus" style="margin-top:8px"><option value="Ativo">Ativo</option><option value="Bloqueado">Bloqueado</option></select><div style="display:flex;gap:6px;margin-top:8px"><button type="button" class="btn-success" onclick="gerarChaveEAtivar()">Gerar 1 Ano</button><button type="button" class="btn-danger" onclick="bloquearIdAdm()">Bloquear</button></div><div id="chaveGeradaDisplay" style="margin-top:10px;font-family:monospace;color:#38bdf8"></div><div id="admActionMsg"></div></div><div class="card" style="background:var(--card-2)"><h2 id="tituloIdsCadastrados">IDs</h2><div id="listaIdsCadastrados"></div></div></div></section>
 </main>
 </div>
@@ -97,7 +131,7 @@ function obterPrimeiroAcesso(){try{let first=localStorage.getItem(STORAGE_KEY_FI
 function diasDesdePrimeiroAcesso(){try{const first=obterPrimeiroAcesso();const agora=new Date();return Math.floor((agora - first)/(1000*60*60*24))}catch(e){return 0}}
 function diasRestantesGratis(){return DIAS_GRATIS - diasDesdePrimeiroAcesso()}
 function verificarAtivado(){try{const raw=localStorage.getItem(STORAGE_KEY_ATIVADO);if(!raw)return null;const obj=JSON.parse(raw);const expira=new Date(obj.expiraEm);const agora=new Date();const diff=expira - agora;const dias=Math.ceil(diff/(1000*60*60*24));if(diff<=0){localStorage.removeItem(STORAGE_KEY_ATIVADO);return null;}return {...obj,diasRestantes:dias,expira}}catch(e){return null}}
-function initChartSafe(){try{if(typeof Chart==='undefined'){console.log('Chart bloqueado');return}const ctx=document.getElementById('grafico');if(!ctx)return;const c=ctx.getContext('2d');chart=new Chart(c,{type:'line',data:{labels:["VÁLV FRIA","VÁLV AMAC","BOMBA","MOTOR H","MOTOR AH","CENTRIF","ATUADOR","TRAVA","PRESS","FONTE"],datasets:[{label:'Falha no Pino',data:[1,1,1,1,1,1,1,1,1,1],borderColor:'#3b82f6',backgroundColor:'rgba(59,130,246,.2)',borderWidth:2,tension:.4,fill:true}]},options:{responsive:true,scales:{y:{min:0,max:12}}}})}catch(e){console.log('Erro chart:',e)}}
+function initChartSafe(){try{if(typeof Chart==='undefined'){console.log('Chart bloqueado');return}const ctx=document.getElementById('grafico');if(!ctx)return;const c=ctx.getContext('2d');chart=new Chart(c,{type:'line',data:{labels:["VÁLV FRIA","VÁLV AMAC","BOMBA","MOTOR H","MOTOR AH","CENTRIF","ATUADOR","TRAVA","PRESS","FONTE"],datasets:[{label:'Foco Principal Sugerido',data:[1,1,1,1,1,1,1,1,1,1],borderColor:'#22c55e',backgroundColor:'rgba(34,197,94,.2)',tension:.3,fill:true}]},options:{responsive:true,scales:{y:{min:0,max:12}}}})}catch(e){console.error('Erro chart:',e)}}
 function liberarAplicacao(t){try{document.getElementById("gateSection").classList.add("hidden");document.getElementById("appSection").classList.remove("hidden");const badge=document.getElementById("statusBadge");if(badge){badge.textContent=t;badge.className="badge badge-ok"}const ativado=verificarAtivado();const topo=document.getElementById('expiracaoTopo');if(topo){if(ativado){topo.innerHTML="✅ Chave 1 ano - "+ativado.diasRestantes+"d restantes - Expira "+ativado.expira.toLocaleDateString('pt-BR')}else{topo.innerHTML="🎁 Grátis "+diasRestantesGratis()+"d restantes de "+DIAS_GRATIS+" - Depois precisa chave 1 ano PRO"}}setTimeout(initChartSafe,500)}catch(e){console.error(e)}}
 function mostrarBloqueio(){try{document.getElementById("gateSection").classList.remove("hidden");document.getElementById("appSection").classList.add("hidden");const badge=document.getElementById("statusBadge");if(badge){badge.textContent="Bloqueado - Precisa chave";badge.className="badge badge-danger"}const bloq=document.getElementById("bloqueioInfoBox");if(bloq){bloq.classList.remove("hidden");bloq.innerHTML="🔒 <b>Seus "+DIAS_GRATIS+" dias grátis acabaram!</b><br>Agora precisa digitar a chave válida por 1 ano PRO."}const gateT=document.getElementById("gateTitulo");if(gateT)gateT.textContent="Bloqueado - Precisa chave 1 ano PRO"}catch(e){console.error(e)}}
 function voltarNivel1(){document.getElementById("step2Box").classList.add("hidden");document.getElementById("step1Box").classList.remove("hidden")}
@@ -107,21 +141,7 @@ function sairModoAdm(){admLogado=false;sincronizarPainelAdm()}
 function validar2faNivel2(){const inp=document.getElementById("tfaInput");const t=inp?inp.value.trim():"";if(t!==codigo2faAtual){setMensagem("gateMsg","2FA incorreto","err");return}const agora=new Date();const expira=new Date(agora);expira.setDate(agora.getDate()+DIAS_CHAVE);const dados={id:document.getElementById("deviceIdDisplay").textContent.trim(),criadoEm:agora.toISOString(),expiraEm:expira.toISOString(),diasValidade:DIAS_CHAVE};try{localStorage.setItem(STORAGE_KEY_ATIVADO,JSON.stringify(dados))}catch(e){}liberarAplicacao("Liberado 1 ano PRO - "+DIAS_CHAVE+" dias")}
 document.getElementById('marca').addEventListener('change',function(){const m=this.value;const sel=document.getElementById('modelo');if(!sel)return;sel.innerHTML="";if(!m){sel.innerHTML="<option>Selecione marca primeiro</option>";return;}const lista=modelos[m]||[];lista.forEach(mod=>{let o=document.createElement('option');o.value=mod;o.textContent=mod;sel.appendChild(o);});});
 function analisar(){try{const marcaEl=document.getElementById('marca');const modeloEl=document.getElementById('modelo');const marca=marcaEl?marcaEl.value:"";const modelo=modeloEl?modeloEl.value:"";if(!marca||!modelo){alert("Selecione marca e modelo");return}const outs=[];for(let i=1;i<=10;i++){const el=document.getElementById('out'+i);outs.push(el?el.value:"na")}let labelsDetalhados=mapaSaidas[modelo]||mapaSaidas["default"];let labelsCurto=labelsDetalhados.map(s=>s.split('=')[0]);const modeloGraficoEl=document.getElementById('modeloGrafico');if(modeloGraficoEl)modeloGraficoEl.innerText="Convencional: "+modelo;let valores=outs.map(v=>{if(v==="fail") return 10; if(v==="ok") return 1; return 2;});if(chart){try{chart.data.labels=labelsCurto;chart.data.datasets[0].data=valores;chart.update()}catch(e){}}let falhas=[];outs.forEach((v,idx)=>{if(v==="fail") falhas.push({idx})});let texto="<b>"+modelo+"</b><br><br>";if(falhas.length===0){texto+="<b style='color:#86efac'>Nenhuma falha.</b>"}else{texto+="<b style='color:#fca5a5'>FALHAS: "+falhas.length+"</b><br><br>";falhas.forEach(f=>{let comp=labelsDetalhados[f.idx];texto+="<b>"+(f.idx+1)+". "+labelsCurto[f.idx]+" = FALHA</b><br>→ "+comp+"<br><br>"})}const desc=document.getElementById('descricao');if(desc){desc.innerHTML=texto;desc.classList.remove('hidden')}let medHtml="";if(falhas.length>0){falhas.forEach(f=>{let det=medicaoDetalhada[f.idx];if(det)medHtml+='<div class="card" style="background:var(--card-2)"><h4 style="color:#38bdf8;margin:0 0 6px 0">'+det.titulo+'</h4>'+det.passos+'</div>'})}else{medHtml="Marque falhas na Aba 1."}const medTextoEl=document.getElementById('medTexto');if(medTextoEl)medTextoEl.innerHTML=medHtml;abrirAba(2);setTimeout(()=>abrirAba(3),600)}catch(e){alert("Erro analisar: "+e.message)}}
-function iniciarApp(){
-  try{
-    const id=obterOuCriarIdAparelho();
-    const idEl=document.getElementById("deviceIdDisplay");if(idEl)idEl.textContent=id;
-    const admEl=document.getElementById("admIdAparelho");if(admEl)admEl.value=id;
-    if(IDS_SEM_ATIVACAO.map(x=>x.toUpperCase()).includes(id.toUpperCase())){liberarAplicacao("Acesso direto");return}
-    const ativado=verificarAtivado();if(ativado){liberarAplicacao("Liberado 1 ano - "+ativado.diasRestantes+"d");return}
-    const diasRest=diasRestantesGratis();
-    if(diasRest>=0){liberarAplicacao("Grátis "+diasRest+"d restantes");return}
-    else{mostrarBloqueio();return}
-  }catch(e){
-    console.error("Erro iniciarApp:",e);
-    try{liberarAplicacao("Grátis - Modo offline")}catch(e2){const badge=document.getElementById("statusBadge");if(badge){badge.textContent="Erro - Recarregue";badge.className="badge badge-danger"}}
-  }
-}
+function iniciarApp(){try{const id=obterOuCriarIdAparelho();const idEl=document.getElementById("deviceIdDisplay");if(idEl)idEl.textContent=id;const admEl=document.getElementById("admIdAparelho");if(admEl)admEl.value=id;if(IDS_SEM_ATIVACAO.map(x=>x.toUpperCase()).includes(id.toUpperCase())){liberarAplicacao("Acesso direto");return}const ativado=verificarAtivado();if(ativado){liberarAplicacao("Liberado 1 ano - "+ativado.diasRestantes+"d");return}const diasRest=diasRestantesGratis();if(diasRest>=0){liberarAplicacao("Grátis "+diasRest+"d restantes");return}else{mostrarBloqueio();return}}catch(e){console.error("Erro iniciarApp:",e);try{liberarAplicacao("Grátis - Modo offline")}catch(e2){const badge=document.getElementById("statusBadge");if(badge){badge.textContent="Erro - Recarregue";badge.className="badge badge-danger"}}}}
 if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",iniciarApp)}else{iniciarApp()}
 </script>
 
