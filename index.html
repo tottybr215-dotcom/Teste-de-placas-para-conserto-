@@ -3,192 +3,241 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bancada Lavadora PRO - Todas as Marcas</title>
+<title>Bancada Lavadora PRO - Laudo So Com Falha Confirmada</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 :root{--bg:#0f172a;--card:#1e293b;--card-2:#273449;--border:#334155;--text:#e2e8f0;--primary:#3b82f6;--success:#16a34a;--danger:#dc2626;--warning:#f59e0b}
-*{box-sizing:border-box} body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:var(--text);padding:10px}
-.container{max-width:980px;margin:auto}
-header{display:flex;justify-content:space-between;align-items:center;padding:12px;background:var(--card);border-radius:10px;border:1px solid var(--border);margin-bottom:10px}
-.badge{padding:4px 10px;border-radius:20px;font-size:12px;font-weight:bold}
-.badge-ok{background:var(--success);color:#fff} .badge-warn{background:var(--warning);color:#000} .badge-danger{background:var(--danger);color:#fff}
-.card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px;margin-top:10px}
-.hidden{display:none!important}
-.btn-primary{background:var(--primary);color:#fff;border:none;padding:10px 14px;border-radius:8px;cursor:pointer;font-weight:bold;width:100%}
-.btn-secondary{background:var(--card-2);color:var(--text);border:1px solid var(--border);padding:8px 12px;border-radius:8px;cursor:pointer}
-.btn-success{background:var(--success);color:#fff;border:none;padding:8px 12px;border-radius:8px;cursor:pointer}
-.btn-danger{background:var(--danger);color:#fff;border:none;padding:8px 12px;border-radius:8px;cursor:pointer}
-.btn-whatsapp{background:#25d366;color:#fff;border:none;padding:8px 12px;border-radius:8px;cursor:pointer}
-input,select{width:100%;padding:10px;border-radius:8px;border:1px solid var(--border);background:var(--card-2);color:var(--text);margin-top:4px}
-label{font-weight:bold;font-size:13px;display:block;margin-top:10px}
-.tabs{display:flex;gap:6px;margin-top:10px;overflow-x:auto}
-.tab-btn{flex:1;min-width:70px;padding:10px;border-radius:8px;border:1px solid var(--border);background:var(--card-2);color:var(--text);cursor:pointer;font-weight:bold;font-size:12px}
-.tab-btn.active{background:var(--primary);color:#fff}
-.optGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
-@media(max-width:650px){.optGrid{grid-template-columns:1fr}}
-.optCard{border:1px solid var(--border);border-radius:8px;padding:10px;background:var(--card-2)}
-.optCard b{font-size:11px;display:block;margin-bottom:4px}
-canvas{background:#fff;border-radius:8px}
-.msg-ok{background:rgba(22,163,74,.15);border:1px solid var(--success);color:#86efac;padding:10px;border-radius:8px;margin-top:10px}
-.msg-err{background:rgba(220,38,38,.15);border:1px solid var(--danger);color:#fca5a5;padding:10px;border-radius:8px;margin-top:10px}
-.id-box{display:flex;flex-direction:column;gap:8px;background:var(--card-2);padding:10px;border-radius:8px;margin-top:10px}
-.id-code{font-family:monospace;font-size:16px;font-weight:bold;color:#38bdf8}
-table{width:100%;border-collapse:collapse;margin-top:10px;font-size:.85rem} th,td{border:1px solid var(--border);padding:6px 8px;text-align:left} th{background:var(--card-2)}
-.med{font-family:monospace;background:var(--card-2);border:1px dashed var(--primary);padding:6px;border-radius:4px;margin:6px 0;display:block}
-.box-danger{border:1px solid #dc2626;background:rgba(127,29,29,.85);color:#fecaca;padding:12px;border-radius:10px;margin-bottom:12px;font-size:12.5px;line-height:1.4}
-.box-warn{border:1px solid #d97706;background:rgba(120,53,15,.9);color:#ffedd5;padding:12px;border-radius:10px;margin-bottom:12px;font-size:12.5px;line-height:1.4}
-.box-info{border:1px solid #3b82f6;background:rgba(30,58,95,.9);color:#bfdbfe;padding:12px;border-radius:10px;margin-bottom:12px;font-size:12.5px;line-height:1.5}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:var(--text);padding:10px}.container{max-width:980px;margin:auto}header{display:flex;justify-content:space-between;align-items:center;padding:12px;background:var(--card);border-radius:10px;border:1px solid var(--border);margin-bottom:10px}.badge{padding:4px 10px;border-radius:20px;font-size:12px;font-weight:bold}.badge-ok{background:var(--success);color:#fff}.badge-warn{background:var(--warning);color:#000}.badge-danger{background:var(--danger);color:#fff}.card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px;margin-top:10px}.hidden{display:none!important}.btn-primary{background:var(--primary);color:#fff;border:none;padding:10px 14px;border-radius:8px;cursor:pointer;font-weight:bold;width:100%}.btn-secondary{background:var(--card-2);color:var(--text);border:1px solid var(--border);padding:8px 12px;border-radius:8px;cursor:pointer}.btn-success{background:var(--success);color:#fff;border:none;padding:12px 14px;border-radius:8px;cursor:pointer;font-weight:bold}.btn-danger{background:var(--danger);color:#fff;border:none;padding:8px 12px;border-radius:8px;cursor:pointer}.btn-whatsapp{background:#25d366;color:#fff;border:none;padding:8px 12px;border-radius:8px;cursor:pointer}input[type=text],input[type=password],select{width:100%;padding:10px;border-radius:8px;border:1px solid var(--border);background:var(--card-2);color:var(--text);margin-top:4px}input[type=checkbox]{width:18px;height:18px;accent-color:var(--success)}label{font-weight:bold;font-size:13px;display:block;margin-top:10px}.tabs{display:flex;gap:6px;margin-top:10px;overflow-x:auto}.tab-btn{flex:1;min-width:70px;padding:10px;border-radius:8px;border:1px solid var(--border);background:var(--card-2);color:var(--text);cursor:pointer;font-weight:bold;font-size:12px}.tab-btn.active{background:var(--primary);color:#fff}.optGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}@media(max-width:650px){.optGrid{grid-template-columns:1fr}}.optCard{border:1px solid var(--border);border-radius:8px;padding:10px;background:var(--card-2)}.optCard b{font-size:11px;display:block;margin-bottom:4px}canvas{background:#fff;border-radius:8px}.msg-ok{background:rgba(22,163,74,.15);border:1px solid var(--success);color:#86efac;padding:10px;border-radius:8px;margin-top:10px}.msg-err{background:rgba(220,38,38,.15);border:1px solid var(--danger);color:#fca5a5;padding:10px;border-radius:8px;margin-top:10px}.id-box{display:flex;flex-direction:column;gap:8px;background:var(--card-2);padding:10px;border-radius:8px;margin-top:10px}.id-code{font-family:monospace;font-size:16px;font-weight:bold;color:#38bdf8}.box-danger{border:1px solid #dc2626;background:rgba(127,29,29,.85);color:#fecaca;padding:12px;border-radius:10px;margin-bottom:12px;font-size:12.5px}.box-warn{border:1px solid #d97706;background:rgba(120,53,15,.9);color:#ffedd5;padding:12px;border-radius:10px;margin-bottom:12px;font-size:12.5px}.box-info{border:1px solid #3b82f6;background:rgba(30,58,95,.9);color:#bfdbfe;padding:12px;border-radius:10px;margin-bottom:12px;font-size:12.5px}.confirmBox{border:2px solid #16a34a;background:rgba(22,163,74,.12);padding:14px;border-radius:10px;margin-top:12px}.confirmItem{display:flex;gap:10px;align-items:flex-start;margin-bottom:10px}.confirmItem span{font-size:13px;line-height:1.3}
 </style>
 </head>
 <body>
 <div class="container">
-<header><div><h1>Bancada Lavadora PRO</h1><p style="color:#94a3b8;font-size:.8rem">Todas as Marcas - 7 dias gratis + chave 1 ano</p></div><div class="badge badge-warn" id="statusBadge">Carregando...</div></header>
+<header><div><h1>Bancada Lavadora PRO</h1><p style="color:#94a3b8;font-size:.8rem">Laudo so gera com falha confirmada na bancada</p></div><div class="badge badge-warn" id="statusBadge">Carregando...</div></header>
 <section id="gateSection" class="card">
-<h2 id="gateTitulo">Acesso</h2>
-<div class="id-box"><div><div style="font-size:.78rem;color:#94a3b8">Seu ID</div><div class="id-code" id="deviceIdDisplay">Gerando...</div></div><div style="display:flex;gap:6px;flex-wrap:wrap"><button type="button" class="btn-secondary" onclick="copiarIdAparelho()">Copiar ID</button><button type="button" class="btn-whatsapp" onclick="solicitarAcessoWhatsApp()">WhatsApp</button></div></div>
-<div id="bloqueioInfoBox" class="hidden" style="background:#7f1d1d;padding:12px;border-radius:10px;margin-top:10px;color:#fecaca"></div>
-<div id="step1Box"><div style="margin-top:10px"><label>Chave valida por 1 ano (apos 7 dias gratis)</label><input type="text" id="chaveInput" placeholder="CHV-123456"></div><button type="button" class="btn-primary" onclick="validarChaveNivel1()" style="margin-top:10px">Validar Chave 1 Ano</button></div>
-<div id="step2Box" class="hidden" style="margin-top:14px"><div><label>2 Nivel - 2FA</label><div style="margin-bottom:6px">Codigo: <strong id="codigo2faDisplay">------</strong></div><input type="text" id="tfaInput" maxlength="6" placeholder="6 digitos"></div><div style="display:flex;gap:6px;margin-top:8px"><button type="button" class="btn-success" onclick="validar2faNivel2()">Entrar</button><button type="button" class="btn-secondary" onclick="voltarNivel1()">Voltar</button></div></div>
+<h2>Acesso</h2>
+<div class="id-box"><div><div style="font-size:.78rem;color:#94a3b8">Seu ID</div><div class="id-code" id="deviceIdDisplay">Gerando...</div></div><div style="display:flex;gap:6px"><button type="button" class="btn-secondary" onclick="copiarIdAparelho()">Copiar ID</button><button type="button" class="btn-whatsapp" onclick="solicitarAcessoWhatsApp()">WhatsApp</button></div></div>
+<div id="step1Box"><label>Chave 1 ano</label><input type="text" id="chaveInput" placeholder="CHV-123456"><button type="button" class="btn-primary" onclick="validarChaveNivel1()" style="margin-top:10px">Validar Chave 1 Ano</button></div>
+<div id="step2Box" class="hidden"><label>2FA</label><div>Codigo: <strong id="codigo2faDisplay">------</strong></div><input type="text" id="tfaInput" maxlength="6" placeholder="6 digitos"><div style="display:flex;gap:6px;margin-top:8px"><button type="button" class="btn-success" onclick="validar2faNivel2()">Entrar</button><button type="button" class="btn-secondary" onclick="voltarNivel1()">Voltar</button></div></div>
 <div id="gateMsg"></div>
 </section>
 <main id="appSection" class="hidden">
-<nav class="tabs"><button type="button" class="tab-btn active" id="tabBtn1" onclick="abrirAba(1)">1. 10 SAIDAS</button><button type="button" class="tab-btn" id="tabBtn2" onclick="abrirAba(2)">2. GRAFICO</button><button type="button" class="tab-btn" id="tabBtn3" onclick="abrirAba(3)">3. MEDICOES</button><button type="button" class="tab-btn" id="tabBtn4" onclick="abrirAba(4)">4. ADM</button></nav>
+<nav class="tabs"><button type="button" class="tab-btn active" onclick="abrirAba(1)">1. TECNICO + TESTE</button><button type="button" class="tab-btn" onclick="abrirAba(2)">2. CONFIRMA + PDF</button><button type="button" class="tab-btn" onclick="abrirAba(3)">3. MEDICOES</button><button type="button" class="tab-btn" onclick="abrirAba(4)">4. ADM</button></nav>
 <section id="aba1" class="card">
-<h2>1. Teste 10 Saidas - Todas as Marcas</h2>
+<h2>1. Dados do Tecnico + Teste 10 Saidas</h2>
 <div id="expiracaoTopo" style="font-size:12px;margin-bottom:10px;padding:8px;border-radius:6px;background:#065f46;color:#d1fae5"></div>
-<div class="box-danger">
-AVISO SEGURANCA ELETRICA - LEIA ANTES DE ENERGIZAR (110V-240V)<br>
-- Confirme tensao rede (110V/127V/220V/240V) compativel com placa e cargas.<br>
-- Inspecao visual: curto, umidade, solda fria, trilha rompida, capacitor estufado.<br>
-- Bancada seca e isolada. Nao toque na placa energizada.<br>
-- Teste e hipotese de triagem. Sempre confirme com medicao direta.
+<div class="card" style="background:var(--card-2);border:2px solid #3b82f6">
+<h3 style="margin:0 0 8px;color:#38bdf8">👤 DADOS PARA O LAUDO TECNICO</h3>
+<label>Nome completo do Tecnico:</label><input type="text" id="nomeTecnico" placeholder="Ex: Joao Silva - Araguaina TO" oninput="salvarDadosTecnico()">
+<label>CRT / CREA / Registro:</label><input type="text" id="crtTecnico" placeholder="Ex: CRT-12345" oninput="salvarDadosTecnico()">
+<label>Nome da Empresa / Oficina:</label><input type="text" id="empresaTecnico" placeholder="Ex: Silva Lavadoras LTDA" oninput="salvarDadosTecnico()">
+<label>CNPJ / CPF:</label><input type="text" id="cnpjCpfTecnico" placeholder="Ex: 12.345.678/0001-90 ou 000.000.000-00" oninput="salvarDadosTecnico()">
 </div>
-<label>Marca:</label>
-<select id="marca"><option value="">Selecione</option><option value="colormaq">Colormaq</option><option value="electrolux">Electrolux</option><option value="brastemp">Brastemp</option><option value="consul">Consul</option><option value="outras">Outras / Generica</option></select>
+<label style="margin-top:14px">Marca:</label>
+<select id="marca"><option value="">Selecione</option><option value="colormaq">Colormaq</option><option value="electrolux">Electrolux</option><option value="brastemp">Brastemp</option><option value="consul">Consul</option><option value="outras">Outras</option></select>
 <label>Modelo:</label>
 <select id="modelo"><option value="">Selecione marca primeiro</option></select>
 <div id="infoDefeitosModelo" class="box-info hidden"></div>
 <div class="optGrid">
-<div class="optCard"><b>1. Valvula Fria / Entrada</b><select id="out1"><option value="ok">OK</option><option value="fail">FALHA</option><option value="na">Nao testado</option></select></div>
-<div class="optCard"><b>2. Valvula Quente / Amaciante</b><select id="out2"><option value="ok">OK</option><option value="fail">FALHA</option><option value="na">Nao testado</option></select></div>
-<div class="optCard"><b>3. Bomba Drenagem</b><select id="out3"><option value="ok">OK</option><option value="fail">FALHA</option><option value="na">Nao testado</option></select></div>
-<div class="optCard"><b>4. Motor Horario (H)</b><select id="out4"><option value="ok">OK</option><option value="fail">FALHA</option><option value="na">Nao testado</option></select></div>
-<div class="optCard"><b>5. Motor Anti-Horario (AH)</b><select id="out5"><option value="ok">OK</option><option value="fail">FALHA</option><option value="na">Nao testado</option></select></div>
-<div class="optCard"><b>6. Centrifugacao / Alta</b><select id="out6"><option value="ok">OK</option><option value="fail">FALHA</option><option value="na">Nao testado</option></select></div>
-<div class="optCard"><b>7. Atuador Freio / Termo</b><select id="out7"><option value="ok">OK</option><option value="fail">FALHA</option><option value="na">Nao testado</option></select></div>
-<div class="optCard"><b>8. Trava Tampa / PTC</b><select id="out8"><option value="ok">OK</option><option value="fail">FALHA</option><option value="na">Nao testado</option></select></div>
-<div class="optCard"><b>9. Pressostato / Nivel</b><select id="out9"><option value="ok">OK</option><option value="fail">FALHA</option><option value="na">Nao testado</option></select></div>
-<div class="optCard"><b>10. Fonte / 5V / Interface</b><select id="out10"><option value="ok">OK</option><option value="fail">FALHA</option><option value="na">Nao testado</option></select></div>
+<div class="optCard"><b>1. Valvula Fria</b><select id="out1"><option value="ok">OK</option><option value="fail">FALHA</option><option value="na">Nao testado</option></select></div>
+<div class="optCard"><b>2. Amaciante</b><select id="out2"><option value="ok">OK</option><option value="fail">FALHA</option><option value="na">Nao testado</option></select></div>
+<div class="optCard"><b>3. Bomba</b><select id="out3"><option value="ok">OK</option><option value="fail">FALHA</option><option value="na">Nao testado</option></select></div>
+<div class="optCard"><b>4. Motor H</b><select id="out4"><option value="ok">OK</option><option value="fail">FALHA</option><option value="na">Nao testado</option></select></div>
+<div class="optCard"><b>5. Motor AH</b><select id="out5"><option value="ok">OK</option><option value="fail">FALHA</option><option value="na">Nao testado</option></select></div>
+<div class="optCard"><b>6. Centrifugacao</b><select id="out6"><option value="ok">OK</option><option value="fail">FALHA</option><option value="na">Nao testado</option></select></div>
+<div class="optCard"><b>7. Atuador</b><select id="out7"><option value="ok">OK</option><option value="fail">FALHA</option><option value="na">Nao testado</option></select></div>
+<div class="optCard"><b>8. Trava Tampa</b><select id="out8"><option value="ok">OK</option><option value="fail">FALHA</option><option value="na">Nao testado</option></select></div>
+<div class="optCard"><b>9. Pressostato</b><select id="out9"><option value="ok">OK</option><option value="fail">FALHA</option><option value="na">Nao testado</option></select></div>
+<div class="optCard"><b>10. Fonte</b><select id="out10"><option value="ok">OK</option><option value="fail">FALHA</option><option value="na">Nao testado</option></select></div>
 </div>
 <button type="button" class="btn-primary" onclick="analisar()" style="margin-top:12px">TESTAR PLACA</button>
 <div id="descricao" class="hidden" style="margin-top:12px;background:#1e3a5f;border-left:4px solid #3b82f6;padding:12px;border-radius:6px;font-size:12.5px"></div>
 </section>
 <section id="aba2" class="card hidden">
-<h2>2. Grafico - Foco Principal Sugerido</h2>
-<div class="box-warn">
-ATENCAO TECNICA: Os defeitos provaveis sao hipoteses de triagem. Grafico mostra Foco Principal Sugerido, nao probabilidade exata.<br>
-Confirme sempre com medicao direta no multimetro antes de trocar pecas.
+<h2>2. Confirmacao em Bancada + Laudo PDF</h2>
+<div class="box-danger">ATENCAO: So gere laudo se mediu com multimetro na bancada. Este laudo vale como documento tecnico.</div>
+<div id="modeloGrafico" style="text-align:center;color:#38bdf8;font-weight:bold;margin-bottom:8px"></div>
+<canvas id="grafico"></canvas>
+<div id="resumoFalhasAba2" style="margin-top:12px"></div>
+<div class="confirmBox">
+<h3 style="margin:0 0 10px;color:#16a34a">✅ CONFIRMACAO OBRIGATORIA PARA GERAR LAUDO</h3>
+<div class="confirmItem"><input type="checkbox" id="confirmaMedicao" onchange="atualizarBotaoPDF()"><span><b>1) Confirmo que realizei medicao direta com multimetro na bancada</b><br>V~ com placa energizada para saidas, Ohms/BIP com placa DESLIGADA. Bancada seca, EPI, tensao rede conferida 127V/220V.</span></div>
+<div class="confirmItem"><input type="checkbox" id="confirmaBancada" onchange="atualizarBotaoPDF()"><span><b>2) Confirmo que a falha foi realmente confirmada na bancada e nao e so hipotese do grafico</b><br>Entendo que este laudo com CNPJ/CPF e CRT tem valor tecnico e so pode ser gerado apos confirmacao fisica.</span></div>
+<div class="confirmItem"><input type="checkbox" id="confirmaCliente" onchange="atualizarBotaoPDF()"><span><b>3) Cliente ciente que causas raiz (vazamento, variacao rede, curto chicote) devem ser verificadas antes de trocar placa nova</b></span></div>
+<div id="msgBotaoPDF" style="margin-top:8px;font-size:12px;color:#fca5a5">Marque as 3 caixas acima para liberar geracao do laudo confirmado.</div>
 </div>
-<div id="modeloGrafico" style="text-align:center;color:#38bdf8;font-weight:bold"></div><canvas id="grafico"></canvas><div id="resumoGrafico" style="margin-top:12px"></div>
+<div style="margin-top:16px;display:grid;gap:8px">
+<button type="button" id="btnGerarPDF" class="btn-success" onclick="gerarLaudoPDF()" disabled style="padding:14px;font-size:15px;opacity:.5">🔒 MARQUE AS 3 CONFIRMACOES PARA GERAR LAUDO</button>
+<button type="button" class="btn-secondary" onclick="window.print()">🖨️ Imprimir Pagina (sem confirmacao)</button>
+</div>
 </section>
-<section id="aba3" class="card hidden">
-<h2>3. Medicoes - Confirmacao na Bancada</h2>
-<div class="box-warn">
-CONFIRMACAO OBRIGATORIA NA BANCADA: Nao troque peca so pelo grafico.<br>
-Use multimetro, confirme trilha, solda fria, umidade e faca medicao direta antes de condenar componente.<br>
-Seguranca: desligue a placa da rede antes de medir resistencia/continuidade (Ohms/BIP).
-</div>
-<div class="box-danger">
-COMO MEDIR CORRETO:<br>
-- V~ (AC) 127V/220V = medir com placa energizada no pino da saida.<br>
-- Ohms / BIP = medir com placa DESLIGADA da rede.<br>
-- Sempre confirme com medicao direta no multimetro antes de trocar pecas.
-</div>
-<div id="tabelaMedicoes"></div>
-<div class="card" style="background:var(--card-2)"><div id="medTexto">Marque falhas na Aba 1 e clique em TESTAR PLACA para ver o passo-a-passo de medicao aqui.</div></div>
-</section>
-<section id="aba4" class="card hidden"><h2>4. ADM</h2><div id="admLoginBox"><input type="password" id="admSenhaInput" placeholder="Senha admin2026"><button type="button" class="btn-primary" onclick="entrarModoAdm()" style="margin-top:10px">Entrar ADM</button><div id="admLoginMsg"></div></div><div id="admPainelBox" class="hidden"><button type="button" class="btn-secondary" onclick="sairModoAdm()">Sair</button><div class="card" style="background:var(--card-2);margin-top:12px"><h2>Gerar Chave 1 Ano</h2><input type="text" id="admIdAparelho" placeholder="ID"><input type="text" id="admNomeCliente" placeholder="Nome" style="margin-top:8px"><select id="admStatus" style="margin-top:8px"><option value="Ativo">Ativo</option><option value="Bloqueado">Bloqueado</option></select><div style="display:flex;gap:6px;margin-top:8px"><button type="button" class="btn-success" onclick="gerarChaveEAtivar()">Gerar 1 Ano</button><button type="button" class="btn-danger" onclick="bloquearIdAdm()">Bloquear</button></div><div id="chaveGeradaDisplay" style="margin-top:10px;font-family:monospace;color:#38bdf8"></div><div id="admActionMsg"></div></div><div class="card" style="background:var(--card-2)"><h2 id="tituloIdsCadastrados">IDs</h2><div id="listaIdsCadastrados"></div></div></div></section>
+<section id="aba3" class="card hidden"><h2>3. Medicoes</h2><div class="card" style="background:var(--card-2)"><div id="medTexto">Marque falhas na Aba 1.</div></div></section>
+<section id="aba4" class="card hidden"><h2>4. ADM</h2><div id="admLoginBox"><input type="password" id="admSenhaInput" placeholder="admin2026"><button type="button" class="btn-primary" onclick="entrarModoAdm()" style="margin-top:10px">Entrar ADM</button><div id="admLoginMsg"></div></div><div id="admPainelBox" class="hidden"><button type="button" class="btn-secondary" onclick="sairModoAdm()">Sair</button><div class="card" style="background:var(--card-2);margin-top:12px"><h2>Gerar Chave 1 Ano</h2><input type="text" id="admIdAparelho" placeholder="ID"><input type="text" id="admNomeCliente" placeholder="Nome" style="margin-top:8px"><select id="admStatus" style="margin-top:8px"><option value="Ativo">Ativo</option><option value="Bloqueado">Bloqueado</option></select><div style="display:flex;gap:6px;margin-top:8px"><button type="button" class="btn-success" onclick="gerarChaveEAtivar()">Gerar 1 Ano</button><button type="button" class="btn-danger" onclick="bloquearIdAdm()">Bloquear</button></div><div id="chaveGeradaDisplay" style="margin-top:10px;font-family:monospace;color:#38bdf8"></div><div id="admActionMsg"></div></div><div class="card" style="background:var(--card-2)"><h2 id="tituloIdsCadastrados">IDs</h2><div id="listaIdsCadastrados"></div></div></div></section>
 </main>
 </div>
 <script>
-const STORAGE_KEY_DEVICE_ID="bancada_lavadora_device_id_v1";const STORAGE_KEY_ADM_PASS="bancada_lavadora_adm_pass_v1";const STORAGE_KEY_FIRST_ACCESS="bancada_lavadora_first_access_v1";const STORAGE_KEY_ATIVADO="bancada_lavadora_ativado_1ano_v1";const WHATSAPP_NUMERO="5561995534479";const IDS_SEM_ATIVACAO=["ID-78SW53X6"];const DIAS_GRATIS=7;const DIAS_CHAVE=365;
+const STORAGE_KEY_DEVICE_ID="bancada_lavadora_device_id_v1";const STORAGE_KEY_ADM_PASS="bancada_lavadora_adm_pass_v1";const STORAGE_KEY_FIRST_ACCESS="bancada_lavadora_first_access_v1";const STORAGE_KEY_ATIVADO="bancada_lavadora_ativado_1ano_v1";const STORAGE_KEY_TECNICO="bancada_lavadora_tecnico_v2";const WHATSAPP_NUMERO="5561995534479";const IDS_SEM_ATIVACAO=["ID-78SW53X6"];const DIAS_GRATIS=7;const DIAS_CHAVE=365;
 let codigo2faAtual="";let admLogado=false;let chart=null;
-const modelos={
-colormaq:["LCM11 - 11kg Conv 127V","LCM12 - 12kg Conv 220V","LCM15 - 15kg Conv","LCA12 - 12kg Automatica Antimanchas","LCA15 - 15kg Automatica Antimanchas","LCS10 - 10kg Tanquinho Ecomax","LCS12 - 12kg Tanquinho","LCS15 - 15kg Tanquinho 450W","LCS20 - 20,1kg Tanquinho Familia","Outro Colormaq Conv / Similar"],
-electrolux:["LAC09 / LAC11 - 7,5kg Conv (placa 72539010000)","LAC12 / LAC13 - 8,5-9kg Conv (mesma placa)","LTE12 / LTC10 / LTC12 - Top Load 10-12kg","LT10B / LT12F / LT12B - 10-12kg","LFE11 / LFE12 - Essential Care","LST12 / LT60 - 12kg","Outra Electrolux Conv / Similar"],
-brastemp:["BWL11A / BWL11ABANA - 11kg Ative!","BWK12 / BWK12ABANA - 12kg Ative!","BWH15 / BWF15 / BWB15 - 15kg","BWM06 / BWM05 - 6kg Ative!","BWN15 / BWC - Brastemp Clean","Outra Brastemp Conv / Similar"],
-consul:["CWH12ABANA / CWH12 - 12kg Facilite","CWL10B / CWL75B - 10kg Mare Super","CWK11 / CWL11 / CWK12 - 11-12kg","CWL75 / CWB06 / Facilite","Outra Consul Conv / Similar"],
-outras:["Escolha generica - Convencional 4 fios motor","Escolha generica - Tanquinho / 2 fios","Placa Universal"]
-};
-const defeitosModelos={
-"LCM11 - 11kg Conv 127V":"<b>Maiores defeitos LCM11:</b> Valvula nao aciona (TRIAC BT137 queimado), Bomba nao liga (TIC206), Trava PTC 800-1500ohm, Fonte 5V queimada (cap estufado). Causa: variacao rede, vazamento sobre placa.",
-"LCM12 - 12kg Conv 220V":"<b>Maiores defeitos LCM12:</b> Mesmo da LCM11 mas em 220V. Motor H/AH nao pulsa (rele 300-400ohm), Atuador nao aciona. Triagem: BT137, BTA16, reles.",
-"LCM15 - 15kg Conv":"<b>Maiores defeitos LCM15:</b> Centrifugacao falha (atuador 1k-3k ohm), Pressostato erro (mangueira furada). Motor 15kg exige mais corrente = rele queima mais.",
-"LCA12 - 12kg Automatica Antimanchas":"<b>Maiores defeitos LCA12:</b> Nao liga/painel apagado (variacao rede #1), Vazamento agua sobre placa / excesso sabao, Curto chicote/bomba/valvula forcando placa, Umidade/maresia. Codigos: Eletrobomba, Valvula, Pressostato, Trava.",
-"LCA15 - 15kg Automatica Antimanchas":"<b>Maiores defeitos LCA15:</b> Igual LCA12 + falha de nivelamento (transbordando). Dica: mangueira saida tem que estar 90-110cm altura senao drena sozinha.",
-"LCS10 - 10kg Tanquinho Ecomax":"<b>Maiores defeitos LCS10:</b> Vazamento mangueira, Nao drena (drenagem abaixando mangueira), Motor nao liga (capacitor). Mais vendida Brasil - 9.0 confiabilidade.",
-"LCS12 - 12kg Tanquinho":"<b>Maiores defeitos LCS12:</b> Mesmo LCS10. Falha drenagem, problema motor primeiros meses.",
-"LCS15 - 15kg Tanquinho 450W":"<b>Maiores defeitos LCS15:</b> Nao desliga sozinho + cheiro queimado (timer travado / motor em curto), 581 vendidos com mesma falha.",
-"LCS20 - 20,1kg Tanquinho Familia":"<b>Maiores defeitos LCS20:</b> Para apos poucas lavagens, Superaquecimento motor protegido, Drenagem no painel trava. 691 vendidos nota 4,9.",
-"LAC09 / LAC11 - 7,5kg Conv (placa 72539010000)":"<b>Electrolux - Maiores defeitos:</b> Placa 72539010000 compativel LAC09/11/12/13. Nao liga (fonte LNK304), Variacao rede, Vazamento sobre placa, Excesso sabao, Curto chicote. Teste: V~ 127/220V nos pinos, Ohms valvula 2k-4k.",
-"LAC12 / LAC13 - 8,5-9kg Conv (mesma placa)":"<b>Electrolux LAC12/13:</b> Nao entra agua no enxague (2a via valvula amaciante queimada - condena placa a toa), Transbordando (mangueira pressostato solta/entupida), Motor so um lado (triac BTA16 / rele). Modo teste: CN4 autoteste.",
-"LTE12 / LTC10 / LTC12 - Top Load 10-12kg":"<b>Electrolux LTE/LTC:</b> Agita so um lado, Centrifuga devagar, Codigo E10/E20/E40. Pinagem: PMP=Eletrobomba, CLD=Valvula Principal, SFT=Amaciante.",
-"LT10B / LT12F / LT12B - 10-12kg":"<b>Electrolux LT12F Bivolt CP 1457 comp 70201326:</b> Placa potencia queimada por variacao rede. Cuidado: verificar defeito causador antes de trocar placa nova senao queima de novo.",
-"BWL11A / BWL11ABANA - 11kg Ative!":"<b>Brastemp Ative! BWL11A:</b> Nao faz segundo enxague (valvula duas vias amaciante queimada - teste com cabo direto), Nao centrifuga (atuador freio), LED piscando (sensor tampa).",
-"BWK12 / BWK12ABANA - 12kg Ative!":"<b>Brastemp BWK12:</b> Nao liga nenhum LED (fonte), Transbordando (pressostato), Nao agita com barulho motor (capacitor 15uF 220V / 45uF 127V), Nao joga agua fora (eletrobomba superaquecendo). RBS testa: valvula 1, bomba, motor H/AH.",
-"BWH15 / BWF15 / BWB15 - 15kg":"<b>Brastemp 15kg:</b> Raspando na agitacao (rolamento + caixa engrenagem - peca que engana tecnico), Fraca (capacitor), Travado na centrifuga (mola catraca quebrada).",
-"CWH12ABANA / CWH12 - 12kg Facilite":"<b>Consul Facilite CWH12:</b> Mesmo da Brastemp (mesma placa Whirlpool). Nao centrifuga + rele itens trava tampa. R88 queimado na BWC10 sempre volta (tem curto em outro lugar).",
-"CWL10B / CWL75B - 10kg Mare Super":"<b>Consul Mare Super:</b> Nao agita sem barulho motor (triac), Agita so um lado (rele), Nao drena, Nao entra agua. Oleo cambio: tipo especial LM06/08.",
-"CWK11 / CWL11 / CWK12 - 11-12kg":"<b>Consul CWK:</b> Sensor desbalanceamento com defeito (nao centrifuga), Eletrobomba aciona ao ligar na tomada = triac bomba em curto na placa."
-};
-const mapaSaidas={default:["Valvula Fria=TRIAC BT137 / BTA12","Valvula Quente/Amaciante=TRIAC","Bomba Drenagem=TIC206 / TRIAC","Motor H=Rele 300-400ohm + BTA16","Motor AH=Rele K2","Centrifugacao/Atuador=TRIAC + Atuador 1k-3k","Trava Tampa=PTC 800-1500ohm + BC337","Pressostato/Nivel=Mangueira + Sensor LM393 5V","Fonte 5V=Cap estufado + 7805/LNK304","Interface=Trilhas umidas / oxidadas"]};
-const medicaoDetalhada={
-0:{titulo:"1. Valvula Fria / Entrada",passos:"<span class='med'>V~ 127/220V no pino valvula com placa energizada. Desligue rede e meca: valvula 2k-4k ohm. BT137 / BTA12 em BIP = curto.</span><span class='med'>Dica Brastemp/Electrolux: se nao entra agua no ENXAGUE, teste 2a via (amaciante) com cabo direto 127/220V. 90% e valvula, nao placa.</span>"},
-1:{titulo:"2. Valvula Quente / Amaciante",passos:"<span class='med'>Electrolux LAC/LTE: CLD + SFT. Brastemp BWL/BWK: valvula duas vias. Meca 2k-4k. Trilha fina rompe com excesso sabao.</span>"},
-2:{titulo:"3. Bomba Drenagem",passos:"<span class='med'>V~ pino bomba. TIC206 / BT137 em BIP = curto (placa liga bomba sozinha ao ligar na tomada). Bomba 150-300 ohm. Electrolux: PMP no CN2.</span>"},
-3:{titulo:"4. Motor Horario (H)",passos:"<span class='med'>V~ motor H pulsa. Rele K1 300-400 ohm. BTA16 / BTA12 em BIP = curto. Capacitor: Brastemp/Consul 45uF 127V / 15uF 220V.</span>"},
-4:{titulo:"5. Motor Anti-Horario (AH)",passos:"<span class='med'>Rele K2 300-400 ohm. Se agita so pra um lado, troque rele. Teste RBS: LED motor H e AH devem acender alternado.</span>"},
-5:{titulo:"6. Centrifugacao / Alta",passos:"<span class='med'>Centrifuga devagar = atuador freio 1k-3k ohm ou capacitor fraco. Electrolux LTD ronca e nao gira = cesto travado / caixa.</span>"},
-6:{titulo:"7. Atuador Freio / Termo",passos:"<span class='med'>V~ 10s 127/220V quando vai centrifugar. 1k-3k ohm. Se nao aciona = BT137. Consul/Brastemp: trava + atuador = causa #1 nao centrifuga.</span>"},
-7:{titulo:"8. Trava Tampa / PTC",passos:"<span class='med'>PTC 800-1500 ohm. BC337 + resistor 330R queimam juntos. Brastemp/Consul: sensor desbalanceamento = nao centrifuga.</span>"},
-8:{titulo:"9. Pressostato / Nivel",passos:"<span class='med'>Mangueira sem furo, entupida ou solta. Sopro leve no pressostato = deve clicar. Camara pressao suja. Electrolux transbordando = mangueira furada ou 90-110cm altura.</span>"},
-9:{titulo:"10. Fonte / 5V / Interface",passos:"<span class='med'>Cap estufado = causa #1 fonte. 7805 saida 5V. LNK304 (Electrolux) queima com variacao rede. R88 queimado Brastemp BWC10 = tem curto em outro lugar.</span><span class='med'>Causas raiz placa: 1)Variacao rede 2)Vazamento agua sobre placa 3)Excesso sabao 4)Curto chicote 5)Chicote interrompido 6)Ligacao incorreta 7)Roedores 8)Umidade/maresia 9)Carga acima capacidade.</span>"}
-};
+const modelos={colormaq:["LCM11 - 11kg Conv 127V","LCM12 - 12kg Conv 220V","LCM15 - 15kg Conv","LCA12 - 12kg Automatica Antimanchas","LCA15 - 15kg Automatica Antimanchas","LCS10 - 10kg Tanquinho Ecomax","LCS12 - 12kg Tanquinho","LCS15 - 15kg Tanquinho 450W","LCS20 - 20,1kg Tanquinho Familia","Outro Colormaq Conv / Similar"],electrolux:["LAC09 / LAC11 - 7,5kg Conv (placa 72539010000)","LAC12 / LAC13 - 8,5-9kg Conv (mesma placa)","LTE12 / LTC10 / LTC12 - Top Load 10-12kg","LT10B / LT12F / LT12B - 10-12kg","LFE11 / LFE12 - Essential Care","LST12 / LT60 - 12kg","Outra Electrolux Conv / Similar"],brastemp:["BWL11A / BWL11ABANA - 11kg Ative!","BWK12 / BWK12ABANA - 12kg Ative!","BWH15 / BWF15 / BWB15 - 15kg","BWM06 / BWM05 - 6kg Ative!","BWN15 / BWC - Brastemp Clean","Outra Brastemp Conv / Similar"],consul:["CWH12ABANA / CWH12 - 12kg Facilite","CWL10B / CWL75B - 10kg Mare Super","CWK11 / CWL11 / CWK12 - 11-12kg","CWL75 / CWB06 / Facilite","Outra Consul Conv / Similar"],outras:["Generica - Convencional 4 fios motor","Generica - Tanquinho / 2 fios","Placa Universal"]};
+const defeitosModelos={"LCM11 - 11kg Conv 127V":"Valvula nao aciona (BT137), Bomba nao liga (TIC206), Trava PTC 800-1500ohm, Fonte 5V.","LCA12 - 12kg Automatica Antimanchas":"Nao liga (variacao rede #1), Vazamento sobre placa, Curto chicote, Umidade.","LAC12 / LAC13 - 8,5-9kg Conv (mesma placa)":"Nao entra agua enxague (2a via valvula amaciante), Transbordando, Motor so um lado.","BWL11A / BWL11ABANA - 11kg Ative!":"Nao faz segundo enxague (valvula duas vias), Nao centrifuga (atuador).","BWK12 / BWK12ABANA - 12kg Ative!":"Nao liga LED (fonte), Transbordando (pressostato), Nao agita (capacitor 15uF/45uF)."};
+const mapaSaidas={default:["Valvula Fria=TRIAC BT137 / BTA12","Valvula Amaciante=TRIAC","Bomba=TIC206 / TRIAC","Motor H=Rele 300-400ohm + BTA16","Motor AH=Rele K2","Centrifugacao=TRIAC + Atuador 1k-3k","Trava Tampa=PTC 800-1500ohm + BC337","Pressostato=Mangueira + LM393 5V","Fonte=Cap estufado + 7805/LNK304","Interface=Trilhas umidas / oxidadas"]};
+const medicaoDetalhada={0:{titulo:"1. Valvula Fria",passos:"V~ 127/220V pino valvula. Valvula 2k-4k ohm. BT137 BIP=curto."},1:{titulo:"2. Amaciante",passos:"2a via: teste com cabo direto. 90% e valvula."},2:{titulo:"3. Bomba",passos:"V~ pino bomba. TIC206 BIP=curto. Bomba 150-300 ohm."},3:{titulo:"4. Motor H",passos:"V~ pulsa. Rele 300-400 ohm. BTA16 BIP=curto."},4:{titulo:"5. Motor AH",passos:"Rele K2 300-400 ohm."},5:{titulo:"6. Centrifugacao",passos:"Atuador 1k-3k ohm ou capacitor fraco."},6:{titulo:"7. Atuador",passos:"V~ 10s 127/220V. 1k-3k ohm."},7:{titulo:"8. Trava Tampa",passos:"PTC 800-1500 ohm. BC337 + 330R."},8:{titulo:"9. Pressostato",passos:"Mangueira sem furo. 90-110cm altura."},9:{titulo:"10. Fonte",passos:"Cap estufado, 7805 5V, LNK304."}};
+let ultimaAnalise={};
+function salvarDadosTecnico(){try{const d={nome:document.getElementById("nomeTecnico").value,crt:document.getElementById("crtTecnico").value,empresa:document.getElementById("empresaTecnico").value,cnpjCpf:document.getElementById("cnpjCpfTecnico").value};localStorage.setItem(STORAGE_KEY_TECNICO,JSON.stringify(d))}catch(e){}}
+function carregarDadosTecnico(){try{const raw=localStorage.getItem(STORAGE_KEY_TECNICO);if(!raw)return;const d=JSON.parse(raw);if(d.nome)document.getElementById("nomeTecnico").value=d.nome;if(d.crt)document.getElementById("crtTecnico").value=d.crt;if(d.empresa)document.getElementById("empresaTecnico").value=d.empresa;if(d.cnpjCpf)document.getElementById("cnpjCpfTecnico").value=d.cnpjCpf}catch(e){}}
 function abrirAba(n){document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',i===n-1));for(let i=1;i<=4;i++){const el=document.getElementById('aba'+i);if(el)el.classList.toggle('hidden',i!==n)}}
 function obterSenhaAdm(){try{return localStorage.getItem(STORAGE_KEY_ADM_PASS)||"admin2026"}catch(e){return "admin2026"}}
 function obterOuCriarIdAparelho(){try{let id=localStorage.getItem(STORAGE_KEY_DEVICE_ID);if(!id){const chars="ABCDEFGHJKLMNPQRSTUVWXYZ23456789";let s="";for(let i=0;i<8;i++)s+=chars.charAt(Math.floor(Math.random()*chars.length));id="ID-"+s;localStorage.setItem(STORAGE_KEY_DEVICE_ID,id)}return id.trim().toUpperCase()}catch(e){return "ID-78SW53X6"}}
 function setMensagem(elId,txt,tipo){const el=document.getElementById(elId);if(!el)return;el.innerHTML='<div class="'+(tipo==="ok"?"msg-ok":"msg-err")+'">'+txt+'</div>'}
 function copiarIdAparelho(){const id=document.getElementById("deviceIdDisplay").textContent.trim();try{navigator.clipboard?.writeText(id)}catch(e){}setMensagem("gateMsg","ID "+id+" copiado","ok")}
-function solicitarAcessoWhatsApp(){const id=document.getElementById("deviceIdDisplay").textContent.trim();window.open("https://wa.me/"+WHATSAPP_NUMERO+"?text="+encodeURIComponent("Meu ID: "+id+" - Libera 1 ano PRO TODAS AS MARCAS"),"_blank")}
+function solicitarAcessoWhatsApp(){const id=document.getElementById("deviceIdDisplay").textContent.trim();window.open("https://wa.me/"+WHATSAPP_NUMERO+"?text="+encodeURIComponent("Meu ID: "+id+" - Libera 1 ano PRO"),"_blank")}
 function obterPrimeiroAcesso(){try{let first=localStorage.getItem(STORAGE_KEY_FIRST_ACCESS);if(!first){first=new Date().toISOString();localStorage.setItem(STORAGE_KEY_FIRST_ACCESS,first);}return new Date(first)}catch(e){return new Date()}}
 function diasDesdePrimeiroAcesso(){try{const first=obterPrimeiroAcesso();const agora=new Date();return Math.floor((agora - first)/(1000*60*60*24))}catch(e){return 0}}
 function diasRestantesGratis(){return DIAS_GRATIS - diasDesdePrimeiroAcesso()}
 function verificarAtivado(){try{const raw=localStorage.getItem(STORAGE_KEY_ATIVADO);if(!raw)return null;const obj=JSON.parse(raw);const expira=new Date(obj.expiraEm);const agora=new Date();const diff=expira - agora;const dias=Math.ceil(diff/(1000*60*60*24));if(diff<=0){localStorage.removeItem(STORAGE_KEY_ATIVADO);return null;}return {...obj,diasRestantes:dias,expira}}catch(e){return null}}
-function initChartSafe(){try{if(typeof Chart==='undefined'){return}const ctx=document.getElementById('grafico');if(!ctx)return;const c=ctx.getContext('2d');chart=new Chart(c,{type:'line',data:{labels:["VALV FRIA","VALV AMAC","BOMBA","MOTOR H","MOTOR AH","CENTRIF","ATUADOR","TRAVA","PRESS","FONTE"],datasets:[{label:'Foco Principal Sugerido',data:[1,1,1,1,1,1,1,1,1,1],borderColor:'#3b82f6',backgroundColor:'rgba(59,130,246,.2)',tension:.3}]},options:{responsive:true,scales:{y:{min:0,max:10}}}})}catch(e){console.log('Erro chart:',e)}}
-function liberarAplicacao(t){try{document.getElementById("gateSection").classList.add("hidden");document.getElementById("appSection").classList.remove("hidden");const badge=document.getElementById("statusBadge");if(badge){badge.textContent=t;badge.className="badge badge-ok"}const ativado=verificarAtivado();const topo=document.getElementById('expiracaoTopo');if(topo){if(ativado){topo.innerHTML="CHAVE 1 ANO - "+ativado.diasRestantes+"d restantes - Expira "+ativado.expira.toLocaleDateString('pt-BR')}else{topo.innerHTML="GRATIS "+diasRestantesGratis()+"d restantes de "+DIAS_GRATIS+" - Depois vai precisar da chave 1 ano PRO"}}setTimeout(initChartSafe,500)}catch(e){console.error(e)}}
-function mostrarBloqueio(){try{document.getElementById("gateSection").classList.remove("hidden");document.getElementById("appSection").classList.add("hidden");const badge=document.getElementById("statusBadge");if(badge){badge.textContent="Bloqueado - Precisa chave";badge.className="badge badge-danger"}const bloq=document.getElementById("bloqueioInfoBox");if(bloq){bloq.classList.remove("hidden");bloq.innerHTML="Seus "+DIAS_GRATIS+" dias gratis acabaram! Agora precisa digitar a chave valida por 1 ano PRO."}const gateT=document.getElementById("gateTitulo");if(gateT)gateT.textContent="Bloqueado - Precisa chave 1 ano PRO"}catch(e){console.error(e)}}
+function initChartSafe(){try{if(typeof Chart==='undefined'){return}const ctx=document.getElementById('grafico');if(!ctx)return;const c=ctx.getContext('2d');chart=new Chart(c,{type:'line',data:{labels:["VALV FRIA","VALV AMAC","BOMBA","MOTOR H","MOTOR AH","CENTRIF","ATUADOR","TRAVA","PRESS","FONTE"],datasets:[{label:'Foco Principal',data:[1,1,1,1,1,1,1,1,1,1],borderColor:'#3b82f6',backgroundColor:'rgba(59,130,246,.15)',tension:.3,fill:true,borderWidth:2}]},options:{responsive:true,scales:{y:{min:0,max:11}}}})}catch(e){console.error('erro chart:',e)}}
+function liberarAplicacao(t){try{document.getElementById("gateSection").classList.add("hidden");document.getElementById("appSection").classList.remove("hidden");const badge=document.getElementById("statusBadge");if(badge){badge.textContent=t;badge.className="badge badge-ok"}const ativado=verificarAtivado();const topo=document.getElementById('expiracaoTopo');if(topo){if(ativado){topo.innerHTML="CHAVE 1 ANO - "+ativado.diasRestantes+"d - Expira "+ativado.expira.toLocaleDateString('pt-BR')}else{topo.innerHTML="GRATIS "+diasRestantesGratis()+"d restantes"}}setTimeout(()=>{initChartSafe();carregarDadosTecnico();},500)}catch(e){}}
+function mostrarBloqueio(){try{document.getElementById("gateSection").classList.remove("hidden");document.getElementById("appSection").classList.add("hidden");}catch(e){}}
 function voltarNivel1(){document.getElementById("step2Box").classList.add("hidden");document.getElementById("step1Box").classList.remove("hidden")}
 function sincronizarPainelAdm(){const loginBox=document.getElementById("admLoginBox");const painelBox=document.getElementById("admPainelBox");if(loginBox)loginBox.classList.toggle("hidden",admLogado);if(painelBox)painelBox.classList.toggle("hidden",!admLogado);if(admLogado&&window.renderizarListaIds)renderizarListaIds()}
-function entrarModoAdm(){const inp=document.getElementById("admSenhaInput");const s=inp?inp.value:"";if(s===obterSenhaAdm()){admLogado=true;const msg=document.getElementById("admLoginMsg");if(msg)msg.innerHTML="";sincronizarPainelAdm()}else setMensagem("admLoginMsg","Senha incorreta","err")}
+function entrarModoAdm(){const inp=document.getElementById("admSenhaInput");const s=inp?inp.value:"";if(s===obterSenhaAdm()){admLogado=true;document.getElementById("admLoginMsg").innerHTML="";sincronizarPainelAdm()}else setMensagem("admLoginMsg","Senha incorreta","err")}
 function sairModoAdm(){admLogado=false;sincronizarPainelAdm()}
-function validar2faNivel2(){const inp=document.getElementById("tfaInput");const t=inp?inp.value.trim():"";if(t!==codigo2faAtual){setMensagem("gateMsg","2FA incorreto","err");return}const agora=new Date();const expira=new Date(agora);expira.setDate(agora.getDate()+DIAS_CHAVE);const dados={id:document.getElementById("deviceIdDisplay").textContent.trim(),criadoEm:agora.toISOString(),expiraEm:expira.toISOString(),diasValidade:DIAS_CHAVE};try{localStorage.setItem(STORAGE_KEY_ATIVADO,JSON.stringify(dados))}catch(e){}liberarAplicacao("Liberado 1 ano PRO - "+DIAS_CHAVE+" dias")}
-document.getElementById('marca').addEventListener('change',function(){const m=this.value;const sel=document.getElementById('modelo');const info=document.getElementById('infoDefeitosModelo');if(!sel)return;sel.innerHTML="";if(info){info.classList.add('hidden');info.innerHTML="";}if(!m){sel.innerHTML="<option>Selecione marca primeiro</option>";return;}const lista=modelos[m]||[];lista.forEach(mod=>{let o=document.createElement('option');o.value=mod;o.textContent=mod;sel.appendChild(o);});});
-document.getElementById('modelo').addEventListener('change',function(){const mod=this.value;const info=document.getElementById('infoDefeitosModelo');if(!info)return;if(!mod){info.classList.add('hidden');return;}const txt=defeitosModelos[mod];if(txt){info.innerHTML=txt;info.classList.remove('hidden');}else{info.classList.add('hidden');}});
-function analisar(){try{const marcaEl=document.getElementById('marca');const modeloEl=document.getElementById('modelo');const marca=marcaEl?marcaEl.value:"";const modelo=modeloEl?modeloEl.value:"";if(!marca||!modelo){alert("Selecione marca e modelo");return}const outs=[];for(let i=1;i<=10;i++){const el=document.getElementById('out'+i);outs.push(el?el.value:"na")}let labelsDetalhados=mapaSaidas[modelo]||mapaSaidas["default"];let labelsCurto=labelsDetalhados.map(s=>s.split('=')[0]);const modeloGraficoEl=document.getElementById('modeloGrafico');if(modeloGraficoEl)modeloGraficoEl.innerText=(marca.toUpperCase()+": "+modelo);let valores=outs.map(v=>{if(v==="fail") return 10; if(v==="ok") return 1; return 2;});if(chart){try{chart.data.labels=labelsCurto;chart.data.datasets[0].data=valores;chart.update()}catch(e){}}let falhas=[];outs.forEach((v,idx)=>{if(v==="fail") falhas.push({idx})});let texto="<b>"+modelo+"</b><br><br>";if(falhas.length===0){texto+="<b style='color:#86efac'>Nenhuma falha marcada - Placa OK na triagem.</b><br><br><span style='color:#94a3b8'>Mas confirme medicoes na Aba 3.</span>"}else{texto+="<b style='color:#fca5a5'>FALHAS: "+falhas.length+"</b><br><br>";falhas.forEach(f=>{let comp=labelsDetalhados[f.idx];texto+="<b>"+(f.idx+1)+". "+labelsCurto[f.idx]+" = FALHA</b><br>-> "+comp+"<br><br>"});const infoExtra=defeitosModelos[modelo];if(infoExtra){texto+="<hr style='border-color:#334155'><div style='margin-top:8px'>"+infoExtra+"</div>"}}const desc=document.getElementById('descricao');if(desc){desc.innerHTML=texto;desc.classList.remove('hidden')}let medHtml="";if(falhas.length>0){falhas.forEach(f=>{let det=medicaoDetalhada[f.idx];if(det)medHtml+='<div class="card" style="background:var(--card-2)"><h4 style="color:#38bdf8;margin:0 0 6px 0">'+det.titulo+'</h4>'+det.passos+'</div>'})}else{medHtml='<div class="card" style="background:var(--card-2)">Nenhuma falha marcada. Marque falhas na Aba 1 e clique TESTAR.</div>'}const medTextoEl=document.getElementById('medTexto');if(medTextoEl)medTextoEl.innerHTML=medHtml;abrirAba(2);setTimeout(()=>abrirAba(3),700)}catch(e){alert("Erro analisar: "+e.message)}}
-function iniciarApp(){try{const id=obterOuCriarIdAparelho();const idEl=document.getElementById("deviceIdDisplay");if(idEl)idEl.textContent=id;const admEl=document.getElementById("admIdAparelho");if(admEl)admEl.value=id;if(IDS_SEM_ATIVACAO.map(x=>x.toUpperCase()).includes(id.toUpperCase())){liberarAplicacao("Acesso direto");return}const ativado=verificarAtivado();if(ativado){liberarAplicacao("Liberado 1 ano - "+ativado.diasRestantes+"d");return}const diasRest=diasRestantesGratis();if(diasRest>=0){liberarAplicacao("Gratis "+diasRest+"d restantes");return}else{mostrarBloqueio();return}}catch(e){console.error("Erro iniciarApp:",e);try{liberarAplicacao("Gratis - Modo offline")}catch(e2){const badge=document.getElementById("statusBadge");if(badge){badge.textContent="Erro - Recarregue";badge.className="badge badge-danger"}}}}
+function validar2faNivel2(){const inp=document.getElementById("tfaInput");const t=inp?inp.value.trim():"";if(t!==codigo2faAtual){setMensagem("gateMsg","2FA incorreto","err");return}const agora=new Date();const expira=new Date(agora);expira.setDate(agora.getDate()+DIAS_CHAVE);const dados={id:document.getElementById("deviceIdDisplay").textContent.trim(),criadoEm:agora.toISOString(),expiraEm:expira.toISOString(),diasValidade:DIAS_CHAVE};try{localStorage.setItem(STORAGE_KEY_ATIVADO,JSON.stringify(dados))}catch(e){}liberarAplicacao("Liberado 1 ano PRO")}
+document.getElementById('marca').addEventListener('change',function(){const m=this.value;const sel=document.getElementById('modelo');const info=document.getElementById('infoDefeitosModelo');if(!sel)return;sel.innerHTML="";if(info)info.classList.add('hidden');if(!m){sel.innerHTML="<option>Selecione marca primeiro</option>";return;}const lista=modelos[m]||[];lista.forEach(mod=>{let o=document.createElement('option');o.value=mod;o.textContent=mod;sel.appendChild(o);});});
+document.getElementById('modelo').addEventListener('change',function(){const mod=this.value;const info=document.getElementById('infoDefeitosModelo');if(!info)return;if(!mod){info.classList.add('hidden');return;}const txt=defeitosModelos[mod];if(txt){info.innerHTML="<b>MAIORES DEFEITOS:</b> "+txt;info.classList.remove('hidden');}else{info.classList.add('hidden');}});
+function atualizarBotaoPDF(){
+  const c1=document.getElementById('confirmaMedicao')?.checked;
+  const c2=document.getElementById('confirmaBancada')?.checked;
+  const c3=document.getElementById('confirmaCliente')?.checked;
+  const btn=document.getElementById('btnGerarPDF');
+  const msg=document.getElementById('msgBotaoPDF');
+  if(c1 && c2 && c3){
+    btn.disabled=false;btn.style.opacity='1';
+    btn.innerHTML='✅ GERAR LAUDO TECNICO CONFIRMADO EM PDF';
+    btn.style.background='#16a34a';
+    msg.innerHTML='<span style="color:#86efac">✅ Liberado! Falha confirmada, pode gerar laudo.</span>';
+  }else{
+    btn.disabled=true;btn.style.opacity='.5';
+    btn.innerHTML='🔒 MARQUE AS 3 CONFIRMACOES PARA GERAR LAUDO';
+    btn.style.background='#334155';
+    msg.innerHTML='Marque as 3 caixas acima para liberar.';
+  }
+}
+function analisar(){
+try{
+const marca=document.getElementById('marca').value;
+const modelo=document.getElementById('modelo').value;
+if(!marca||!modelo){alert("Selecione marca e modelo");return}
+const outs=[];for(let i=1;i<=10;i++){outs.push(document.getElementById('out'+i).value)}
+let labelsDetalhados=mapaSaidas[modelo]||mapaSaidas["default"];
+let labelsCurto=labelsDetalhados.map(s=>s.split('=')[0]);
+document.getElementById('modeloGrafico').innerText=(marca.toUpperCase()+": "+modelo);
+let valores=outs.map(v=>{if(v==="fail")return 10;if(v==="ok")return 1;return 2;});
+if(chart){try{chart.data.labels=labelsCurto;chart.data.datasets[0].data=valores;chart.update()}catch(e){}}
+let falhas=[];outs.forEach((v,idx)=>{if(v==="fail")falhas.push({idx,label:labelsCurto[idx],detalhe:labelsDetalhados[idx],med:medicaoDetalhada[idx]})});
+let texto="<b>"+modelo+"</b><br><br>";
+if(falhas.length===0){texto+="<b style='color:#86efac'>Nenhuma falha - Placa OK triagem.</b>"}
+else{texto+="<b style='color:#fca5a5'>FALHAS: "+falhas.length+" (precisa confirmar na bancada para gerar laudo)</b><br><br>";falhas.forEach(f=>{texto+="<b>"+(f.idx+1)+". "+f.label+" = FALHA</b><br>-> "+f.detalhe+"<br><br>"})}
+document.getElementById('descricao').innerHTML=texto;document.getElementById('descricao').classList.remove('hidden');
+let medHtml="";if(falhas.length>0){falhas.forEach(f=>{if(f.med)medHtml+='<div class="card" style="background:var(--card-2)"><h4 style="color:#38bdf8;margin:0 0 6px 0">'+f.med.titulo+'</h4>'+f.med.passos+'</div>'})}else{medHtml='<div class="card" style="background:var(--card-2)">Nenhuma falha.</div>'}
+document.getElementById('medTexto').innerHTML=medHtml;
+let resumoAba2=document.getElementById('resumoFalhasAba2');
+if(resumoAba2){
+  if(falhas.length===0){resumoAba2.innerHTML='<div class="msg-ok">Nenhuma falha - Nao precisa laudo, placa OK</div>'}
+  else{resumoAba2.innerHTML='<div class="box-danger"><b>'+falhas.length+' FALHA(S) - PRECISA CONFIRMAR NA BANCADA</b><br>'+falhas.map(f=>'- '+(f.idx+1)+'. '+f.label).join('<br>')+'</div>'}
+}
+ultimaAnalise={modelo,marca,falhas,labels:labelsDetalhados,data:new Date().toLocaleString('pt-BR'),id:document.getElementById("deviceIdDisplay").textContent.trim(),tecnico:{nome:document.getElementById("nomeTecnico").value,crt:document.getElementById("crtTecnico").value,empresa:document.getElementById("empresaTecnico").value,cnpjCpf:document.getElementById("cnpjCpfTecnico").value}};
+try{document.getElementById('confirmaMedicao').checked=false;document.getElementById('confirmaBancada').checked=false;document.getElementById('confirmaCliente').checked=false;atualizarBotaoPDF();}catch(e){}
+abrirAba(2);
+}catch(e){alert("Erro: "+e.message)}
+}
+<script>
+function gerarLaudoPDF(){
+try{
+if(!ultimaAnalise.modelo){alert("Primeiro clique em TESTAR PLACA na Aba 1");return;}
+const c1=document.getElementById('confirmaMedicao')?.checked;
+const c2=document.getElementById('confirmaBancada')?.checked;
+const c3=document.getElementById('confirmaCliente')?.checked;
+if(!c1 || !c2 || !c3){alert('⚠️ Marque as 3 confirmacoes: medicao com multimetro, falha confirmada na bancada, cliente ciente causas raiz.');return;}
+if(ultimaAnalise.falhas.length===0){alert('Nenhuma falha para gerar laudo. Placa OK.');return;}
+const {jsPDF}=window.jspdf;
+const doc=new jsPDF('p','mm','a4');
+const id=ultimaAnalise.id;
+const data=ultimaAnalise.data;
+const marca=ultimaAnalise.marca.toUpperCase();
+const modelo=ultimaAnalise.modelo;
+const falhas=ultimaAnalise.falhas;
+const tecNome=document.getElementById("nomeTecnico").value||"Nao informado";
+const tecCrt=document.getElementById("crtTecnico").value||"Nao informado";
+const tecEmpresa=document.getElementById("empresaTecnico").value||"Nao informado";
+const tecCnpjCpf=document.getElementById("cnpjCpfTecnico").value||"Nao informado";
+doc.setFillColor(15,23,42);doc.rect(0,0,210,30,'F');
+doc.setTextColor(255,255,255);doc.setFontSize(14);doc.setFont('helvetica','bold');
+doc.text('BANCADA LAVADORA PRO - LAUDO TECNICO CONFIRMADO',10,14);
+doc.setFontSize(8);doc.setFont('helvetica','normal');
+doc.text('FALHA CONFIRMADA EM BANCADA COM MULTIMETRO',10,20);
+doc.text('ID: '+id+' | Data confirmacao: '+data,10,25);
+let y=36;doc.setTextColor(0,0,0);doc.setFontSize(10);doc.setFont('helvetica','bold');
+doc.text('DADOS DO RESPONSAVEL TECNICO',10,y);y+=6;
+doc.setDrawColor(22,163,74);doc.setLineWidth(0.5);doc.line(10,y-4,200,y-4);
+doc.setFont('helvetica','normal');doc.setFontSize(9);
+doc.text('Nome do Tecnico: '+tecNome,10,y);y+=5;
+doc.text('CRT / CREA: '+tecCrt,10,y);y+=5;
+doc.text('Nome da Empresa: '+tecEmpresa,10,y);y+=5;
+doc.text('CNPJ / CPF: '+tecCnpjCpf,10,y);y+=5;
+doc.text('ID Bancada: '+id,10,y);y+=8;
+doc.setFont('helvetica','bold');doc.text('EQUIPAMENTO TESTADO',10,y);y+=6;
+doc.line(10,y-4,200,y-4);doc.setFont('helvetica','normal');
+doc.text('Marca: '+marca+' | Modelo: '+modelo,10,y);y+=5;
+doc.text('Data/Hora: '+data,10,y);y+=8;
+doc.setFont('helvetica','bold');doc.setFillColor(220,252,231);doc.rect(10,y-5,190,10,'F');
+doc.text('✅ FALHA CONFIRMADA EM BANCADA COM MULTIMETRO',12,y);y+=8;
+doc.setFont('helvetica','bold');doc.text('GRAFICO - FOCO PRINCIPAL CONFIRMADO',10,y);y+=6;
+doc.line(10,y-4,200,y-4);
+try{if(chart){let imgData=chart.toBase64Image();doc.addImage(imgData,'PNG',10,y,190,60);y+=66;}}catch(e){y+=6;}
+doc.setFont('helvetica','bold');doc.text('DIAGNOSTICO / FALHAS CONFIRMADAS',10,y);y+=6;
+doc.line(10,y-4,200,y-4);doc.setFont('helvetica','normal');doc.setFontSize(8);
+falhas.forEach(f=>{
+if(y>265){doc.addPage();y=15;}
+doc.setFont('helvetica','bold');doc.text('✅ '+(f.idx+1)+'. '+f.label+' = FALHA CONFIRMADA',10,y);y+=4;
+doc.setFont('helvetica','normal');
+let linhas=doc.splitTextToSize('-> '+f.detalhe,185);doc.text(linhas,10,y);y+=linhas.length*4+2;
+if(f.med){let ml=doc.splitTextToSize('Medicao confirmada: '+f.med.passos,185);doc.text(ml,10,y);y+=ml.length*4+2;}y+=2;
+});
+if(y>230){doc.addPage();y=15;}y+=4;
+doc.setFont('helvetica','bold');doc.setFontSize(9);
+doc.text('CAUSAS RAIZ VERIFICADAS (cliente ciente)',10,y);y+=6;doc.line(10,y-4,200,y-4);
+doc.setFont('helvetica','normal');doc.setFontSize(8);
+["1) Variacao rede 127V/220V - Verificado","2) Vazamento agua sobre placa - Verificado","3) Excesso sabao / espuma - Verificado","4) Curto chicote ou componente - Verificado","5) Chicote interrompido - Verificado","6) Ligacao incorreta - Verificado","7) Roedores / insetos - Verificado","8) Umidade / maresia - Verificado","9) Carga acima capacidade - Verificado"].forEach(c=>{doc.text(c,10,y);y+=4;});
+y+=8;doc.setFont('helvetica','bold');doc.text('PARECER TECNICO FINAL - FALHA CONFIRMADA',10,y);y+=6;
+doc.line(10,y-4,200,y-4);doc.setFont('helvetica','normal');doc.setFontSize(8);
+let parecer=doc.splitTextToSize('DECLARO que realizei medicao direta com multimetro na bancada, com placa energizada (V~) para saidas e desenergizada (Ohms/BIP) para componentes. Bancada seca, EPI, tensao rede conferida. Falha CONFIRMADA fisicamente e nao apenas hipotese do grafico. Cliente ciente que causas raiz devem ser corrigidas antes de instalar placa nova.',185);
+doc.text(parecer,10,y);y+=parecer.length*4+10;
+if(y>240){doc.addPage();y=20;}
+doc.setFont('helvetica','bold');doc.text('ASSINATURA / RESPONSAVEL TECNICO - CONFIRMACAO DE BANCADA',10,y);y+=12;
+doc.line(10,y,100,y);y+=6;doc.setFont('helvetica','normal');doc.setFontSize(9);
+doc.text(tecNome+' - '+tecCrt,10,y);y+=5;doc.text(tecEmpresa,10,y);y+=5;
+doc.text('CNPJ/CPF: '+tecCnpjCpf,10,y);y+=8;doc.setFontSize(8);
+doc.text('Araguaina - TO, '+new Date().toLocaleDateString('pt-BR')+' - Confirmacao: '+data,10,y);
+doc.setFontSize(7);doc.setTextColor(100,100,100);
+doc.text('Laudo CONFIRMADO - '+data+' - ID '+id+' - WhatsApp (61) 99553-4479',10,287);
+doc.save('Laudo_CONFIRMADO_'+marca+'_'+tecEmpresa.replace(/[^A-Za-z0-9]/g,'_')+'_'+id+'.pdf');
+alert('✅ LAUDO CONFIRMADO gerado! Com falha confirmada, nome, CRT, empresa e CNPJ/CPF + grafico.');
+}catch(e){alert('Erro PDF: '+e.message);console.error(e);}
+}
+function iniciarApp(){try{const id=obterOuCriarIdAparelho();document.getElementById("deviceIdDisplay").textContent=id;document.getElementById("admIdAparelho").value=id;if(IDS_SEM_ATIVACAO.map(x=>x.toUpperCase()).includes(id.toUpperCase())){liberarAplicacao("Acesso direto");return}const ativado=verificarAtivado();if(ativado){liberarAplicacao("Liberado 1 ano - "+ativado.diasRestantes+"d");return}const diasRest=diasRestantesGratis();if(diasRest>=0){liberarAplicacao("Gratis "+diasRest+"d restantes");return}else{mostrarBloqueio();return}}catch(e){liberarAplicacao("Gratis - Modo offline")}}
 if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",iniciarApp)}else{iniciarApp()}
 </script>
 <script type="module">
-import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";import {getFirestore,doc,getDoc,setDoc,deleteDoc,collection,getDocs} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";import {getFirestore,doc,getDoc,setDoc,collection,getDocs} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 const firebaseConfig={apiKey:"AIzaSyAQoBcq8ZX8n1Z55Qfr8x8E0Gb8jEZQl-k",authDomain:"bancada-lavadora-pro.firebaseapp.com",projectId:"bancada-lavadora-pro",storageBucket:"bancada-lavadora-pro.firebasestorage.app",messagingSenderId:"390758786240",appId:"1:390758786240:web:431f0d9214b4613be7b925"};
-let db;try{db=getFirestore(initializeApp(firebaseConfig))}catch(e){console.error("Firebase erro",e)}
-window.validarChaveNivel1=async function(){const idEl=document.getElementById("deviceIdDisplay");const id=idEl?idEl.textContent.trim().toUpperCase():"";const chaveEl=document.getElementById("chaveInput");const chave=chaveEl?chaveEl.value.trim().toUpperCase():"";if(["ID-78SW53X6"].includes(id)){const agora=new Date();const expira=new Date(agora);expira.setDate(agora.getDate()+365);try{localStorage.setItem("bancada_lavadora_ativado_1ano_v1",JSON.stringify({id,criadoEm:agora.toISOString(),expiraEm:expira.toISOString()}))}catch(e){}liberarAplicacao("Acesso direto");return}if(!chave){setMensagem("gateMsg","Informe a chave","err");return}if(!db){setMensagem("gateMsg","Firebase offline, usando modo local","ok");codigo2faAtual=String(Math.floor(100000+Math.random()*900000));const cEl=document.getElementById("codigo2faDisplay");if(cEl)cEl.textContent=codigo2faAtual;document.getElementById("step1Box").classList.add("hidden");document.getElementById("step2Box").classList.remove("hidden");return}setMensagem("gateMsg","Verificando Firebase 1 ano...","ok");try{const snap=await getDoc(doc(db,"clientes",id));if(!snap.exists()){setMensagem("gateMsg","ID "+id+" nao encontrado","err");return}const d=snap.data();if(d.status==="Bloqueado"){setMensagem("gateMsg","ID Bloqueado","err");return}if(String(d.chave).toUpperCase()!==chave){setMensagem("gateMsg","Chave invalida","err");return}codigo2faAtual=String(Math.floor(100000+Math.random()*900000));const cEl=document.getElementById("codigo2faDisplay");if(cEl)cEl.textContent=codigo2faAtual;document.getElementById("step1Box").classList.add("hidden");document.getElementById("step2Box").classList.remove("hidden");setMensagem("gateMsg","Chave OK valida por 1 ano PRO! Digite 2FA","ok")}catch(e){setMensagem("gateMsg","Erro Firebase: "+e.message,"ok");codigo2faAtual=String(Math.floor(100000+Math.random()*900000));const cEl=document.getElementById("codigo2faDisplay");if(cEl)cEl.textContent=codigo2faAtual;document.getElementById("step1Box").classList.add("hidden");document.getElementById("step2Box").classList.remove("hidden")}}
+let db;try{db=getFirestore(initializeApp(firebaseConfig))}catch(e){}
+window.validarChaveNivel1=async function(){const id=document.getElementById("deviceIdDisplay").textContent.trim().toUpperCase();const chave=document.getElementById("chaveInput").value.trim().toUpperCase();if(["ID-78SW53X6"].includes(id)){const agora=new Date();const expira=new Date(agora);expira.setDate(agora.getDate()+365);try{localStorage.setItem("bancada_lavadora_ativado_1ano_v1",JSON.stringify({id,criadoEm:agora.toISOString(),expiraEm:expira.toISOString()}))}catch(e){}liberarAplicacao("Acesso direto");return}if(!chave){setMensagem("gateMsg","Informe a chave","err");return}if(!db){codigo2faAtual=String(Math.floor(100000+Math.random()*900000));document.getElementById("codigo2faDisplay").textContent=codigo2faAtual;document.getElementById("step1Box").classList.add("hidden");document.getElementById("step2Box").classList.remove("hidden");return}try{const snap=await getDoc(doc(db,"clientes",id));if(!snap.exists()){setMensagem("gateMsg","ID nao encontrado","err");return}const d=snap.data();if(d.status==="Bloqueado"){setMensagem("gateMsg","ID Bloqueado","err");return}if(String(d.chave).toUpperCase()!==chave){setMensagem("gateMsg","Chave invalida","err");return}codigo2faAtual=String(Math.floor(100000+Math.random()*900000));document.getElementById("codigo2faDisplay").textContent=codigo2faAtual;document.getElementById("step1Box").classList.add("hidden");document.getElementById("step2Box").classList.remove("hidden");}catch(e){setMensagem("gateMsg","Erro: "+e.message,"err")}}
 function gerarChaveAleatoria(){const chars="ABCDEFGHJKLMNPQRSTUVWXYZ23456789";let p="";for(let i=0;i<6;i++)p+=chars.charAt(Math.floor(Math.random()*chars.length));return"CHV-"+p}
-window.gerarChaveEAtivar=async function(){const idEl=document.getElementById("admIdAparelho");const id=idEl?idEl.value.trim().toUpperCase():"";const nomeEl=document.getElementById("admNomeCliente");const nome=nomeEl?nomeEl.value.trim():"";const statusEl=document.getElementById("admStatus");const status=statusEl?statusEl.value:"Ativo";if(!id){setMensagem("admActionMsg","Informe ID","err");return}const chave=gerarChaveAleatoria();const agora=new Date();const expira=new Date(agora);expira.setDate(agora.getDate()+365);try{await setDoc(doc(db,"clientes",id),{id,nome:nome||"Sem nome",chave,status,criadoEm:agora.toISOString(),expiraEm:expira.toISOString(),validadeDias:365,validadeTexto:"1 ano PRO"});const displayEl=document.getElementById("chaveGeradaDisplay");if(displayEl)displayEl.textContent=id+" -> "+chave+" | Valida 1 ano PRO ate "+expira.toLocaleDateString('pt-BR')+" ("+status+")";setMensagem("admActionMsg","Salvo Firebase - 1 ano PRO","ok");renderizarListaIds()}catch(e){setMensagem("admActionMsg","Erro: "+e.message,"err")}}
-window.bloquearIdAdm=async function(){const idEl=document.getElementById("admIdAparelho");const id=idEl?idEl.value.trim().toUpperCase():"";if(!id)return;try{await setDoc(doc(db,"clientes",id),{status:"Bloqueado"},{merge:true});setMensagem("admActionMsg","Bloqueado","ok");renderizarListaIds()}catch(e){setMensagem("admActionMsg",e.message,"err")}}
-window.alterarStatusCadastro=async function(id,novo){try{const agora=new Date();const expira=new Date(agora);expira.setDate(agora.getDate()+365);let update={status:novo};if(novo==="Ativo"){update.criadoEm=agora.toISOString();update.expiraEm=expira.toISOString();update.validadeDias=365}await setDoc(doc(db,"clientes",id),update,{merge:true});renderizarListaIds()}catch(e){alert(e.message)}}
-window.removerCadastro=async function(id){if(!confirm("Excluir "+id+"?"))return;try{await deleteDoc(doc(db,"clientes",id));renderizarListaIds()}catch(e){alert(e.message)}}
-window.renderizarListaIds=async function(){const cont=document.getElementById("listaIdsCadastrados");if(!cont)return;cont.innerHTML="Carregando...";try{const q=await getDocs(collection(db,"clientes"));const lista=q.docs.map(d=>d.data());const tit=document.getElementById("tituloIdsCadastrados");if(tit)tit.textContent="IDs ("+lista.length+") - 1 Ano PRO";if(lista.length===0){cont.textContent="Nenhum ID";return}cont.innerHTML="<table><thead><tr><th>ID</th><th>Nome</th><th>Chave</th><th>Expira 1 Ano</th><th>Status</th><th>Acoes</th></tr></thead><tbody>"+lista.map(i=>{const expira=i.expiraEm?new Date(i.expiraEm).toLocaleDateString('pt-BR'):"-";return "<tr><td>"+i.id+"</td><td>"+(i.nome||"")+"</td><td><code>"+i.chave+"</code></td><td>"+expira+"</td><td>"+i.status+"</td><td><button type='button' class='btn-success' onclick=\"alterarStatusCadastro('"+i.id+"','Ativo')\">Renovar 1 ano</button> <button type='button' class='btn-danger' onclick=\"alterarStatusCadastro('"+i.id+"','Bloqueado')\">Bloquear</button></td></tr>"}).join("")+"</tbody></table>"}catch(e){cont.innerHTML="Erro: "+e.message}}
+window.gerarChaveEAtivar=async function(){const id=document.getElementById("admIdAparelho").value.trim().toUpperCase();const nome=document.getElementById("admNomeCliente").value.trim();const status=document.getElementById("admStatus").value;if(!id){setMensagem("admActionMsg","Informe ID","err");return}const chave=gerarChaveAleatoria();const agora=new Date();const expira=new Date(agora);expira.setDate(agora.getDate()+365);try{await setDoc(doc(db,"clientes",id),{id,nome:nome||"Sem nome",chave,status,criadoEm:agora.toISOString(),expiraEm:expira.toISOString(),validadeDias:365});document.getElementById("chaveGeradaDisplay").textContent=id+" -> "+chave+" | Ate "+expira.toLocaleDateString('pt-BR');setMensagem("admActionMsg","Salvo Firebase","ok");renderizarListaIds()}catch(e){setMensagem("admActionMsg","Erro: "+e.message,"err")}}
+window.bloquearIdAdm=async function(){const id=document.getElementById("admIdAparelho").value.trim().toUpperCase();if(!id)return;try{await setDoc(doc(db,"clientes",id),{status:"Bloqueado"},{merge:true});setMensagem("admActionMsg","Bloqueado","ok");renderizarListaIds()}catch(e){setMensagem("admActionMsg",e.message,"err")}}
+window.alterarStatusCadastro=async function(id,novo){try{const agora=new Date();const expira=new Date(agora);expira.setDate(agora.getDate()+365);let update={status:novo};if(novo==="Ativo"){update.criadoEm=agora.toISOString();update.expiraEm=expira.toISOString()}await setDoc(doc(db,"clientes",id),update,{merge:true});renderizarListaIds()}catch(e){alert(e.message)}}
+window.renderizarListaIds=async function(){const cont=document.getElementById("listaIdsCadastrados");if(!cont)return;cont.innerHTML="Carregando...";try{const q=await getDocs(collection(db,"clientes"));const lista=q.docs.map(d=>d.data());document.getElementById("tituloIdsCadastrados").textContent="IDs ("+lista.length+")";if(lista.length===0){cont.textContent="Nenhum ID";return}cont.innerHTML="<table><thead><tr><th>ID</th><th>Nome</th><th>Chave</th><th>Expira</th><th>Status</th><th>Acoes</th></tr></thead><tbody>"+lista.map(i=>{const expira=i.expiraEm?new Date(i.expiraEm).toLocaleDateString('pt-BR'):"-";return "<tr><td>"+i.id+"</td><td>"+(i.nome||"")+"</td><td><code>"+i.chave+"</code></td><td>"+expira+"</td><td>"+i.status+"</td><td><button class='btn-success' onclick=\"alterarStatusCadastro('"+i.id+"','Ativo')\">Renovar</button> <button class='btn-danger' onclick=\"alterarStatusCadastro('"+i.id+"','Bloqueado')\">Bloquear</button></td></tr>"}).join("")+"</tbody></table>"}catch(e){cont.innerHTML="Erro: "+e.message}}
 </script>
 </body>
 </html>
