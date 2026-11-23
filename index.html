@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bancada Lavadora PRO - COMPLETO</title>
+<title>Bancada Lavadora PRO - TURBO FALHAS ESPECIFICAS</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
@@ -13,18 +13,18 @@
 </head>
 <body>
 <div class="container">
-<header><div><h1>Bancada Lavadora PRO</h1><p style="color:#94a3b8;font-size:.8rem">Laudo so com falha confirmada + seguranca</p></div><div class="badge badge-warn" id="statusBadge">Carregando...</div></header>
+<header><div><h1>Bancada Lavadora PRO TURBO</h1><p style="color:#94a3b8;font-size:.8rem">Falhas especificas por marca/modelo + grafico assertivo</p></div><div class="badge badge-warn" id="statusBadge">Carregando...</div></header>
 <section id="gateSection" class="card">
 <h2>Acesso</h2>
 <div class="id-box"><div><div style="font-size:.78rem;color:#94a3b8">Seu ID</div><div class="id-code" id="deviceIdDisplay">Gerando...</div></div><div style="display:flex;gap:6px"><button type="button" class="btn-secondary" onclick="copiarIdAparelho()">Copiar ID</button><button type="button" class="btn-whatsapp" onclick="solicitarAcessoWhatsApp()">WhatsApp</button></div></div>
-<div id="step1Box"><label>Chave 1 ano</label><input type="text" id="chaveInput" placeholder="CHV-123456"><button type="button" class="btn-primary" onclick="validarChaveNivel1()" style="margin-top:10px">Validar Chave 1 Ano</button></div>
+<div id="step1Box"><label>Chave 1 ano</label><input type="text" id="chaveInput" placeholder="CHV-123456"><button type="button" class="btn-primary" onclick="validarChaveNivel1()" style="margin-top:10px">Validar Chave 1 Ano (365d)</button></div>
 <div id="step2Box" class="hidden"><label>2FA</label><div>Codigo: <strong id="codigo2faDisplay">------</strong></div><input type="text" id="tfaInput" maxlength="6" placeholder="6 digitos"><div style="display:flex;gap:6px;margin-top:8px"><button type="button" class="btn-success" onclick="validar2faNivel2()">Entrar</button><button type="button" class="btn-secondary" onclick="voltarNivel1()">Voltar</button></div></div>
 <div id="gateMsg"></div>
 </section>
 <main id="appSection" class="hidden">
 <nav class="tabs"><button type="button" class="tab-btn active" onclick="abrirAba(1)">1. TECNICO + TESTE</button><button type="button" class="tab-btn" onclick="abrirAba(2)">2. CONFIRMA + PDF</button><button type="button" class="tab-btn" onclick="abrirAba(3)">3. MEDICOES</button><button type="button" class="tab-btn" onclick="abrirAba(4)">4. ADM</button></nav>
 <section id="aba1" class="card">
-<h2>1. Dados do Tecnico + Teste 10 Saidas</h2>
+<h2>1. Dados do Tecnico + Teste 10 Saidas TURBO</h2>
 <div id="expiracaoTopo" style="font-size:12px;margin-bottom:10px;padding:8px;border-radius:6px;background:#065f46;color:#d1fae5"></div>
 <div class="card" style="background:var(--card-2);border:2px solid #3b82f6">
 <h3 style="margin:0 0 8px;color:#38bdf8">DADOS PARA O LAUDO</h3>
@@ -36,58 +36,88 @@
 <label>Marca:</label><select id="marca"><option value="">Selecione</option><option value="colormaq">Colormaq</option><option value="electrolux">Electrolux</option><option value="brastemp">Brastemp</option><option value="consul">Consul</option><option value="outras">Outras</option></select>
 <label>Modelo:</label><select id="modelo"><option value="">Selecione marca primeiro</option></select>
 <div class="optGrid">
-<div class="optCard"><b>1. Valvula Fria</b><select id="out1"><option value="ok">OK</option><option value="fail">FALHA</option><option value="na">Nao testado</option></select></div>
-<div class="optCard"><b>2. Amaciante</b><select id="out2"><option value="ok">OK</option><option value="fail">FALHA</option><option value="na">Nao testado</option></select></div>
-<div class="optCard"><b>3. Bomba</b><select id="out3"><option value="ok">OK</option><option value="fail">FALHA</option><option value="na">Nao testado</option></select></div>
-<div class="optCard"><b>4. Motor H</b><select id="out4"><option value="ok">OK</option><option value="fail">FALHA</option><option value="na">Nao testado</option></select></div>
-<div class="optCard"><b>5. Motor AH</b><select id="out5"><option value="ok">OK</option><option value="fail">FALHA</option><option value="na">Nao testado</option></select></div>
-<div class="optCard"><b>6. Centrifugacao</b><select id="out6"><option value="ok">OK</option><option value="fail">FALHA</option><option value="na">Nao testado</option></select></div>
-<div class="optCard"><b>7. Atuador</b><select id="out7"><option value="ok">OK</option><option value="fail">FALHA</option><option value="na">Nao testado</option></select></div>
-<div class="optCard"><b>8. Trava Tampa</b><select id="out8"><option value="ok">OK</option><option value="fail">FALHA</option><option value="na">Nao testado</option></select></div>
-<div class="optCard"><b>9. Pressostato</b><select id="out9"><option value="ok">OK</option><option value="fail">FALHA</option><option value="na">Nao testado</option></select></div>
-<div class="optCard"><b>10. Fonte</b><select id="out10"><option value="ok">OK</option><option value="fail">FALHA</option><option value="na">Nao testado</option></select></div>
+<div class="optCard"><b>1. Valvula Fria</b><select id="out1"><option value="ok">OK</option><option value="fail">FALHA</option><option value="fail_curto">CURTO</option><option value="fail_aberto">ABERTO</option><option value="fail_interm">INTERMITENTE</option><option value="na">Nao testado</option></select></div>
+<div class="optCard"><b>2. Amaciante</b><select id="out2"><option value="ok">OK</option><option value="fail">FALHA</option><option value="fail_curto">CURTO</option><option value="fail_aberto">ABERTO</option><option value="fail_interm">INTERMITENTE</option><option value="na">Nao testado</option></select></div>
+<div class="optCard"><b>3. Bomba</b><select id="out3"><option value="ok">OK</option><option value="fail">FALHA</option><option value="fail_curto">CURTO / TRAVADA</option><option value="fail_aberto">ABERTO / QUEIMADA</option><option value="fail_interm">INTERMITENTE</option><option value="na">Nao testado</option></select></div>
+<div class="optCard"><b>4. Motor H</b><select id="out4"><option value="ok">OK</option><option value="fail">FALHA</option><option value="fail_curto">CURTO / RELE COLADO</option><option value="fail_aberto">ABERTO</option><option value="fail_interm">SO UM LADO</option><option value="na">Nao testado</option></select></div>
+<div class="optCard"><b>5. Motor AH</b><select id="out5"><option value="ok">OK</option><option value="fail">FALHA</option><option value="fail_curto">CURTO</option><option value="fail_aberto">ABERTO</option><option value="fail_interm">SO UM LADO</option><option value="na">Nao testado</option></select></div>
+<div class="optCard"><b>6. Centrifugacao</b><select id="out6"><option value="ok">OK</option><option value="fail">FALHA NAO CENTRIFUGA</option><option value="fail_curto">ATUADOR CURTO</option><option value="fail_aberto">CAPACITOR FRACO</option><option value="fail_interm">INTERMITENTE</option><option value="na">Nao testado</option></select></div>
+<div class="optCard"><b>7. Atuador</b><select id="out7"><option value="ok">OK</option><option value="fail">FALHA</option><option value="fail_curto">CURTO 1K</option><option value="fail_aberto">ABERTO / QUEIMADO</option><option value="fail_interm">NAO PUXA TOTAL</option><option value="na">Nao testado</option></select></div>
+<div class="optCard"><b>8. Trava Tampa</b><select id="out8"><option value="ok">OK</option><option value="fail">FALHA</option><option value="fail_curto">PTC CURTO</option><option value="fail_aberto">PTC ABERTO 800-1500</option><option value="fail_interm">BC337 / 330R</option><option value="na">Nao testado</option></select></div>
+<div class="optCard"><b>9. Pressostato</b><select id="out9"><option value="ok">OK</option><option value="fail">FALHA ENCHE DEMAIS</option><option value="fail_curto">MANGUEIRA FURO</option><option value="fail_aberto">LM393 / TRANS</option><option value="fail_interm">NIVEL ERRADO</option><option value="na">Nao testado</option></select></div>
+<div class="optCard"><b>10. Fonte</b><select id="out10"><option value="ok">OK</option><option value="fail">NAO LIGA</option><option value="fail_curto">LNK304 CURTO</option><option value="fail_aberto">7805 SEM 5V</option><option value="fail_interm">CAP ESTUFADO</option><option value="na">Nao testado</option></select></div>
 </div>
-<button type="button" class="btn-primary" onclick="analisar()" style="margin-top:12px">TESTAR PLACA</button>
+<button type="button" class="btn-primary" onclick="analisar()" style="margin-top:12px">TESTAR PLACA - TURBO ESPECIFICO</button>
 <div id="descricao" class="hidden" style="margin-top:12px;background:#1e3a5f;border-left:4px solid #3b82f6;padding:12px;border-radius:6px;font-size:12.5px"></div>
 </section>
 <section id="aba2" class="card hidden">
-<h2>2. Confirmacao em Bancada + Laudo PDF</h2>
-<div class="box-danger"><b>⚠️ AVISO DE SEGURANÇA OBRIGATÓRIO:</b><br>
-- Bancada SECA, isolada, com EPI (luva e óculos)<br>
-- Verificar tensão da rede 127V / 220V antes de energizar placa<br>
-- V~ com placa energizada SOMENTE para saídas, Ohms/BIP com placa DESLIGADA<br>
-- Risco de choque elétrico - não tocar em dissipador e capacitor<br>
-- Só gere laudo após medição real com multímetro na bancada</div>
+<h2>2. Confirmacao em Bancada + Laudo PDF - TURBO</h2>
+<div class="box-danger"><b>⚠️ AVISO SEGURANÇA OBRIGATÓRIO TURBO:</b><br>
+- Bancada SECA, isolada, EPI<br>
+- V~ 127/220V pino saida com placa energizada<br>
+- Ohms/BIP com placa DESLIGADA<br>
+- Risco choque - não tocar dissipador/capacitor<br>
+- Laudo só após medição real</div>
 <div id="modeloGrafico" style="text-align:center;color:#38bdf8;font-weight:bold;margin-bottom:8px"></div>
 <canvas id="grafico"></canvas>
 <div id="resumoFalhasAba2" style="margin-top:12px"></div>
 <div class="confirmBox">
 <h3 style="margin:0 0 10px;color:#16a34a">✅ CONFIRMAÇÃO OBRIGATÓRIA PARA GERAR LAUDO</h3>
-<div class="confirmItem"><input type="checkbox" id="confirmaMedicao" onchange="atualizarBotaoPDF()"><span><b>1) Confirmo que realizei medição direta com multímetro na bancada</b><br>V~ com placa energizada para saídas, Ohms/BIP com placa DESLIGADA. Bancada seca, EPI, tensão rede conferida 127V/220V.</span></div>
-<div class="confirmItem"><input type="checkbox" id="confirmaBancada" onchange="atualizarBotaoPDF()"><span><b>2) Confirmo que a falha foi realmente confirmada na bancada e não é só hipótese do gráfico</b><br>Entendo que este laudo com CNPJ/CPF e CRT tem valor técnico.</span></div>
-<div class="confirmItem"><input type="checkbox" id="confirmaCliente" onchange="atualizarBotaoPDF()"><span><b>3) Cliente ciente que causas raiz (vazamento, variação rede, curto chicote) devem ser verificadas</b></span></div>
-<div id="msgBotaoPDF" style="margin-top:8px;font-size:12px;color:#fca5a5">Marque as 3 caixas acima para liberar.</div>
+<div class="confirmItem"><input type="checkbox" id="confirmaMedicao" onchange="atualizarBotaoPDF()"><span><b>1) Confirmo medição direta multímetro bancada</b><br>V~ energizada / Ohms/BIP desligada. Bancada seca, EPI, 127/220V conferida.</span></div>
+<div class="confirmItem"><input type="checkbox" id="confirmaBancada" onchange="atualizarBotaoPDF()"><span><b>2) Falha confirmada na bancada não só hipótese gráfico</b><br>Laudo com CNPJ/CPF e CRT tem valor técnico.</span></div>
+<div class="confirmItem"><input type="checkbox" id="confirmaCliente" onchange="atualizarBotaoPDF()"><span><b>3) Cliente ciente causas raiz: vazamento, rede, curto chicote</b></span></div>
+<div id="msgBotaoPDF" style="margin-top:8px;font-size:12px;color:#fca5a5">Marque as 3 caixas para liberar.</div>
 </div>
 <button type="button" id="btnGerarPDF" class="btn-success" onclick="gerarLaudoPDF()" disabled style="padding:14px;font-size:15px;opacity:.5;width:100%;margin-top:12px">🔒 MARQUE AS 3 CONFIRMAÇÕES PARA GERAR LAUDO</button>
-<div class="box-info" style="margin-top:12px"><b>📋 CAUSAS RAIZ:</b> 1) Variação rede 2) Vazamento 3) Excesso sabão 4) Curto chicote 5) Chicote interrompido 6) Ligação incorreta 7) Roedores 8) Umidade 9) Carga acima</div>
+<div class="box-info" style="margin-top:12px"><b>📋 CAUSAS RAIZ TURBO:</b> 1) Variação rede 2) Vazamento valvula/bomba 3) Excesso sabão 4) Curto chicote 5) Chicote interrompido 6) Ligação incorreta 7) Roedores 8) Umidade interface 9) Carga acima 10) Capacitor fraco</div>
 </section>
-<section id="aba3" class="card hidden"><h2>3. Medições</h2><div id="medTexto">Marque falhas na Aba 1.</div></section>
-
-<!-- ABA 4 CORRIGIDA - SEM MOSTRAR SENHA -->
-<section id="aba4" class="card hidden"><h2>4. ADM</h2>
+<section id="aba3" class="card hidden"><h2>3. Medições Especificas por Modelo</h2><div id="medTexto">Marque falhas na Aba 1 - TURBO vai mostrar medição exata por modelo.</div></section>
+<section id="aba4" class="card hidden"><h2>4. ADM - TURBO 1 ANO</h2>
 <div id="admLoginBox">
 <input type="password" id="admSenhaInput" placeholder="Senha ADM" autocomplete="new-password" value="" data-lpignore="true" readonly onfocus="this.removeAttribute('readonly');">
 <button type="button" class="btn-primary" onclick="entrarModoAdm()" style="margin-top:10px">Entrar ADM</button>
 <div id="admLoginMsg"></div>
 </div>
-<div id="admPainelBox" class="hidden"><button type="button" class="btn-secondary" onclick="sairModoAdm()">Sair</button><div class="card" style="background:var(--card-2);margin-top:12px"><input type="text" id="admIdAparelho" placeholder="ID"><input type="text" id="admNomeCliente" placeholder="Nome" style="margin-top:8px"><select id="admStatus" style="margin-top:8px"><option value="Ativo">Ativo</option><option value="Bloqueado">Bloqueado</option></select><div style="display:flex;gap:6px;margin-top:8px"><button type="button" class="btn-success" onclick="gerarChaveEAtivar()">Gerar 1 Ano</button><button type="button" class="btn-danger" onclick="bloquearIdAdm()">Bloquear</button></div><div id="chaveGeradaDisplay" style="margin-top:10px;font-family:monospace;color:#38bdf8"></div><div id="admActionMsg"></div></div><div class="card" style="background:var(--card-2)"><h2 id="tituloIdsCadastrados">IDs</h2><div id="listaIdsCadastrados"></div></div></div></section>
+<div id="admPainelBox" class="hidden"><button type="button" class="btn-secondary" onclick="sairModoAdm()">Sair</button><div class="card" style="background:var(--card-2);margin-top:12px"><input type="text" id="admIdAparelho" placeholder="ID"><input type="text" id="admNomeCliente" placeholder="Nome" style="margin-top:8px"><select id="admStatus" style="margin-top:8px"><option value="Ativo">Ativo</option><option value="Bloqueado">Bloqueado</option></select><div style="display:flex;gap:6px;margin-top:8px"><button type="button" class="btn-success" onclick="gerarChaveEAtivar()">Gerar 1 Ano (365d)</button><button type="button" class="btn-danger" onclick="bloquearIdAdm()">Bloquear</button></div><div id="chaveGeradaDisplay" style="margin-top:10px;font-family:monospace;color:#38bdf8"></div><div id="admActionMsg"></div></div><div class="card" style="background:var(--card-2)"><h2 id="tituloIdsCadastrados">IDs</h2><div id="listaIdsCadastrados"></div></div></div></section>
 </main>
 </div>
 <script>
+// === CONFIG BASE (não altera) ===
 const STORAGE_KEY_DEVICE_ID="bancada_lavadora_device_id_v1";const STORAGE_KEY_FIRST_ACCESS="bancada_lavadora_first_access_v1";const STORAGE_KEY_ATIVADO="bancada_lavadora_ativado_1ano_v1";const STORAGE_KEY_TECNICO="bancada_lavadora_tecnico_v2";const WHATSAPP_NUMERO="5561995534479";const IDS_SEM_ATIVACAO=["ID-78SW53X6"];const DIAS_GRATIS=7;const DIAS_CHAVE=365;let codigo2faAtual="";let admLogado=false;let chart=null;
+
+// === MODELOS ===
 const modelos={colormaq:["LCM11 - 11kg Conv 127V","LCA12 - 12kg Automatica Antimanchas","LCS15 - 15kg Tanquinho 450W"],electrolux:["LAC12 / LAC13 - 8,5-9kg Conv","LTE12 / LTC10 / LTC12"],brastemp:["BWL11A / BWL11ABANA - 11kg Ative!","BWK12 / BWK12ABANA - 12kg Ative!"],consul:["CWH12ABANA / CWH12 - 12kg Facilite","CWL10B / CWL75B - 10kg"],outras:["Generica - Convencional 4 fios motor","Placa Universal"]};
+
+// === BANCO TURBO DE FALHAS ESPECIFICAS POR MODELO ===
+const falhasDB={
+"LCM11 - 11kg Conv 127V":["Valv Fria LCM11=BT137 curto vazamento - Valv 2k-4k - mede V~ 127V pino CN2","Amaciante LCM11=TRIAC BTA08 curto - cabo 2 via direto","Bomba LCM11=TIC206 curto bomba travada 150-300 ohm - causa vazamento","Motor H LCM11=Rele 12V 330R colado + BTA16 curto - mede rele 300-400","Motor AH LCM11=Rele K2 aberto - motor so gira 1 lado","Centrif LCM11=Atuador 1k-3k fraco + capacitor motor 12uF fraco","Atuador LCM11=Atuador dreno 1.2k-2.8k - V~ 10s 127V","Trava LCM11=PTC 1200 ohm + BC337 + 330R queimado - nao tranca","Press LCM11=Mangueira furo 90cm + pressostato mecanico - transborda","Fonte LCM11=Cap 470uF/25V estufado + 7805 sem 5V + LNK304 curto"],
+"LCA12 - 12kg Automatica Antimanchas":["Valv Fria LCA12=BT137/BTA12 curto - LCA12 da erro E1 - vazamento gaveta sabao","Amaciante LCA12=Triac 2 via - LCA12 valvula dupla","Bomba LCA12=TIC206N curto - LCA12 nao esvazia - mede BIP triac","Motor H LCA12=Rele K1 colado + BTA16-600 - LCA12 nao agita","Motor AH LCA12=Rele K2 - LCA12 erro motor - so gira horario","Centrif LCA12=Atuador 2k + pressostato digital - LCA12 nao centrifuga - atuador nao puxa freio","Atuador LCA12=Dreno 2k ohm - LCA12 erro atuador","Trava LCA12=PTC 800-1500 + micro chave - LCA12 erro trava - trava nao fecha","Press LCA12=Transdutor pressao + mangueira 110cm - LCA12 nivel errado","Fonte LCA12=LNK304GN curto + cap 22uF 400V + diodo FR107"],
+"LCS15 - 15kg Tanquinho 450W":["Valv Fria LCS15=Valvula unica 2k-4k - BT137","Amaciante LCS15=N/A Tanquinho","Bomba LCS15=Bomba 450W 180 ohm - TIC126","Motor H LCS15=Motor tanquinho 450W - rele 400 ohm + capacitor 20uF","Motor AH LCS15=Inversao motor tanquinho - rele K2","Centrif LCS15=Freio tanquinho - atuador 1k","Atuador LCS15=Mesmo motor dreno","Trava LCS15=Tampa tanquinho - reed switch","Press LCS15=Pressostato tanquinho - nivel","Fonte LCS15=Fonte linear trafo + 7805"],
+"LAC12 / LAC13 - 8,5-9kg Conv":["Valv Fria LAC12=Erro E1 - TRIAC BTB12 curto - valv 3k ohm","Amaciante LAC12=2a valvula LAC13 - BTB04","Bomba LAC12=Erro E2 - TIC206D curto - bomba 200-300 ohm","Motor H LAC12=Erro E4 - rele 330 ohm + BTA12","Motor AH LAC12=Rele inversor - motor nao inverte","Centrif LAC12=Erro E6 - atuador 1.5k + capacitor motor fraco 15uF","Atuador LAC12=Atuador W10327570 1k-3k","Trava LAC12=Erro E3 - PTC 1k + triac trava + BC337","Press LAC12=Pressostato LAC12 5V - mangueira 100cm + transdutor","Fonte LAC12=Fonte LAC12 - cap 470/25 estufado + 7805 + LNK304"],
+"LTE12 / LTC10 / LTC12":["Valv Fria LTE12=Valvula dupla LTE12 - BT137 curto - erro E1","Amaciante LTE12=Valvula amaciante LTE12 - erro amaciante","Bomba LTE12=Bomba LTE12 - erro E2 - TIC206 curto","Motor H LTE12=Motor LTE12 - rele + BTA16 - erro E4/E7","Motor AH LTE12=Rele K2 LTE12 - inversao","Centrif LTE12=Atuador LTE12 + freio - nao centrifuga","Atuador LTE12=Atuador 64800634 - 1.2k","Trava LTE12=Trava PTC LTE12 + placa interface 64800634 - erro E3","Press LTE12=Pressostato digital LTE12 + mangueira","Fonte LTE12=Placa potencia LTE12 - LNK304 + ULN2003"],
+"BWL11A / BWL11ABANA - 11kg Ative!":["Valv Fria BWL11=Valv BWL11 3k - TRIAC BTA12 curto por vazamento gaveta - causa oxidação interface","Amaciante BWL11=2 via BWL11 - erro F1","Bomba BWL11=Bomba BWL11 150 ohm - TIC206 curto - BWL11 nao esvazia - causa fiapo","Motor H BWL11=Rele 12V 330R + BTA16 BWL11 - BWL11 nao agita - capacitor 12uF fraco","Motor AH BWL11=Rele K2 BWL11 - so gira horario","Centrif BWL11=Atuador BWL11 + freio + sensor rotação - BWL11 nao centrifuga - atuador 2k","Atuador BWL11=Atuador W108 - 1k-3k - BWL11 erro atuador","Trava BWL11=Trava PTC BWL11 800-1500 + micro - BWL11 erro tampa - BC337","Press BWL11=Pressostato BWL11 + mangueira 110cm + transdutor - BWL11 enche demais - causa excesso sabao","Fonte BWL11=Placa BWL11 - cap 470/35 estufado + 7805 + LNK304 + trilhas oxidadas interface"],
+"BWK12 / BWK12ABANA - 12kg Ative!":["Valv Fria BWK12=Mesmo BWL11 + bivolt - TRIAC curto","Amaciante BWK12=2 via","Bomba BWK12=TIC206 - BWK12 nao esvazia","Motor H BWK12=Rele + BTA16 - BWK12 F7","Motor AH BWK12=Rele inversor","Centrif BWK12=Atuador + capacitor 15uF - BWK12 nao centrifuga","Atuador BWK12=Atuador dreno BWK12 1.5k","Trava BWK12=Trava BWK12 PTC","Press BWK12=Pressostato BWK12","Fonte BWK12=Fonte BWK12 - LNK304 + cap"],
+"CWH12ABANA / CWH12 - 12kg Facilite":["Valv Fria CWH12=CWH12 nao entra agua - TRIAC BT137 curto mas causa chicote partido - mede V~ pino valvula","Amaciante CWH12=CWH12 2 via - valvula amaciante","Bomba CWH12=CWH12 nao esvazia - bomba 200 ohm + TIC206 + causa vazamento bomba","Motor H CWH12=CWH12 nao agita - rele 300-400 + BTA16 + capacitor 15uF fraco","Motor AH CWH12=Rele K2 CWH12 - so gira 1 lado","Centrif CWH12=CWH12 nao centrifuga - atuador 1k-3k + freio + causa roupa enroscada","Atuador CWH12=Atuador CWH12 W113 - 1k-3k ohm - V~ 10s 127V","Trava CWH12=CWH12 nao trava - PTC 800-1500 + BC337 + resistor 330R - mede PTC","Press CWH12=CWH12 transborda - mangueira 90-110cm sem furo + pressostato - causa sabao demais","Fonte CWH12=Placa CWH12 W11387506 - cap estufado + 7805 + LNK304 + trilhas umidade"],
+"CWL10B / CWL75B - 10kg":["Valv Fria CWL10=Valvula CWL10 2k-4k - TRIAC","Amaciante CWL10=2 via","Bomba CWL10=Bomba CWL10 180 ohm","Motor H CWL10=Motor CWL10 - rele + BTA16","Motor AH CWL10=Rele K2","Centrif CWL10=Atuador CWL10 - nao centrifuga","Atuador CWL10=Atuador 1k-3k","Trava CWL10=Trava PTC CWL10","Press CWL10=Pressostato CWL10","Fonte CWL10=Fonte CWL10"],
+"Generica - Convencional 4 fios motor":["Valv Fria Generica=TRIAC BT137 / BTA12 curto por vazamento","Valv Amaciante Generica=TRIAC BTA08","Bomba Generica=TIC206 / TRIAC curto - bomba travada 150-300 ohm","Motor H Generica=Rele 300-400 ohm + BTA16 curto - mede rele","Motor AH Generica=Rele K2 300-400 - so gira 1 lado","Centrif Generica=TRIAC + Atuador 1k-3k + capacitor motor fraco","Atuador Generica=Atuador 1k-3k ohm - V~ 10s 127/220V","Trava Tampa Generica=PTC 800-1500 + BC337 + 330R","Pressostato Generica=Mangueira 90-110cm + LM393 5V + transdutor","Fonte Generica=Cap 470uF estufado + 7805/LNK304 + trilhas umidas"],
+"Placa Universal":["Valv Fria Universal=Saida 1 Universal - TRIAC 10A","Amaciante Universal=Saida 2 - TRIAC","Bomba Universal=Saida 3 - rele 10A","Motor H Universal=Saida 4-5 - rele 20A + capacitor","Motor AH Universal=Saida inversao","Centrif Universal=Logica universal - pressostato","Atuador Universal=Saida atuador universal","Trava Universal=Trava universal - jumper","Press Universal=Pressostato universal - ajuste","Fonte Universal=Fonte universal - bivolt auto"]
+};
+
 const mapaSaidas={default:["Valvula Fria=TRIAC BT137 / BTA12","Valvula Amaciante=TRIAC","Bomba=TIC206 / TRIAC","Motor H=Rele 300-400ohm + BTA16","Motor AH=Rele K2","Centrifugacao=TRIAC + Atuador 1k-3k","Trava Tampa=PTC 800-1500ohm + BC337","Pressostato=Mangueira + LM393 5V","Fonte=Cap estufado + 7805/LNK304","Interface=Trilhas umidas / oxidadas"]};
-const medicaoDetalhada={0:{titulo:"1. Valvula Fria",passos:"V~ 127/220V pino valvula. Valvula 2k-4k ohm. BT137 BIP=curto."},1:{titulo:"2. Amaciante",passos:"2a via: teste com cabo direto."},2:{titulo:"3. Bomba",passos:"V~ pino bomba. TIC206 BIP=curto. Bomba 150-300 ohm."},3:{titulo:"4. Motor H",passos:"V~ pulsa. Rele 300-400 ohm."},4:{titulo:"5. Motor AH",passos:"Rele K2 300-400 ohm."},5:{titulo:"6. Centrifugacao",passos:"Atuador 1k-3k ohm ou capacitor fraco."},6:{titulo:"7. Atuador",passos:"V~ 10s 127/220V. 1k-3k ohm."},7:{titulo:"8. Trava Tampa",passos:"PTC 800-1500 ohm. BC337 + 330R."},8:{titulo:"9. Pressostato",passos:"Mangueira sem furo. 90-110cm altura."},9:{titulo:"10. Fonte",passos:"Cap estufado, 7805 5V, LNK304."}};
+
+const medicaoDetalhada={
+0:{titulo:"1. Valvula Fria ESPECIFICO",passos:"V~ 127/220V pino valvula CN. Valv 2k-4k ohm. BT137/BTA12 BIP=curto. Causa vazamento gaveta."},
+1:{titulo:"2. Amaciante ESPECIFICO",passos:"2a via: teste cabo direto valvula. TRIAC BTA08 mede curto."},
+2:{titulo:"3. Bomba ESPECIFICO",passos:"V~ pino bomba. TIC206 BIP=curto. Bomba 150-300 ohm. Causa fiapo/vazamento."},
+3:{titulo:"4. Motor H ESPECIFICO",passos:"V~ pulsa rele. Rele 12V 300-400 ohm. BTA16 BIP curto. Capacitor motor 12-15uF."},
+4:{titulo:"5. Motor AH ESPECIFICO",passos:"Rele K2 300-400 ohm - inverte. Mede pulso rele K1/K2."},
+5:{titulo:"6. Centrif ESPECIFICO",passos:"Atuador 1k-3k + freio + capacitor fraco + sensor rotacao BWL11/CWH12."},
+6:{titulo:"7. Atuador ESPECIFICO",passos:"V~ 10s 127/220V. 1k-3k ohm. Se nao puxa total = fraco."},
+7:{titulo:"8. Trava ESPECIFICO",passos:"PTC 800-1500 ohm. BC337 + 330R. Micro chave. Mede PTC frio/quente."},
+8:{titulo:"9. Press ESPECIFICO",passos:"Mangueira 90-110cm sem furo. Altura 90cm. LM393 5V. Transdutor BWL11/LTE12."},
+9:{titulo:"10. Fonte ESPECIFICO",passos:"Cap 470uF/25V estufado, 7805 5V, LNK304GN curto, trilhas oxidadas interface."}
+};
+
 let ultimaAnalise={};
 function salvarDadosTecnico(){try{localStorage.setItem(STORAGE_KEY_TECNICO,JSON.stringify({nome:document.getElementById("nomeTecnico").value,crt:document.getElementById("crtTecnico").value,empresa:document.getElementById("empresaTecnico").value,cnpjCpf:document.getElementById("cnpjCpfTecnico").value}))}catch(e){}}
 function carregarDadosTecnico(){try{const d=JSON.parse(localStorage.getItem(STORAGE_KEY_TECNICO)||"{}");if(d.nome)document.getElementById("nomeTecnico").value=d.nome;if(d.crt)document.getElementById("crtTecnico").value=d.crt;if(d.empresa)document.getElementById("empresaTecnico").value=d.empresa;if(d.cnpjCpf)document.getElementById("cnpjCpfTecnico").value=d.cnpjCpf}catch(e){}}
@@ -95,27 +125,78 @@ function abrirAba(n){document.querySelectorAll('.tab-btn').forEach((b,i)=>b.clas
 function obterOuCriarIdAparelho(){try{let id=localStorage.getItem(STORAGE_KEY_DEVICE_ID);if(!id){const chars="ABCDEFGHJKLMNPQRSTUVWXYZ23456789";let s="";for(let i=0;i<8;i++)s+=chars.charAt(Math.floor(Math.random()*chars.length));id="ID-"+s;localStorage.setItem(STORAGE_KEY_DEVICE_ID,id)}return id.toUpperCase()}catch(e){return "ID-78SW53X6"}}
 function setMensagem(id,txt,tipo){document.getElementById(id).innerHTML='<div class="'+(tipo==="ok"?"msg-ok":"msg-err")+'">'+txt+'</div>'}
 function copiarIdAparelho(){const id=document.getElementById("deviceIdDisplay").textContent;try{navigator.clipboard.writeText(id)}catch(e){}setMensagem("gateMsg","ID "+id+" copiado","ok")}
-function solicitarAcessoWhatsApp(){const id=document.getElementById("deviceIdDisplay").textContent;window.open("https://wa.me/"+WHATSAPP_NUMERO+"?text=Meu ID: "+id,"_blank")}
+function solicitarAcessoWhatsApp(){const id=document.getElementById("deviceIdDisplay").textContent;window.open("https://wa.me/"+WHATSAPP_NUMERO+"?text=Meu ID: "+id+" - Quero liberacao TURBO 1 ano","_blank")}
 function obterPrimeiroAcesso(){let f=localStorage.getItem(STORAGE_KEY_FIRST_ACCESS);if(!f){f=new Date().toISOString();localStorage.setItem(STORAGE_KEY_FIRST_ACCESS,f)}return new Date(f)}
 function diasRestantesGratis(){return DIAS_GRATIS-Math.floor((new Date()-obterPrimeiroAcesso())/86400000)}
 function verificarAtivado(){try{const raw=localStorage.getItem(STORAGE_KEY_ATIVADO);if(!raw)return null;const obj=JSON.parse(raw);const exp=new Date(obj.expiraEm);const diff=exp-new Date();if(diff<=0){localStorage.removeItem(STORAGE_KEY_ATIVADO);return null}return {...obj,diasRestantes:Math.ceil(diff/86400000),expira:exp}}catch(e){return null}}
-function initChartSafe(){try{const ctx=document.getElementById('grafico');if(!ctx)return;chart=new Chart(ctx.getContext('2d'),{type:'line',data:{labels:["VALV FRIA","AMAC","BOMBA","MOTOR H","MOTOR AH","CENTRIF","ATUADOR","TRAVA","PRESS","FONTE"],datasets:[{label:'Foco',data:[1,1,1,1,1,1,1,1,1,1],borderColor:'#3b82f6',backgroundColor:'rgba(59,130,246,.2)',tension:.3}]},options:{responsive:true,scales:{y:{min:0,max:11}}}})}catch(e){}}
-function liberarAplicacao(t){document.getElementById("gateSection").classList.add("hidden");document.getElementById("appSection").classList.remove("hidden");document.getElementById("statusBadge").textContent=t;document.getElementById("statusBadge").className="badge badge-ok";const atv=verificarAtivado();const topo=document.getElementById('expiracaoTopo');if(atv)topo.innerHTML="CHAVE 1 ANO - "+atv.diasRestantes+"d - 365 dias";else topo.innerHTML="GRATIS "+diasRestantesGratis()+"d";setTimeout(()=>{initChartSafe();carregarDadosTecnico()},300)}
+function initChartSafe(){try{const ctx=document.getElementById('grafico');if(!ctx)return;chart=new Chart(ctx.getContext('2d'),{type:'line',data:{labels:["VALV FRIA","AMAC","BOMBA","MOTOR H","MOTOR AH","CENTRIF","ATUADOR","TRAVA","PRESS","FONTE"],datasets:[{label:'Falha Especifica',data:[1,[STRIPPED]
+function liberarAplicacao(t){document.getElementById("gateSection").classList.add("hidden");document.getElementById("appSection").classList.remove("hidden");document.getElementById("statusBadge").textContent=t;document.getElementById("statusBadge").className="badge badge-ok";const atv=verificarAtivado();const topo=document.getElementById('expiracaoTopo');if(atv)topo.innerHTML="CHAVE 1 ANO TURBO - "+atv.diasRestantes+"d / 365 dias";else topo.innerHTML="GRATIS "+diasRestantesGratis()+"d";setTimeout(()=>{initChartSafe();carregarDadosTecnico()},300)}
 function mostrarBloqueio(){document.getElementById("gateSection").classList.remove("hidden");document.getElementById("appSection").classList.add("hidden")}
 function voltarNivel1(){document.getElementById("step2Box").classList.add("hidden");document.getElementById("step1Box").classList.remove("hidden")}
 function entrarModoAdm(){if(document.getElementById("admSenhaInput").value==="admin2026"){admLogado=true;document.getElementById("admLoginBox").classList.add("hidden");document.getElementById("admPainelBox").classList.remove("hidden");renderizarListaIds();document.getElementById("admSenhaInput").value="";}else setMensagem("admLoginMsg","Senha incorreta","err")}
 function sairModoAdm(){admLogado=false;document.getElementById("admLoginBox").classList.remove("hidden");document.getElementById("admPainelBox").classList.add("hidden");document.getElementById("admSenhaInput").value="";}
-function validar2faNivel2(){if(document.getElementById("tfaInput").value.trim()!==codigo2faAtual){setMensagem("gateMsg","2FA incorreto","err");return}const agora=new Date();const exp=new Date();exp.setDate(agora.getDate()+DIAS_CHAVE);localStorage.setItem(STORAGE_KEY_ATIVADO,JSON.stringify({id:document.getElementById("deviceIdDisplay").textContent,criadoEm:agora.toISOString(),expiraEm:exp.toISOString()}));liberarAplicacao("Liberado 1 ano PRO")}
-document.getElementById('marca').addEventListener('change',function(){const sel=document.getElementById('modelo');sel.innerHTML="";(modelos[this.value]||[]).forEach(m=>{let o=document.createElement('option');o.value=m;o.textContent=m;sel.appendChild(o)})});
-function atualizarBotaoPDF(){const c1=document.getElementById('confirmaMedicao').checked;const c2=document.getElementById('confirmaBancada').checked;const c3=document.getElementById('confirmaCliente').checked;const btn=document.getElementById('btnGerarPDF');const msg=document.getElementById('msgBotaoPDF');if(c1&&c2&&c3){btn.disabled=false;btn.style.opacity='1';btn.innerHTML='✅ GERAR LAUDO CONFIRMADO';msg.innerHTML='<span style="color:#86efac">✅ Liberado!</span>'}else{btn.disabled=true;btn.style.opacity='.5';btn.innerHTML='🔒 MARQUE AS 3 CONFIRMAÇÕES';msg.innerHTML='Marque as 3 caixas.'}}
-function analisar(){const marca=document.getElementById('marca').value;const modelo=document.getElementById('modelo').value;if(!marca||!modelo){alert("Selecione marca e modelo");return}const outs=[];for(let i=1;i<=10;i++)outs.push(document.getElementById('out'+i).value);let labels=mapaSaidas.default;let labelsCurto=labels.map(s=>s.split('=')[0]);document.getElementById('modeloGrafico').innerText=marca.toUpperCase()+": "+modelo;let vals=outs.map(v=>v==="fail"?10:v==="ok"?1:2);if(chart){chart.data.labels=labelsCurto;chart.data.datasets[0].data=vals;chart.update()}let falhas=[];outs.forEach((v,i)=>{if(v==="fail")falhas.push({idx:i,label:labelsCurto[i],detalhe:labels[i],med:medicaoDetalhada[i]})});let txt="<b>"+modelo+"</b><br>";if(falhas.length==0)txt+="<b style='color:#86efac'>Placa OK</b>";else txt+="<b style='color:#fca5a5'>FALHAS: "+falhas.length+" - Confirmar na bancada</b><br>"+falhas.map(f=>f.label).join(", ");document.getElementById('descricao').innerHTML=txt;document.getElementById('descricao').classList.remove('hidden');let medHtml="";falhas.forEach(f=>{if(f.med)medHtml+='<div class="card" style="background:var(--card-2)">'+f.med.titulo+' - '+f.med.passos+'</div>'});document.getElementById('medTexto').innerHTML=medHtml||"Nenhuma falha";document.getElementById('resumoFalhasAba2').innerHTML=falhas.length?'<div class="box-danger">'+falhas.length+' FALHA(S) - CONFIRMAR NA BANCADA</div>':'<div class="msg-ok">Placa OK</div>';ultimaAnalise={modelo,marca,falhas,labels,data:new Date().toLocaleString('pt-BR'),id:document.getElementById("deviceIdDisplay").textContent};abrirAba(2)}
-function gerarLaudoPDF(){try{if(!ultimaAnalise.modelo){alert("Teste placa primeiro");return}if(!document.getElementById('confirmaMedicao').checked||!document.getElementById('confirmaBancada').checked||!document.getElementById('confirmaCliente').checked){alert("Marque as 3 confirmacoes de seguranca");return}const {jsPDF}=window.jspdf;const doc=new jsPDF('p','mm','a4');const id=ultimaAnalise.id;const marca=ultimaAnalise.marca.toUpperCase();const modelo=ultimaAnalise.modelo;const falhas=ultimaAnalise.falhas;const tecNome=document.getElementById("nomeTecnico").value||"Nao informado";const tecCrt=document.getElementById("crtTecnico").value||"Nao informado";const tecEmpresa=document.getElementById("empresaTecnico").value||"Nao informado";const tecCnpj=document.getElementById("cnpjCpfTecnico").value||"Nao informado";doc.setFillColor(15,23,42);doc.rect(0,0,210,30,'F');doc.setTextColor(255,255,255);doc.setFontSize(13);doc.text('LAUDO TECNICO CONFIRMADO EM BANCADA',10,12);doc.setFontSize(8);doc.text('BANCADA LAVADORA PRO - ID: '+id,10,18);doc.text('Data: '+ultimaAnalise.data,10,22);let y=36;doc.setTextColor(0,0,0);doc.setFontSize(9);doc.text('Tecnico: '+tecNome+' | CRT: '+tecCrt,10,y);y+=5;doc.text('Empresa: '+tecEmpresa+' | CNPJ/CPF: '+tecCnpj,10,y);y+=6;doc.text('Equipamento: '+marca+' - '+modelo,10,y);y+=8;try{if(chart){doc.addImage(chart.toBase64Image(),'PNG',10,y,190,45);y+=50}}catch(e){}y+=2;doc.setFontSize(8);doc.setFont('helvetica','bold');doc.text('AVISO SEGURANCA: Bancada seca, EPI, tensao 127/220V. V~ energizada, Ohms/BIP desligada.',10,y);y+=6;falhas.forEach(f=>{if(y>270){doc.addPage();y=15}doc.setFont('helvetica','bold');doc.text('✅ '+(f.idx+1)+'. '+f.label+' = FALHA CONFIRMADA',10,y);y+=5;doc.setFont('helvetica','normal');let l=doc.splitTextToSize('-> '+f.detalhe+' | '+f.med.passos,185);doc.text(l,10,y);y+=l.length*4+4});y+=6;doc.text('Assinatura: ___________________________',10,y);y+=6;doc.text(tecNome+' - '+tecCrt,10,y);doc.save('Laudo_CONFIRMADO_'+id+'.pdf');alert('Laudo CONFIRMADO com seguranca gerado!')}catch(e){alert('Erro PDF: '+e.message)}}
+function validar2faNivel2(){if(document.getElementById("tfaInput").value.trim()!==codigo2faAtual){setMensagem("gateMsg","2FA incorreto","err");return}const agora=new Date();const exp=new Date();exp.setDate(agora.getDate()+DIAS_CHAVE);localStorage.setItem(STORAGE_KEY_ATIVADO,JSON.stringify({id:document.getElementById("deviceIdDisplay").textContent,criadoEm:agora.toISOString(),expiraEm:exp.toISOString()}));liberarAplicacao("Liberado 1 ano TURBO PRO")}
+document.getElementById('marca').addEventListener('change',function(){const sel=document.getElementById('modelo');sel.innerHTML='<option value="">Selecione</option>';(modelos[this.value]||[]).forEach(m=>{let o=document.createElement('option');o.value=m;o.textContent=m;sel.appendChild(o)})});
+function atualizarBotaoPDF(){const c1=document.getElementById('confirmaMedicao').checked;const c2=document.getElementById('confirmaBancada').checked;const c3=document.getElementById('confirmaCliente').checked;const btn=document.getElementById('btnGerarPDF');const msg=document.getElementById('msgBotaoPDF');if(c1&&c2&&c3){btn.disabled=false;btn.style.opacity='1';btn.innerHTML='✅ GERAR LAUDO TURBO CONFIRMADO';msg.innerHTML='<span style="color:#86efac">✅ Liberado TURBO!</span>'}else{btn.disabled=true;btn.style.opacity='.5';btn.innerHTML='🔒 MARQUE AS 3 CONFIRMAÇÕES';msg.innerHTML='Marque as 3 caixas.'}}
+
+// === ANALISAR TURBO ESPECIFICO POR MODELO ===
+function analisar(){
+const marca=document.getElementById('marca').value;
+const modelo=document.getElementById('modelo').value;
+if(!marca||!modelo){alert("Selecione marca e modelo");return}
+const outs=[];for(let i=1;i<=10;i++)outs.push(document.getElementById('out'+i).value);
+
+// Pega falhas especificas do modelo selecionado
+let labelsEspecificas = falhasDB[modelo] || mapaSaidas.default;
+let labelsCurto = labelsEspecificas.map(s=>s.split('=')[0].substring(0,18));
+document.getElementById('modeloGrafico').innerText=marca.toUpperCase()+": "+modelo+" - TURBO ESPECIFICO";
+
+// Grafico assertivo por tipo de falha
+let vals=outs.map(v=>{
+if(v==="ok") return 1;
+if(v==="na") return 2;
+if(v==="fail_interm") return 6;
+if(v==="fail_aberto") return 8;
+if(v==="fail") return 9;
+if(v==="fail_curto") return 10;
+return 2;
+});
+if(chart){chart.data.labels=labelsCurto;chart.data.datasets[0].data=vals;chart.update()}
+
+let falhas=[];outs.forEach((v,i)=>{
+if(v!=="ok" && v!=="na"){
+let tipoTxt = v.replace('fail_','').toUpperCase();
+if(v==="fail") tipoTxt="FALHA";
+falhas.push({idx:i,label:labelsCurto[i],tipo:tipoTxt,detalhe:labelsEspecificas[i],med:medicaoDetalhada[i],raw:v})
+}
+});
+
+let txt="<b>"+modelo+" - DIAGNOSTICO TURBO ESPECIFICO</b><br>";
+if(falhas.length==0)txt+="<b style='color:#86efac'>Placa OK - Todas saidas OK por modelo</b>";
+else{
+txt+="<b style='color:#fca5a5'>"+falhas.length+" FALHA(S) ESPECIFICA(S) - Confirmar na bancada por modelo:</b><br>";
+falhas.forEach(f=>{
+txt+="<div style='margin-top:6px;border-left:3px solid #f59e0b;padding-left:6px'><b>"+f.label+" = "+f.tipo+"</b><br><span style='color:#fde68a'>"+f.detalhe+"</span></div>";
+});
+}
+document.getElementById('descricao').innerHTML=txt;document.getElementById('descricao').classList.remove('hidden');
+
+let medHtml="";falhas.forEach(f=>{
+if(f.med)medHtml+='<div class="card" style="background:var(--card-2);border-left:4px solid #f59e0b"><b>'+f.label+' - '+f.tipo+' - '+modelo+'</b><br><b style="color:#38bdf8">'+f.detalhe+'</b><br><br>MEDICAO: '+f.med.titulo+' - '+f.med.passos+'</div>';
+});
+document.getElementById('medTexto').innerHTML=medHtml||"<div class='msg-ok'>Nenhuma falha especifica - Placa OK para "+modelo+"</div>";
+document.getElementById('resumoFalhasAba2').innerHTML=falhas.length?'<div class="box-danger"><b>'+falhas.length+' FALHA(S) ESPECIFICA(S) '+modelo.toUpperCase()+'</b><br>'+falhas.map(f=>f.label+'='+f.tipo).join(' | ')+'<br>CONFIRMAR NA BANCADA POR MODELO</div>':'<div class="msg-ok">Placa OK - '+modelo+'</div>';
+ultimaAnalise={modelo,marca,falhas,labels:labelsEspecificas,data:new Date().toLocaleString('pt-BR'),id:document.getElementById("deviceIdDisplay").textContent};
+abrirAba(2)
+}
+
+function gerarLaudoPDF(){try{if(!ultimaAnalise.modelo){alert("Teste placa primeiro TURBO");return}if(!document.getElementById('confirmaMedicao').checked||!document.getElementById('confirmaBancada').checked||!document.getElementById('confirmaCliente').checked){alert("Marque as 3 confirmacoes");return}const {jsPDF}=window.jspdf;const doc=new jsPDF('p','mm','a4');const id=ultimaAnalise.id;const marca=ultimaAnalise.marca.toUpperCase();const modelo=ultimaAnalise.modelo;const falhas=ultimaAnalise.falhas;const tecNome=document.getElementById("nomeTecnico").value||"Nao informado";const tecCrt=document.getElementById("crtTecnico").value||"Nao informado";const tecEmpresa=document.getElementById("empresaTecnico").value||"Nao informado";const tecCnpj=document.getElementById("cnpjCpfTecnico").value||"Nao informado";doc.setFillColor(15,23,42);doc.rect(0,0,210,30,'F');doc.setTextColor(255,255,255);doc.setFontSize(12);doc.text('LAUDO TECNICO TURBO CONFIRMADO EM BANCADA - ESPECIFICO',10,12);doc.setFontSize(8);doc.text('BANCADA LAVADORA PRO TURBO - ID: '+id+' - 365 DIAS',10,18);doc.text('Data: '+ultimaAnalise.data+' - Modelo: '+modelo,10,22);let y=36;doc.setTextColor(0,0,0);doc.setFontSize(9);doc.text('Tecnico: '+tecNome+' | CRT: '+tecCrt,10,y);y+=5;doc.text('Empresa: '+tecEmpresa+' | CNPJ/CPF: '+tecCnpj,10,y);y+=6;doc.text('Equipamento: '+marca+' - '+modelo+' - TURBO ESPECIFICO',10,y);y+=8;try{if(chart){doc.addImage(chart.toBase64Image(),'PNG',10,y,190,45);y+=50}}catch(e){}y+=2;doc.setFontSize(8);doc.setFont('helvetica','bold');doc.text('AVISO TURBO: Bancada seca, EPI, 127/220V. V~ energizada, Ohms/BIP desligada. Falha especifica por modelo.',10,y);y+=6;falhas.forEach(f=>{if(y>265){doc.addPage();y=15}doc.setFont('helvetica','bold');doc.text((f.idx+1)+'. '+f.label+' = '+f.tipo+' CONFIRMADA - '+modelo,10,y);y+=5;doc.setFont('helvetica','normal');let l=doc.splitTextToSize('-> '+f.detalhe+' | '+f.med.titulo+': '+f.med.passos,185);doc.text(l,10,y);y+=l.length*4+4});y+=6;doc.setFont('helvetica','bold');doc.text('Assinatura: ___________________________',10,y);y+=6;doc.text(tecNome+' - '+tecCrt+' - '+tecEmpresa,10,y);doc.save('Laudo_TURBO_ESPECIFICO_'+modelo.replace(/[^a-zA-Z0-9]/g,'_')+'_'+id+'.pdf');alert('Laudo TURBO ESPECIFICO '+modelo+' gerado com seguranca!')}catch(e){alert('Erro PDF TURBO: '+e.message)}}
+
 function iniciarApp(){
 const id=obterOuCriarIdAparelho();document.getElementById("deviceIdDisplay").textContent=id;document.getElementById("admIdAparelho").value=id;
-if(IDS_SEM_ATIVACAO.includes(id)){liberarAplicacao("Acesso direto");return}
-const atv=verificarAtivado();if(atv){liberarAplicacao("Liberado "+atv.diasRestantes+"d");return}
-if(diasRestantesGratis()>=0){liberarAplicacao("Gratis "+diasRestantesGratis()+"d");return}else mostrarBloqueio();
-// CORREÇÃO: limpa campo senha para não mostrar e sem sugestão
+if(IDS_SEM_ATIVACAO.includes(id)){liberarAplicacao("Acesso direto TURBO");return}
+const atv=verificarAtivado();if(atv){liberarAplicacao("Liberado TURBO "+atv.diasRestantes+"d");return}
+if(diasRestantesGratis()>=0){liberarAplicacao("Gratis TURBO "+diasRestantesGratis()+"d");return}else mostrarBloqueio();
 const el=document.getElementById("admSenhaInput"); if(el){el.value=""; el.setAttribute('autocomplete','new-password');}
 }
 document.addEventListener("DOMContentLoaded",iniciarApp);
@@ -124,8 +205,8 @@ document.addEventListener("DOMContentLoaded",iniciarApp);
 import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";import {getFirestore,doc,getDoc,setDoc,collection,getDocs} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 const firebaseConfig={apiKey:"AIzaSyAQoBcq8ZX8n1Z55Qfr8x8E0Gb8jEZQl-k",authDomain:"bancada-lavadora-pro.firebaseapp.com",projectId:"bancada-lavadora-pro",storageBucket:"bancada-lavadora-pro.firebasestorage.app",messagingSenderId:"390758786240",appId:"1:390758786240:web:431f0d9214b4613be7b925"};
 let db;try{db=getFirestore(initializeApp(firebaseConfig))}catch(e){}
-window.validarChaveNivel1=async function(){const id=document.getElementById("deviceIdDisplay").textContent.trim().toUpperCase();const chave=document.getElementById("chaveInput").value.trim().toUpperCase();if(["ID-78SW53X6"].includes(id)){const agora=new Date();const expira=new Date(agora);expira.setDate(agora.getDate()+365);localStorage.setItem("bancada_lavadora_ativado_1ano_v1",JSON.stringify({id,criadoEm:agora.toISOString(),expiraEm:expira.toISOString()}));liberarAplicacao("Acesso direto");return}if(!chave){setMensagem("gateMsg","Informe a chave","err");return}if(!db){codigo2faAtual=String(Math.floor(100000+Math.random()*900000));document.getElementById("codigo2faDisplay").textContent=codigo2faAtual;document.getElementById("step1Box").classList.add("hidden");document.getElementById("step2Box").classList.remove("hidden");return}try{const snap=await getDoc(doc(db,"clientes",id));if(!snap.exists()){setMensagem("gateMsg","ID nao encontrado","err");return}const d=snap.data();if(d.status==="Bloqueado"){setMensagem("gateMsg","ID Bloqueado","err");return}if(String(d.chave).toUpperCase()!==chave){setMensagem("gateMsg","Chave invalida","err");return}codigo2faAtual=String(Math.floor(100000+Math.random()*900000));document.getElementById("codigo2faDisplay").textContent=codigo2faAtual;document.getElementById("step1Box").classList.add("hidden");document.getElementById("step2Box").classList.remove("hidden");}catch(e){setMensagem("gateMsg","Erro: "+e.message,"err")}}
-window.gerarChaveEAtivar=async function(){const id=document.getElementById("admIdAparelho").value.trim().toUpperCase();const chave="CHV-"+Math.random().toString(36).substring(2,8).toUpperCase();const agora=new Date();const expira=new Date();expira.setDate(agora.getDate()+365);try{await setDoc(doc(db,"clientes",id),{id,chave,status:"Ativo",criadoEm:agora.toISOString(),expiraEm:expira.toISOString()});document.getElementById("chaveGeradaDisplay").textContent=id+" -> "+chave;setMensagem("admActionMsg","Salvo 1 ANO - 365 dias","ok");renderizarListaIds()}catch(e){setMensagem("admActionMsg","Erro: "+e.message,"err")}}
+window.validarChaveNivel1=async function(){const id=document.getElementById("deviceIdDisplay").textContent.trim().toUpperCase();const chave=document.getElementById("chaveInput").value.trim().toUpperCase();if(["ID-78SW53X6"].includes(id)){const agora=new Date();const expira=new Date(agora);expira.setDate(agora.getDate()+365);localStorage.setItem("bancada_lavadora_ativado_1ano_v1",JSON.stringify({id,criadoEm:agora.toISOString(),expiraEm:expira.toISOString()}));liberarAplicacao("Acesso direto TURBO");return}if(!chave){setMensagem("gateMsg","Informe a chave","err");return}if(!db){codigo2faAtual=String(Math.floor(100000+Math.random()*900000));document.getElementById("codigo2faDisplay").textContent=codigo2faAtual;document.getElementById("step1Box").classList.add("hidden");document.getElementById("step2Box").classList.remove("hidden");return}try{const snap=await getDoc(doc(db,"clientes",id));if(!snap.exists()){setMensagem("gateMsg","ID nao encontrado","err");return}const d=snap.data();if(d.status==="Bloqueado"){setMensagem("gateMsg","ID Bloqueado","err");return}if(String(d.chave).toUpperCase()!==chave){setMensagem("gateMsg","Chave invalida","err");return}codigo2faAtual=String(Math.floor(100000+Math.random()*900000));document.getElementById("codigo2faDisplay").textContent=codigo2faAtual;document.getElementById("step1Box").classList.add("hidden");document.getElementById("step2Box").classList.remove("hidden");}catch(e){setMensagem("gateMsg","Erro: "+e.message,"err")}}
+window.gerarChaveEAtivar=async function(){const id=document.getElementById("admIdAparelho").value.trim().toUpperCase();const chave="CHV-"+Math.random().toString(36).substring(2,8).toUpperCase();const agora=new Date();const expira=new Date();expira.setDate(agora.getDate()+365);try{await setDoc(doc(db,"clientes",id),{id,chave,status:"Ativo",criadoEm:agora.toISOString(),expiraEm:expira.toISOString()});document.getElementById("chaveGeradaDisplay").textContent=id+" -> "+chave+" - 365 DIAS TURBO";setMensagem("admActionMsg","Salvo TURBO 1 ANO","ok");renderizarListaIds()}catch(e){setMensagem("admActionMsg","Erro: "+e.message,"err")}}
 window.bloquearIdAdm=async function(){const id=document.getElementById("admIdAparelho").value.trim().toUpperCase();await setDoc(doc(db,"clientes",id),{status:"Bloqueado"},{merge:true});renderizarListaIds()}
 window.alterarStatusCadastro=async function(id,novo){const agora=new Date();const expira=new Date();expira.setDate(agora.getDate()+365);await setDoc(doc(db,"clientes",id),{status:novo,criadoEm:agora.toISOString(),expiraEm:expira.toISOString()},{merge:true});renderizarListaIds()}
 window.renderizarListaIds=async function(){const cont=document.getElementById("listaIdsCadastrados");cont.innerHTML="Carregando...";try{const q=await getDocs(collection(db,"clientes"));const lista=q.docs.map(d=>d.data());cont.innerHTML=lista.map(i=>i.id+" - "+i.chave+" - "+i.status).join("<br>")}catch(e){cont.innerHTML="Erro: "+e.message}}
