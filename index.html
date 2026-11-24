@@ -3,18 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BANCADA V5.0 - REALISTA + SOM BIP + RELE</title>
+<title>BANCADA V5.1 - VIDRO TRANSPARENTE + ROTOR + SOM</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 body{background:#0f172a;color:#e2e8f0;font-family:sans-serif;margin:0;padding:10px}
-h1{font-size:16px;text-align:center;margin:6px}
+h1{font-size:15px;text-align:center;margin:6px}
 .aba{display:none;background:#1e293b;padding:12px;border-radius:12px;margin-top:10px}
 .aba.ativa{display:block}
-.tabs{display:flex;gap:5px;flex-wrap:wrap}
-.tabs button{flex:1;padding:10px;border-radius:8px;border:none;background:#334155;color:white;font-weight:bold;font-size:12px}
+.tabs{display:flex;gap:4px;flex-wrap:wrap}
+.tabs button{flex:1;padding:9px;border-radius:8px;border:none;background:#334155;color:white;font-weight:bold;font-size:11px}
 .tabs button.ativa{background:#f59e0b;color:black}
-.cardSim{background:#0f172a;padding:7px;border-radius:8px;margin:3px 0;border:1px solid #334155;font-size:13px}
+.cardSim{background:#0f172a;padding:7px;border-radius:8px;margin:3px 0;border:1px solid #334155;font-size:12px}
 .cardSim.ativo{border-color:#22c55e;background:#14532d}
 .cardSim.falha{border-color:#ef4444;background:#7f1d1d}
 select{width:100%;padding:9px;border-radius:8px;background:#0f172a;color:white;border:1px solid #475569;margin:3px 0}
@@ -22,25 +22,25 @@ select{width:100%;padding:9px;border-radius:8px;background:#0f172a;color:white;b
 .btn-play{background:#22c55e;color:black}
 .btn-stop{background:#ef4444;color:white}
 .displayTimer{background:black;color:#22c55e;font-size:20px;text-align:center;padding:10px;border-radius:8px;margin:6px 0;font-family:monospace}
-.pino{width:44px;height:44px;border-radius:50%;background:#facc15;border:2px solid #000;display:inline-flex;align-items:center;justify-content:center;margin:4px;cursor:pointer;color:black;font-weight:bold}
+.pino{width:42px;height:42px;border-radius:50%;background:#facc15;border:2px solid #000;display:inline-flex;align-items:center;justify-content:center;margin:3px;cursor:pointer;color:black;font-weight:bold}
 .pino.selecionado{box-shadow:0 0 12px #22c55e}
-.multiDisplay{background:black;color:#22c55e;font-size:26px;text-align:center;padding:14px;border-radius:10px;border:2px solid #334155}
-.modoBtn{padding:9px;border-radius:20px;border:1px solid #475569;background:#1e293b;color:white;margin:3px;font-size:12px}
+.multiDisplay{background:black;color:#22c55e;font-size:24px;text-align:center;padding:12px;border-radius:10px;border:2px solid #334155}
+.modoBtn{padding:8px;border-radius:20px;border:1px solid #475569;background:#1e293b;color:white;margin:2px;font-size:11px}
 .modoBtn.ativo{background:#f59e0b;color:black}
 .bomBox{border:2px solid #22c55e;border-radius:10px;padding:8px;text-align:center}
 .ruimBox{border:2px solid #ef4444;border-radius:10px;padding:8px;text-align:center}
-@keyframes onda{ from{transform:scaleX(0.8)} to{transform:scaleX(1.2)} }
+@keyframes onda{ from{transform:scaleX(0.8) translateX(-5%)} to{transform:scaleX(1.2) translateX(5%)} }
 @keyframes giraH{ from{transform:translate(-50%,-50%) rotate(0deg)} to{transform:translate(-50%,-50%) rotate(360deg)} }
 @keyframes giraAH{ from{transform:translate(-50%,-50%) rotate(0deg)} to{transform:translate(-50%,-50%) rotate(-360deg)} }
-@keyframes bolhas{ 0%{transform:translateY(0)} 100%{transform:translateY(-100px);opacity:0} }
+@keyframes bolhas{ 0%{transform:translateY(0);opacity:0.8} 100%{transform:translateY(-120px);opacity:0} }
 </style>
 </head>
 <body>
-<h1>🔧 BANCADA V5.0 - REALISTA + BIP + RELE</h1>
+<h1>🔧 BANCADA V5.1 - VIDRO TRANSPARENTE + ROTOR + BIP + RELE</h1>
 <div class="tabs">
-<button onclick="abrirAba(1)" id="tab1" class="ativa">1-SIMULACAO REALISTA</button>
+<button onclick="abrirAba(1)" id="tab1" class="ativa">1-MAQUINA VIDRO</button>
 <button onclick="abrirAba(2)" id="tab2">2-GRAFICO</button>
-<button onclick="abrirAba(3)" id="tab3">3-MULTIMETRO SOM</button>
+<button onclick="abrirAba(3)" id="tab3">3-MULTIMETRO</button>
 <button onclick="abrirAba(4)" id="tab4">4-LAUDO</button>
 </div>
 
@@ -51,25 +51,28 @@ select{width:100%;padding:9px;border-radius:8px;background:#0f172a;color:white;b
 <label>Seletor</label><select id="condSeletor"><option value="enchendo">Enchendo</option><option value="agitacao">Agitacao</option><option value="centrifugacao">Centrifugacao</option></select>
 <label>Defeito</label><select id="defeitoInjetado"><option value="nenhum">NENHUM</option><option value="rele_k1_colado">Rele K1 Colado</option><option value="triac_valvula_curto">Triac Valvula Curto</option><option value="triac_bomba_curto">Triac Bomba Curto</option></select>
 
-<!-- PALCO REALISTA V5.0 -->
-<div id="palcoRealista" style="position:relative;background:radial-gradient(circle at center,#1e293b,#0a1220);border-radius:20px;border:2px solid #334155;overflow:hidden;height:360px;margin:10px 0">
-  <div id="tampaReal" style="position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(#f8fafc,#cbd5e1);z-index:20;transform-origin:top;transition:transform 0.8s cubic-bezier(.4,0,.2,1);display:flex;align-items:center;justify-content:center;box-shadow:0 10px 30px rgba(0,0,0,0.5);cursor:pointer">
-    <div style="width:82%;height:72%;border:4px solid #475569;border-radius:14px;background:rgba(14,165,233,0.08);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#0f172a;font-weight:bold;font-size:13px">🔒 TAMPA FECHADA<div style="font-size:10px;margin-top:4px">Toque para abrir/fechar</div></div>
-  </div>
-  <div style="position:absolute;bottom:18px;left:50%;transform:translateX(-50%);width:280px;height:280px;border-radius:50%;border:8px solid #e2e8f0;background:radial-gradient(circle at 30% 30%,#334155,#000);overflow:hidden;box-shadow:inset 0 0 40px #000,0 0 20px rgba(0,0,0,0.8)">
-    <div id="aguaReal" style="position:absolute;bottom:0;width:100%;height:0%;background:linear-gradient(to top,#0284c7,#0ea5e9,#7dd3fc);transition:height 1s linear;opacity:0.9">
-      <div style="position:absolute;top:-12px;width:100%;height:24px;background:radial-gradient(ellipse at center,rgba(255,255,255,0.9),transparent 60%);animation:onda 0.6s infinite alternate"></div>
-      <div id="bolhas" style="position:absolute;width:100%;height:100%"></div>
+<!-- PALCO V5.1 VIDRO -->
+<div id="palcoRealista" style="position:relative;background:#0f172a;border-radius:20px;border:2px solid #334155;overflow:hidden;height:400px;margin:10px 0">
+  <div style="position:absolute;bottom:20px;left:50%;transform:translateX(-50%);width:300px;height:300px;border-radius:50%;border:10px solid #e2e8f0;background:#000;overflow:hidden;box-shadow:inset 0 0 50px #000">
+    <div id="aguaReal" style="position:absolute;bottom:0;width:100%;height:0%;background:linear-gradient(to top,#0369a1,#0ea5e9,#38bdf8);transition:height 0.8s linear">
+      <div style="position:absolute;top:-15px;width:120%;left:-10%;height:30px;background:radial-gradient(ellipse at center,rgba(255,255,255,0.9),transparent 60%);animation:onda 0.5s infinite alternate"></div>
+      <div style="position:absolute;width:100%;height:100%"><div style="position:absolute;bottom:10%;left:20%;width:6px;height:6px;background:white;border-radius:50%;animation:bolhas 2s infinite"></div><div style="position:absolute;bottom:15%;left:70%;width:4px;height:4px;background:white;border-radius:50%;animation:bolhas 1.5s infinite 0.3s"></div></div>
     </div>
-    <div id="agitadorReal" style="position:absolute;top:50%;left:50%;width:76px;height:76px;background:radial-gradient(circle,#fff,#94a3b8);border-radius:50%;transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 15px rgba(0,0,0,0.6);z-index:5">
-      <div style="width:100%;height:10px;background:#0f172a;position:absolute;border-radius:5px"></div>
-      <div style="width:10px;height:100%;background:#0f172a;position:absolute;border-radius:5px"></div>
-      <div style="width:22px;height:22px;background:white;border:2px solid #0f172a;border-radius:50%;z-index:6"></div>
+    <div id="agitadorReal" style="position:absolute;top:50%;left:50%;width:90px;height:90px;background:radial-gradient(circle,#fff,#cbd5e1);border-radius:50%;transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px rgba(0,0,0,0.7);z-index:5;border:2px solid #475569">
+      <div style="width:100%;height:14px;background:#0f172a;position:absolute;border-radius:7px"></div>
+      <div style="width:14px;height:100%;background:#0f172a;position:absolute;border-radius:7px"></div>
+      <div style="width:28px;height:28px;background:white;border:2px solid #0f172a;border-radius:50%;z-index:6"></div>
+      <div style="position:absolute;top:4px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-bottom:10px solid #ef4444;z-index:7"></div>
     </div>
+    <div id="turbilhao" style="position:absolute;top:50%;left:50%;width:200px;height:200px;border:2px dashed rgba(255,255,255,0.2);border-radius:50%;transform:translate(-50%,-50%);opacity:0"></div>
   </div>
-  <div style="position:absolute;top:10px;right:10px;background:#0f172a;padding:6px 10px;border-radius:20px;border:1px solid #334155;font-size:11px;z-index:25">PRESSOSTATO: <span id="ledPress" style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#ef4444;box-shadow:0 0 6px #ef4444"></span> <span id="txtPress">VAZIO</span></div>
-  <div id="jatoValvula" style="position:absolute;top:46px;left:50%;width:6px;height:0;background:linear-gradient(to bottom,#38bdf8,rgba(56,189,248,0));transform:translateX(-50%);transition:height 0.3s;z-index:10;border-radius:3px"></div>
-  <div id="txtMotorReal" style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.7);padding:4px 12px;border-radius:12px;font-size:11px;z-index:25">PARADO</div>
+  <div id="tampaReal" style="position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(180deg,rgba(255,255,255,0.28) 0%,rgba(200,220,255,0.18) 50%,rgba(255,255,255,0.12) 100%);backdrop-filter:blur(0.5px);z-index:15;transform-origin:top;transition:transform 0.8s cubic-bezier(.4,0,.2,1);display:flex;align-items:center;justify-content:center;border:3px solid rgba(255,255,255,0.4);border-radius:18px;cursor:pointer">
+    <div style="position:absolute;inset:12px;border:2px solid rgba(255,255,255,0.5);border-radius:12px;pointer-events:none"></div>
+    <div id="textoTampa" style="background:rgba(15,23,42,0.85);padding:8px 18px;border-radius:20px;border:1px solid rgba(255,255,255,0.3);color:white;font-weight:bold;font-size:12px;text-align:center">🔒 VIDRO - TAMPA FECHADA<span style="font-size:10px;display:block;opacity:0.8;margin-top:2px">Toque para abrir - Dá pra ver água subindo</span></div>
+  </div>
+  <div style="position:absolute;top:10px;right:10px;background:rgba(15,23,42,0.9);padding:6px 10px;border-radius:20px;border:1px solid #334155;font-size:11px;z-index:25;color:white">PRESSOSTATO: <span id="ledPress" style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#ef4444;box-shadow:0 0 6px #ef4444;vertical-align:middle"></span> <span id="txtPress">VAZIO</span></div>
+  <div id="jatoValvula" style="position:absolute;top:54px;left:50%;width:8px;height:0;background:linear-gradient(to bottom,#38bdf8,#0ea5e9,transparent);transform:translateX(-50%);transition:height 0.3s;z-index:12;border-radius:4px"></div>
+  <div id="txtMotorReal" style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.85);padding:5px 14px;border-radius:12px;font-size:11px;z-index:25;color:#22c55e;border:1px solid #334155">PARADO - VIDRO TRANSPARENTE</div>
 </div>
 
 <div id="timerDisplay" class="displayTimer">00:00 - Parado</div>
@@ -78,52 +81,18 @@ select{width:100%;padding:9px;border-radius:8px;background:#0f172a;color:white;b
 <div id="cardsSim"></div>
 </div>
 
-<div id="aba2" class="aba"><canvas id="graficoSaidas"></canvas>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px">
-<select id="out1"><option value="ok">Mot H OK</option><option value="fail_curto">Mot H CURTO</option></select>
-<select id="out2"><option value="ok">Mot AH OK</option><option value="fail">Mot AH FALHA</option></select>
-<select id="out3"><option value="ok">Valvula OK</option><option value="fail_curto">Valv CURTO</option></select>
-<select id="out5"><option value="ok">Bomba OK</option><option value="fail">Bomba FALHA</option></select>
-<select id="out6"><option value="ok">Atuador OK</option><option value="fail">Atuador FALHA</option></select>
-<select id="out7"><option value="ok">Trava OK</option><option value="fail">Trava FALHA</option></select>
-<select id="out8"><option value="ok">Fonte OK</option><option value="fail">Fonte FALHA</option></select>
-</div><button class="btn btn-play" onclick="analisarTudo()">TESTAR E SIMULAR NA MAQUINA</button><div id="resumoFalhas"></div></div>
+<div id="aba2" class="aba"><canvas id="graficoSaidas"></canvas><div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px"><select id="out1"><option value="ok">Mot H OK</option><option value="fail_curto">Mot H CURTO</option></select><select id="out2"><option value="ok">Mot AH OK</option><option value="fail">Mot AH FALHA</option></select><select id="out3"><option value="ok">Valvula OK</option><option value="fail_curto">Valv CURTO</option></select><select id="out5"><option value="ok">Bomba OK</option><option value="fail">Bomba FALHA</option></select><select id="out6"><option value="ok">Atuador OK</option><option value="fail">Atuador FALHA</option></select><select id="out7"><option value="ok">Trava OK</option><option value="fail">Trava FALHA</option></select><select id="out8"><option value="ok">Fonte OK</option><option value="fail">Fonte FALHA</option></select></div><button class="btn btn-play" onclick="analisarTudo()">TESTAR E SIMULAR</button><div id="resumoFalhas"></div></div>
 
-<div id="aba3" class="aba">
-<h2>MULTIMETRO 2D + SOM BIP</h2>
-<div id="multiDisplay" class="multiDisplay">Toque nos pinos - COM SOM</div>
-<div><button class="modoBtn ativo" id="btn_bip" onclick="setModoMulti('bip')">🔊 BIP</button><button class="modoBtn" id="btn_ohms_200" onclick="setModoMulti('ohms_200')">Ω 200</button><button class="modoBtn" id="btn_ohms_2k" onclick="setModoMulti('ohms_2k')">Ω 2k</button><button class="modoBtn" id="btn_cap" onclick="setModoMulti('cap')">CAP</button></div>
-<button onclick="limparPontas()" style="padding:8px;border-radius:8px">Limpar</button>
-<div id="resultadoTeste" style="background:#0f172a;padding:10px;border-radius:8px;margin-top:8px;border:1px solid #334155"></div>
-<select id="compSelect" onchange="carregarComponente()"><option value="diodo">Diodo</option><option value="triac">TRIAC Motor</option><option value="triac_valv">TRIAC Valvula</option><option value="rele">Rele</option><option value="ptc">PTC</option><option value="cap">Capacitor</option><option value="lnk">LNK</option></select>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px"><div class="bomBox"><div style="color:#22c55e">✅ BOM</div><div id="bomPinos"></div></div><div class="ruimBox"><div style="color:#ef4444">❌ RUIM</div><div id="ruimPinos"></div></div></div>
-<div id="dicaComp" style="font-size:12px;margin-top:6px"></div>
-</div>
+<div id="aba3" class="aba"><h2>MULTIMETRO + SOM</h2><div id="multiDisplay" class="multiDisplay">Toque nos pinos - COM SOM</div><div><button class="modoBtn ativo" id="btn_bip" onclick="setModoMulti('bip')">🔊 BIP</button><button class="modoBtn" id="btn_ohms_200" onclick="setModoMulti('ohms_200')">Ω 200</button><button class="modoBtn" id="btn_ohms_2k" onclick="setModoMulti('ohms_2k')">Ω 2k</button></div><button onclick="limparPontas()">Limpar</button><div id="resultadoTeste" style="background:#0f172a;padding:10px;border-radius:8px;margin-top:8px;border:1px solid #334155"></div><select id="compSelect" onchange="carregarComponente()"><option value="diodo">Diodo</option><option value="triac">TRIAC Motor</option><option value="triac_valv">TRIAC Valvula</option><option value="rele">Rele</option><option value="ptc">PTC</option><option value="cap">Capacitor</option><option value="lnk">LNK</option></select><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px"><div class="bomBox"><div style="color:#22c55e">✅ BOM</div><div id="bomPinos"></div></div><div class="ruimBox"><div style="color:#ef4444">❌ RUIM</div><div id="ruimPinos"></div></div></div><div id="dicaComp" style="font-size:12px;margin-top:6px"></div></div>
 
-<div id="aba4" class="aba"><button class="btn btn-play" onclick="gerarPDF()">📄 GERAR LAUDO PDF</button><div style="margin-top:10px">ID: <span id="idDisplay"></span></div></div>
+<div id="aba4" class="aba"><button class="btn btn-play" onclick="gerarPDF()">📄 LAUDO PDF</button><div>ID: <span id="idDisplay"></span></div></div>
 
 <script>
-// ========== SOM BIP + RELE (SUAS FUNÇÕES ORIGINAIS, NÃO ALTERADAS) ==========
 let audioCtx=null;
 function getAudio(){ if(!audioCtx){ try{ audioCtx=new (window.AudioContext||window.webkitAudioContext)(); }catch(e){ return null; } } if(audioCtx.state==='suspended') audioCtx.resume(); return audioCtx; }
-function tocarBip(tipo){
-  let ctx=getAudio(); if(!ctx) return;
-  let osc=ctx.createOscillator(); let gain=ctx.createGain();
-  osc.connect(gain); gain.connect(ctx.destination);
-  if(tipo==='curto'){ osc.frequency.value=850; gain.gain.value=0.4; osc.start(); gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime+0.6); osc.stop(ctx.currentTime+0.6); }
-  else if(tipo==='bom'){ osc.frequency.value=1200; gain.gain.value=0.3; osc.start(); gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime+0.15); osc.stop(ctx.currentTime+0.15); }
-}
-function tocarClickRele(){
-  let ctx=getAudio(); if(!ctx) return;
-  let osc1=ctx.createOscillator(); let gain1=ctx.createGain();
-  osc1.connect(gain1); gain1.connect(ctx.destination);
-  osc1.frequency.value=2200; osc1.type='square'; gain1.gain.value=0.5;
-  osc1.start(); gain1.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime+0.08); osc1.stop(ctx.currentTime+0.08);
-  setTimeout(()=>{ let osc2=ctx.createOscillator(); let gain2=ctx.createGain(); osc2.connect(gain2); gain2.connect(ctx.destination); osc2.frequency.value=1500; osc2.type='square'; gain2.gain.value=0.3; osc2.start(); gain2.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime+0.06); osc2.stop(ctx.currentTime+0.06); },30);
-  if(navigator.vibrate) navigator.vibrate(40);
-}
+function tocarBip(tipo){ let ctx=getAudio(); if(!ctx) return; let osc=ctx.createOscillator(); let gain=ctx.createGain(); osc.connect(gain); gain.connect(ctx.destination); if(tipo==='curto'){ osc.frequency.value=850; gain.gain.value=0.4; osc.start(); gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime+0.6); osc.stop(ctx.currentTime+0.6); } else if(tipo==='bom'){ osc.frequency.value=1200; gain.gain.value=0.3; osc.start(); gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime+0.15); osc.stop(ctx.currentTime+0.15); } }
+function tocarClickRele(){ let ctx=getAudio(); if(!ctx) return; let osc1=ctx.createOscillator(); let gain1=ctx.createGain(); osc1.connect(gain1); gain1.connect(ctx.destination); osc1.frequency.value=2200; osc1.type='square'; gain1.gain.value=0.5; osc1.start(); gain1.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime+0.08); osc1.stop(ctx.currentTime+0.08); setTimeout(()=>{ let osc2=ctx.createOscillator(); let gain2=ctx.createGain(); osc2.connect(gain2); gain2.connect(ctx.destination); osc2.frequency.value=1500; osc2.type='square'; gain2.gain.value=0.3; osc2.start(); gain2.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime+0.06); osc2.stop(ctx.currentTime+0.06); },30); if(navigator.vibrate) navigator.vibrate(40); }
 
-// ========== FUNÇÕES ORIGINAIS (NÃO ALTERADAS) ==========
 function abrirAba(n){ document.querySelectorAll('.aba').forEach(a=>a.classList.remove('ativa')); document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('ativa')); document.getElementById('aba'+n).classList.add('ativa'); document.getElementById('tab'+n).classList.add('ativa'); }
 let seg=0; let timer=null;
 function obterId(){ return 'BANC-'+Math.random().toString(36).substr(2,6).toUpperCase(); }
@@ -156,34 +125,28 @@ function iniciarSimulacao(){
 let chart=null;
 window.addEventListener('load',()=>{
   let ctx=document.getElementById('graficoSaidas').getContext('2d');
-  chart=new Chart(ctx,{type:'bar',data:{labels:['Mot H','Mot AH','Valv','Bomba','Atuador','Trava','Fonte'],datasets:[{label:'Saidas',data:[1,1,1,1,1,1,1],backgroundColor:'#22c55e'}]},options:{responsive:true,scales:{y:{min:0,max:10}}}});
+  chart=new Chart(ctx,{type:'bar',data:{labels:['Mot H','Mot AH','Valv','Bomba','Atuador','Trava','Fonte'],datasets:[{label:'Saidas',data:[1,[STRIPPED]
   carregarComponente();
 });
 function analisarTudo(){ let outs=[]; for(let i of [1,2,3,5,6,7,8]){ let el=document.getElementById('out'+i); if(el) outs.push(el.value); } let vals=outs.map(v=>v==='ok'?1:9); if(chart){ chart.data.datasets[0].data=vals; chart.update(); } abrirAba(1); setTimeout(()=>{ iniciarSimulacao(); },300); }
 let modoMulti='bip'; let pontaPreta=null; let pontaVermelha=null;
 function setModoMulti(m){ modoMulti=m; document.querySelectorAll('.modoBtn').forEach(b=>b.classList.remove('ativo')); let btn=document.getElementById('btn_'+m); if(btn) btn.classList.add('ativo'); }
 function limparPontas(){ pontaPreta=null; pontaVermelha=null; document.querySelectorAll('.pino').forEach(p=>p.classList.remove('selecionado')); document.getElementById('multiDisplay').textContent='Toque nos pinos'; }
-const componentes={
- diodo:{ bom:{'Anodo-Catodo':'0.52V BOM','Catodo-Anodo':'OL BOM'}, ruim:{'Anodo-Catodo':'0V curto'}, dica:'0.5V bom', pinsBom:['Anodo','Catodo'], pinsRuim:['Anodo','Catodo'] },
- triac:{ bom:{'T1-T2':'OL BOM','G-T1':'90Ω BOM'}, ruim:{'T1-T2':'0Ω curto'}, dica:'T1-T2 OL', pinsBom:['T1','T2','G'], pinsRuim:['T1','T2','G'] },
- triac_valv:{ bom:{'T1-T2':'OL BOM'}, ruim:{'T1-T2':'0.02Ω curto'}, dica:'OL bom', pinsBom:['T1','T2','G'], pinsRuim:['T1','T2','G'] },
- rele:{ bom:{'Bobina-Bobina':'330Ω BOM'}, ruim:{'Bobina-Bobina':'OL queimado'}, dica:'330R bom', pinsBom:['Bobina','Bobina','COM'], pinsRuim:['Bobina','Bobina','COM'] },
- ptc:{ bom:{'PTC-PTC':'1.2kΩ BOM'}, ruim:{'PTC-PTC':'OL aberto'}, dica:'1.2k', pinsBom:['PTC','PTC'], pinsRuim:['PTC','PTC'] },
- cap:{ bom:{'CAP-CAP':'470uF BOM'}, ruim:{'CAP-CAP':'0uF seco'}, dica:'470uF', pinsBom:['CAP','CAP'], pinsRuim:['CAP','CAP'] },
- lnk:{ bom:{'D-S':'0.55V BOM'}, ruim:{'D-S':'0V curto'}, dica:'LNK', pinsBom:['D','S','BP'], pinsRuim:['D','S','BP'] }
-};
+const componentes={ diodo:{ bom:{'Anodo-Catodo':'0.52V BOM','Catodo-Anodo':'OL BOM'}, ruim:{'Anodo-Catodo':'0V curto'}, dica:'0.5V bom', pinsBom:['Anodo','Catodo'], pinsRuim:['Anodo','Catodo'] }, triac:{ bom:{'T1-T2':'OL BOM','G-T1':'90Ω BOM'}, ruim:{'T1-T2':'0Ω curto'}, dica:'T1-T2 OL', pinsBom:['T1','T2','G'], pinsRuim:['T1','T2','G'] }, triac_valv:{ bom:{'T1-T2':'OL BOM'}, ruim:{'T1-T2':'0.02Ω curto'}, dica:'OL bom', pinsBom:['T1','T2','G'], pinsRuim:['T1','T2','G'] }, rele:{ bom:{'Bobina-Bobina':'330Ω BOM'}, ruim:{'Bobina-Bobina':'OL queimado'}, dica:'330R bom', pinsBom:['Bobina','Bobina','COM'], pinsRuim:['Bobina','Bobina','COM'] }, ptc:{ bom:{'PTC-PTC':'1.2kΩ BOM'}, ruim:{'PTC-PTC':'OL aberto'}, dica:'1.2k', pinsBom:['PTC','PTC'], pinsRuim:['PTC','PTC'] }, cap:{ bom:{'CAP-CAP':'470uF BOM'}, ruim:{'CAP-CAP':'0uF seco'}, dica:'470uF', pinsBom:['CAP','CAP'], pinsRuim:['CAP','CAP'] }, lnk:{ bom:{'D-S':'0.55V BOM'}, ruim:{'D-S':'0V curto'}, dica:'LNK', pinsBom:['D','S','BP'], pinsRuim:['D','S','BP'] } };
 function carregarComponente(){ let key=document.getElementById('compSelect').value; let cfg=componentes[key]; let bomDiv=document.getElementById('bomPinos'); let ruimDiv=document.getElementById('ruimPinos'); bomDiv.innerHTML=''; ruimDiv.innerHTML=''; cfg.pinsBom.forEach(n=>{ let s=document.createElement('span'); s.className='pino'; s.innerHTML=`<span style="font-size:9px">${n}</span>`; s.onclick=()=>selecionarPino(n,'bom',s); bomDiv.appendChild(s); }); cfg.pinsRuim.forEach(n=>{ let s=document.createElement('span'); s.className='pino'; s.innerHTML=`<span style="font-size:9px">${n}</span>`; s.onclick=()=>selecionarPino(n,'ruim',s); ruimDiv.appendChild(s); }); document.getElementById('dicaComp').textContent=cfg.dica; limparPontas(); }
 function selecionarPino(nome,tipo,el){ el.classList.toggle('selecionado'); if(!pontaPreta){ pontaPreta={nome,tipo,el}; } else if(!pontaVermelha){ pontaVermelha={nome,tipo,el}; medir(); } else{ limparPontas(); pontaPreta={nome,tipo,el}; el.classList.add('selecionado'); } }
 function medir(){ if(!pontaPreta||!pontaVermelha) return; let key=document.getElementById('compSelect').value; let cfg=componentes[key]; let par=pontaPreta.nome+"-"+pontaVermelha.nome; let parInv=pontaVermelha.nome+"-"+pontaPreta.nome; let isBom=pontaPreta.tipo==='bom'&&pontaVermelha.tipo==='bom'; let isRuim=pontaPreta.tipo==='ruim'&&pontaVermelha.tipo==='ruim'; let valor=""; if(isBom){ valor=cfg.bom[par]||cfg.bom[parInv]||"OL - BOM"; } else if(isRuim){ valor=cfg.ruim[par]||cfg.ruim[parInv]||Object.values(cfg.ruim)[0]; } else{ valor="Compare BOM vs RUIM"; } document.getElementById('multiDisplay').textContent=valor; document.getElementById('resultadoTeste').innerHTML=(isBom?"✅ BOM":"❌ RUIM")+"<br>"+pontaPreta.nome+"-"+pontaVermelha.nome+"<br><b>"+valor+"</b>"; if(modoMulti==='bip'){ let v=valor.toLowerCase(); if(v.includes('0v curto')||v.includes('0Ω curto')||v.includes('0.02')||v.includes('0Ω bom')){ tocarBip('curto'); if(navigator.vibrate) navigator.vibrate([100,50,200]); } else if(v.includes('ol')){ } else{ tocarBip('bom'); } } }
-function gerarPDF(){ const { jsPDF }=window.jspdf; let doc=new jsPDF(); doc.text("LAUDO V5.0 REALISTA",10,10); doc.save("laudo_V5.pdf"); }
+function gerarPDF(){ const { jsPDF }=window.jspdf; let doc=new jsPDF(); doc.text("LAUDO V5.1 VIDRO",10,10); doc.save("laudo_V51.pdf"); }
 
-// ========== PALCO REALISTA V5.0 - NOVO, NÃO ALTERA OUTRAS FUNÇÕES ==========
+// PALCO V5.1 VIDRO - NOVO
 let nivelAguaReal = 0;
 let tampaAbertaReal = false;
 document.getElementById('tampaReal').onclick = function(){
   tampaAbertaReal = !tampaAbertaReal;
-  this.style.transform = tampaAbertaReal ? 'rotateX(85deg)' : 'rotateX(0deg)';
-  document.getElementById('condTampa').value = tampaAbertaReal ? 'aberta' : 'fechada';
+  this.style.transform = tampaAbertaReal ? 'rotateX(88deg)' : 'rotateX(0deg)';
+  let txt = document.getElementById('textoTampa');
+  if(tampaAbertaReal){ txt.innerHTML='🔓 TAMPA ABERTA'; document.getElementById('condTampa').value='aberta'; }
+  else { txt.innerHTML='🔒 VIDRO - TAMPA FECHADA<span style="font-size:10px;display:block;opacity:0.8;margin-top:2px">Toque para abrir - Dá pra ver água subindo</span>'; document.getElementById('condTampa').value='fechada'; }
 };
 function atualizarPalcoRealista(){
   let sel = document.getElementById('condSeletor').value;
@@ -193,51 +156,35 @@ function atualizarPalcoRealista(){
   let motorAH = document.getElementById('card_motorAH');
   let valv = document.getElementById('card_valvula');
   let tampaDiv = document.getElementById('tampaReal');
-  if(tampaSel==='aberta' && !tampaAbertaReal){ tampaDiv.style.transform='rotateX(85deg)'; tampaAbertaReal=true; }
-  if(tampaSel==='fechada' && tampaAbertaReal){ tampaDiv.style.transform='rotateX(0deg)'; tampaAbertaReal=false; }
+  if(tampaSel==='aberta' && !tampaAbertaReal){ tampaDiv.style.transform='rotateX(88deg)'; tampaAbertaReal=true; document.getElementById('textoTampa').innerHTML='🔓 TAMPA ABERTA'; }
+  if(tampaSel==='fechada' && tampaAbertaReal){ tampaDiv.style.transform='rotateX(0deg)'; tampaAbertaReal=false; document.getElementById('textoTampa').innerHTML='🔒 VIDRO - TAMPA FECHADA<span style="font-size:10px;display:block;opacity:0.8;margin-top:2px">Toque para abrir - Dá pra ver água subindo</span>'; }
   let agua = document.getElementById('aguaReal');
   let jato = document.getElementById('jatoValvula');
-  if(sel==='enchendo' && press==='vazia' && tampaSel==='fechada'){
-    if(nivelAguaReal < 85) nivelAguaReal += 0.9;
-    if(jato) jato.style.height='120px';
-  } else if(sel==='centrifugacao'){
-    if(nivelAguaReal > 0) nivelAguaReal -= 2.5;
-    if(jato) jato.style.height='0px';
-  } else {
-    if(jato) jato.style.height='0px';
-  }
+  let turbilhao = document.getElementById('turbilhao');
+  if(sel==='enchendo' && press==='vazia' && tampaSel==='fechada'){ if(nivelAguaReal < 85) nivelAguaReal += 1.2; jato.style.height='130px'; }
+  else if(sel==='centrifugacao'){ if(nivelAguaReal > 0) nivelAguaReal -= 3; jato.style.height='0px'; }
+  else { jato.style.height='0px'; }
   if(press==='cheia') nivelAguaReal = 82;
-  if(press==='vazia' && sel!=='enchendo') { if(nivelAguaReal>0 && sel!=='centrifugacao') {} else if(sel!=='enchendo') nivelAguaReal=0; }
-  if(agua) agua.style.height = nivelAguaReal + '%';
+  if(press==='vazia' && sel!=='enchendo' && sel!=='centrifugacao' && nivelAguaReal<1) nivelAguaReal=0;
+  agua.style.height = nivelAguaReal + '%';
   let led = document.getElementById('ledPress');
   let txt = document.getElementById('txtPress');
   let txtMotor = document.getElementById('txtMotorReal');
-  if(nivelAguaReal > 70){
-    led.style.background='#22c55e'; led.style.boxShadow='0 0 10px #22c55e';
-    txt.textContent='CHEIO';
-    document.getElementById('condPress').value='cheia';
-  } else if(nivelAguaReal < 10){
-    led.style.background='#ef4444'; txt.textContent='VAZIO';
-  } else {
-    led.style.background='#f59e0b'; txt.textContent='ENCHENDO';
-  }
+  if(nivelAguaReal > 70){ led.style.background='#22c55e'; txt.textContent='CHEIO '+Math.round(nivelAguaReal)+'%'; document.getElementById('condPress').value='cheia'; }
+  else if(nivelAguaReal < 10){ led.style.background='#ef4444'; txt.textContent='VAZIO'; }
+  else { led.style.background='#f59e0b'; txt.textContent='ENCHENDO '+Math.round(nivelAguaReal)+'%'; }
   let agit = document.getElementById('agitadorReal');
   if(agit){
     if(motorH && motorH.classList.contains('ativo')){
-      agit.style.animation='giraH 0.5s linear infinite';
-      agit.style.boxShadow='0 0 20px #22c55e';
-      txtMotor.textContent='➡️ GIRANDO DIREITA 2s';
-      txtMotor.style.color='#22c55e';
+      agit.style.animation='giraH 0.35s linear infinite'; turbilhao.style.opacity='0.6'; turbilhao.style.animation='giraH 1s linear infinite';
+      txtMotor.textContent='➡️ ROTOR DIREITA 2s - ÁGUA '+Math.round(nivelAguaReal)+'% - VIDRO'; txtMotor.style.color='#22c55e';
     } else if(motorAH && motorAH.classList.contains('ativo')){
-      agit.style.animation='giraAH 0.5s linear infinite';
-      agit.style.boxShadow='0 0 20px #38bdf8';
-      txtMotor.textContent='⬅️ GIRANDO ESQUERDA 2s';
-      txtMotor.style.color='#38bdf8';
+      agit.style.animation='giraAH 0.35s linear infinite'; turbilhao.style.opacity='0.6'; turbilhao.style.animation='giraAH 1s linear infinite';
+      txtMotor.textContent='⬅️ ROTOR ESQUERDA 2s - ÁGUA '+Math.round(nivelAguaReal)+'% - VIDRO'; txtMotor.style.color='#38bdf8';
     } else {
-      agit.style.animation='none';
-      agit.style.boxShadow='0 4px 10px rgba(0,0,0,0.5)';
-      if(valv && valv.classList.contains('ativo')){ txtMotor.textContent='💧 ENCHENDO RECIPIENTE'; txtMotor.style.color='#38bdf8'; }
-      else txtMotor.textContent='PARADO';
+      agit.style.animation='none'; turbilhao.style.opacity='0';
+      if(valv && valv.classList.contains('ativo')){ txtMotor.textContent='💧 ENCHENDO - ÁGUA '+Math.round(nivelAguaReal)+'% - VIDRO TRANSPARENTE'; txtMotor.style.color='#38bdf8'; }
+      else txtMotor.textContent='PARADO - ÁGUA '+Math.round(nivelAguaReal)+'% - VIDRO TRANSPARENTE';
     }
   }
 }
