@@ -1,53 +1,228 @@
-<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Bancada Lavadora - 7 Dias Grátis</title><script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Bancada Lavadora V11.7 Motor Interativo</title>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, collection, getDocs, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 const firebaseConfig = {
   apiKey: "AIzaSyAQoBcq8ZX8n1Z55Qfr8x8E0Gb8jEZQl-k",
   authDomain: "bancada-lavadora-pro.firebaseapp.com",
   projectId: "bancada-lavadora-pro",
   storageBucket: "bancada-lavadora-pro.firebasestorage.app",
   messagingSenderId: "390758786240",
-  appId: "1:390758786240:web:431f0d9214b4613be7b925",
-  measurementId: "G-9V8P9LZDDQ1"
+  appId: "1:390758786240:web:431f0d9214b4613be7b925"
 };
 const app=initializeApp(firebaseConfig);
 const db=getFirestore(app);
-window.db=db;
-window.fb={collection,getDocs,doc,getDoc,setDoc};
+window.db=db; window.fb={doc,getDoc,setDoc};
 </script>
-<style>*{box-sizing:border-box}body{font-family:Arial;background:#0f172a;color:#fff;margin:0;padding:12px}h1{font-size:15px;text-align:center}button,input,select{padding:11px;border-radius:10px;border:none;font-weight:700;margin:4px}button{background:#22c55e;color:#000;cursor:pointer}input,select{background:#fff;color:#000;width:100%}.card{background:#1e293b;padding:14px;border-radius:14px;margin:10px 0;border:1px solid #334155}.idBox{background:#0f172a;border:1px dashed #facc15;padding:12px;border-radius:10px;text-align:center}.idCode{font-size:20px;font-weight:900;color:#38bdf8}.tabs{display:flex;gap:4px;flex-wrap:wrap}.tabBtn{background:#334155;color:#fff;flex:1;min-width:70px;padding:9px;font-size:11px}.tabBtn.active{background:#22c55e;color:#000}.aba{display:none}.aba.active{display:block}.switch{position:relative;width:70px;height:34px;background:#ef4444;border-radius:20px;display:inline-block}.switch.on{background:#22c55e}.switchKnob{position:absolute;top:3px;left:3px;width:28px;height:28px;background:#fff;border-radius:50%}.switch.on .switchKnob{left:39px}.cestoContainer{position:relative;height:200px;border:3px solid #000;border-radius:12px;background:#e2e8f0;overflow:hidden}.aguaLateral{position:absolute;bottom:0;left:0;width:100%;height:12%;background:linear-gradient(#38bdf8,#0284c7)}.cestoGiratorio{position:absolute;bottom:10px;left:50%;width:120px;height:140px;margin-left:-60px;border:3px solid #334155;border-radius:10px 10px 30px 30px;background:#cbd5e1;display:flex;align-items:flex-end;justify-content:center}.paleta{width:70px;height:70px;background:#94a3b8;border:3px solid #000;border-radius:50%;margin-bottom:6px}</style></head><body>
-<h1>🧺 Bancada Lavadora - Diagnóstico de Placas</h1>
-<div id="loginCard" class="card" style="border:2px solid #facc15"><h3>🔐 Ativação do Aparelho</h3><div style="font-size:12px;color:#facc15">Teste grátis por 7 dias</div><div class="idBox"><div style="font-size:11px;color:#94a3b8">ID DO SEU DISPOSITIVO</div><div id="deviceIdDisplay" class="idCode">...</div><div style="display:flex;gap:6px;margin-top:8px"><button onclick="copiarId()" style="flex:1;background:#334155;color:#fff">📋 Copiar ID</button><button onclick="enviarWhatsApp()" style="flex:1;background:#22c55e">💬 WhatsApp Sóstenes</button></div></div><div id="trialInfo" style="padding:10px;border-radius:8px;font-size:12px;margin:8px 0"></div><label style="font-size:12px">Seu ID para entrar:</label><input id="loginId" placeholder="ID-XXXXXX"><div style="display:flex"><button onclick="fazerLogin()" style="flex:1">🔓 ENTRAR</button><button onclick="document.getElementById('loginId').value='ADM-999';fazerLogin()" style="background:#8b5cf6;color:#fff">👑 ADM</button></div><div id="loginMsg" style="font-weight:800;margin-top:8px;font-size:13px"></div></div>
-<div id="conteudo" style="display:none"><div style="display:flex;justify-content:space-between"><div><b id="userLogado">-</b><br><span id="userIdShow" style="font-size:11px"></span><br><span id="trialStatus" style="font-size:11px;color:#22c55e"></span></div><button onclick="sair()" style="background:#ef4444;color:#fff;padding:6px">Sair</button></div><div class="tabs" style="margin-top:10px"><button class="tabBtn active" onclick="mostrarAba('abaSim',this)">1 SIMULAÇÃO</button><button class="tabBtn" onclick="mostrarAba('abaLaudo',this)">3 LAUDO</button><button class="tabBtn" onclick="mostrarAba('abaAdm',this)">5 ADM</button><button class="tabBtn" onclick="mostrarAba('abaPlaca',this)">7 MAPA</button><button class="tabBtn" onclick="mostrarAba('abaSeg',this)">8 SEG</button></div>
-<div id="abaSeg" class="aba"><div class="card"><h3>⚠️ SEGURANÇA</h3><label><input type="checkbox" id="seg1"> Desliguei da tomada</label><br><label><input type="checkbox" id="seg2"> EPI</label><br><label><input type="checkbox" id="seg3"> Capacitor descarregado</label></div></div>
-<div id="abaSim" class="aba active"><div class="card"><select id="modelo" onchange="trocarModelo()"></select><div style="background:#fff;color:#000;padding:10px;border-radius:10px;text-align:center"><div id="nomeMaquina" style="font-weight:800">Electrolux LAC12</div><div id="idMaquina" style="font-size:11px">ID: ELX-LAC12-001</div></div></div><div class="card"><label>Defeito Placa:</label><select id="defeitoPlaca" onchange="injetarDefeitoPlaca()"><option value="ok">✅ PLACA BOA</option><option value="triacDir">🔴 TRIAC DIR</option><option value="triacEsq">🔴 TRIAC ESQ</option><option value="triacBomba">🔴 TRIAC BOMBA</option><option value="triacAtuador">🔴 TRIAC ATUADOR</option><option value="capacitor">🔴 CAPACITOR</option><option value="fusivel">🔴 FUSÍVEL</option></select><div id="alertaPlaca" style="background:#dcfce7;color:#000;padding:10px;border-radius:8px;margin-top:6px">✅ PLACA BOA</div><div id="reacaoPlaca" style="background:#fff;color:#000;padding:10px;border-radius:8px;margin-top:6px">Normal</div><br><button onclick="iniciar()">▶ INICIAR</button><button onclick="parar()" style="background:#ef4444;color:#fff">⏹ PARAR</button></div><div class="card"><div>Tempo: <b id="tempo">0s</b> | Nível: <b id="nivelTxt">12%</b></div><div id="status" style="font-weight:900">Aguardando...</div><div class="cestoContainer"><div id="aguaLateral" class="aguaLateral"></div><div id="cestoGiratorio" class="cestoGiratorio"><div id="paleta" class="paleta"></div></div></div></div></div>
-<div id="abaLaudo" class="aba"><div class="card"><h3>📋 LAUDO</h3><input id="laudoCliente" placeholder="Cliente"><input id="laudoFone" placeholder="Fone"><select id="laudoDefeito"><option>Triac DIR BT137</option><option>Triac Bomba</option><option>Triac Atuador BWL11</option></select><input id="laudoValor" placeholder="Valor"><button onclick="gerarLaudo()">📋 GERAR</button><div id="laudoGerado" style="background:#fff;color:#000;padding:10px;border-radius:8px;margin-top:8px;white-space:pre-line"></div></div></div>
-<div id="abaAdm" class="aba"><div class="card" style="border:2px solid #f97316"><h3>👑 ADM SÓSTENES - CADASTRO POR ID - 1 ANO</h3><div id="admBloqueado" style="background:#fee2e2;color:#000;padding:10px;border-radius:8px">🔒 Só ADM-999</div><div id="admConteudo" style="display:none"><div style="background:#0f172a;padding:10px;border-radius:8px;font-size:12px">Cliente te enviou no WhatsApp <b>(61) 99553-4479</b> um ID tipo <b>ID-A1B2C3</b> - cola aqui e libera por 1 ano:</div><label>Nome do Cliente:</label><input id="admNomeUser" placeholder="Ex: João"><label>ID que ele enviou (ID-XXXX):</label><input id="admIdUser" placeholder="ID-..."><label>Status:</label><select id="admStatusUser"><option value="ativo">✅ ATIVO - 1 ANO</option><option value="bloqueado">❌ BLOQUEADO</option></select><button onclick="cadastrarUsuarioFirebase()" style="width:100%;background:#f97316;color:#fff">➕ LIBERAR POR 1 ANO (365 DIAS)</button><div id="listaUsuarios" style="background:#fff;color:#000;padding:10px;border-radius:8px;margin-top:8px;font-size:12px"></div></div></div></div>
-<div id="abaPlaca" class="aba"><div class="card"><h3>🧠 MAPA PLACA</h3><button onclick="mapaPlaca('bomba')">💦 Bomba</button><button onclick="mapaPlaca('motorDir')">▶ Motor Dir</button><button onclick="mapaPlaca('naoCentrifuga')">🌀 Não centrifuga</button><div id="mapaResult" style="background:#fff;color:#000;padding:10px;border-radius:8px;margin-top:8px;white-space:pre-line"></div></div></div>
+<style>
+*{box-sizing:border-box}body{font-family:Arial;background:#0f172a;color:#fff;margin:0;padding:12px}
+h1{font-size:14px;text-align:center}button,input,select{padding:11px;border-radius:10px;border:none;font-weight:700;margin:4px;cursor:pointer}
+button{background:#22c55e;color:#000}input,select{background:#fff;color:#000;width:100%}
+.card{background:#1e293b;padding:14px;border-radius:14px;margin:10px 0;border:1px solid #334155}
+.idBox{background:#0f172a;border:1px dashed #facc15;padding:12px;border-radius:10px;text-align:center}
+.idCode{font-size:22px;font-weight:900;color:#38bdf8}
+.tabs{display:flex;gap:4px;flex-wrap:wrap}.tabBtn{background:#334155;color:#fff;flex:1;min-width:68px;padding:9px;font-size:11px}.tabBtn.active{background:#22c55e;color:#000}
+.aba{display:none}.aba.active{display:block}
+.cestoContainer{position:relative;height:150px;border:3px solid #000;border-radius:12px;background:#e2e8f0;overflow:hidden}
+.aguaLateral{position:absolute;bottom:0;left:0;width:100%;height:12%;background:linear-gradient(#38bdf8,#0284c7);transition:height .5s;z-index:2}
+.cestoGiratorio{position:absolute;bottom:10px;left:50%;width:90px;height:100px;margin-left:-45px;border:3px solid #334155;border-radius:10px 10px 30px 30px;background:repeating-linear-gradient(90deg,#cbd5e1 0 6px,#94a3b8 6px 8px);z-index:3;display:flex;align-items:flex-end;justify-content:center}
+.paleta{width:50px;height:50px;background:radial-gradient(#e2e8f0,#94a3b8);border:3px solid #000;border-radius:50%;margin-bottom:6px}
+@keyframes giraDir{0%{transform:rotate(-25deg)}100%{transform:rotate(25deg)}}@keyframes giraEsq{0%{transform:rotate(25deg)}100%{transform:rotate(-25deg)}}
+.girandoDir{animation:giraDir .4s infinite alternate}.girandoEsq{animation:giraEsq .4s infinite alternate}
+</style></head><body>
+<h1>🧺 Bancada Lavadora - Diagnóstico Motor Interativo</h1>
+<div id="loginCard" class="card" style="border:2px solid #facc15">
+<h3 style="margin:0">🔐 Ativação</h3><div style="font-size:12px;color:#facc15">7 dias grátis</div>
+<div class="idBox"><div style="font-size:11px">ID DO SEU DISPOSITIVO</div><div id="deviceIdDisplay" class="idCode">...</div><div style="display:flex;gap:6px;margin-top:8px"><button onclick="copiarId()" style="flex:1;background:#334155;color:#fff">📋 Copiar</button><button onclick="enviarWhatsApp()" style="flex:1">💬 WhatsApp Sóstenes</button></div></div>
+<div id="trialInfo" style="padding:10px;border-radius:8px;font-size:12px;margin:8px 0"></div>
+<input id="loginId" placeholder="ID-XXXXXX"><div style="display:flex"><button onclick="fazerLogin()" style="flex:1">🔓 ENTRAR</button><button onclick="document.getElementById('loginId').value='ADM-999';fazerLogin()" style="background:#8b5cf6;color:#fff">👑 ADM</button></div><div id="loginMsg" style="font-weight:800;margin-top:8px"></div>
 </div>
+<div id="conteudo" style="display:none">
+<div style="display:flex;justify-content:space-between"><div><b id="userLogado">-</b><br><span id="userIdShow" style="font-size:11px"></span><br><span id="trialStatus" style="font-size:11px;color:#22c55e"></span></div><button onclick="sair()" style="background:#ef4444;color:#fff;padding:6px">Sair</button></div>
+<div class="tabs" style="margin-top:10px"><button class="tabBtn active" onclick="mostrarAba('abaSim',this)">1 SIMULAÇÃO MOTOR</button><button class="tabBtn" onclick="mostrarAba('abaLaudo',this)">3 LAUDO</button><button class="tabBtn" onclick="mostrarAba('abaAdm',this)">5 ADM</button><button class="tabBtn" onclick="mostrarAba('abaPlaca',this)">7 MAPA</button></div>
+
+<div id="abaSim" class="aba active">
+<div class="card"><label>Modelo: 30 opções</label><select id="modelo" onchange="trocarModelo()"></select><div style="background:#fff;color:#000;padding:10px;border-radius:10px;text-align:center"><div id="nomeMaquina" style="font-weight:800">Electrolux LAC12</div><div id="idMaquina" style="font-size:12px">ID: ELX-LAC12-001</div></div></div>
+<div class="card" style="border:2px solid #38bdf8">
+<h3 style="margin:0">⚙️ MOTOR INTERATIVO - VISÃO REAL BANCADA</h3>
+<label>Defeito Placa (escolha e veja motor falhar):</label>
+<select id="defeitoPlaca" onchange="injetarDefeitoPlaca()">
+<option value="ok">✅ PLACA BOA - Gira HORÁRIO e ANTI-HORÁRIO</option>
+<option value="triacDir">🔴 TRIAC DIR T1 QUEIMADO - Não gira HORÁRIO</option>
+<option value="triacEsq">🔴 TRIAC ESQ T2 QUEIMADO - Não gira ANTI-HORÁRIO</option>
+<option value="triacBomba">🔴 TRIAC BOMBA T4 - Não drena</option>
+<option value="triacAtuador">🔴 TRIAC ATUADOR T3 BWL11 - Não centrifuga</option>
+<option value="capacitor">🔴 CAPACITOR 15uF FRACO - Motor ronca</option>
+<option value="fusivel">🔴 FUSÍVEL 5A - Não liga nada</option>
+</select>
+<div id="alertaPlaca" style="background:#dcfce7;color:#000;padding:10px;border-radius:8px;margin-top:8px;font-weight:800">✅ PLACA BOA</div>
+<div id="reacaoPlaca" style="background:#fff;color:#000;padding:10px;border-radius:8px;margin-top:6px">Normal</div>
+<div style="display:flex;gap:8px;margin-top:10px"><button onclick="iniciar()" style="flex:1">▶ INICIAR MOTOR</button><button onclick="parar()" style="flex:1;background:#ef4444;color:#fff">⏹ PARAR</button></div>
+
+<div style="background:#e2e8f0;border:3px solid #000;border-radius:12px;padding:10px;margin-top:10px;color:#000">
+<div style="display:flex;justify-content:space-between;font-weight:900;font-size:12px"><span>Tempo: <b id="tempo">0s</b></span><span>Nível: <b id="nivelTxt">12%</b></span><span id="direcaoMotor" style="background:#000;color:#fff;padding:2px 8px;border-radius:10px">⏸️ PARADO</span></div>
+<div id="status" style="font-weight:900;text-align:center;margin:6px 0">Aguardando iniciar...</div>
+<div style="display:flex;gap:10px;align-items:center;justify-content:center">
+<div style="position:relative;width:140px;height:140px;background:#fff;border:4px solid #000;border-radius:50%;display:flex;align-items:center;justify-content:center;overflow:hidden">
+<div style="position:absolute;width:100%;height:4px;background:#ef4444;top:50%;margin-top:-2px"></div>
+<div style="position:absolute;height:100%;width:4px;background:#ef4444;left:50%;margin-left:-2px"></div>
+<div id="eixoMotor" style="width:30px;height:30px;background:#000;border-radius:50%;z-index:2;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;transition:transform 0.3s">M</div>
+<div id="setaMotor" style="position:absolute;width:100%;height:100%;z-index:3;transition:transform 0.5s"><div style="position:absolute;top:5px;left:50%;margin-left:-10px;width:0;height:0;border-left:10px solid transparent;border-right:10px solid transparent;border-bottom:20px solid #22c55e"></div></div>
+<div style="position:absolute;bottom:2px;font-size:9px;font-weight:900;width:100%;text-align:center">MOTOR 1/3 CV</div>
+</div>
+<div class="cestoContainer" style="flex:1"><div id="aguaLateral" class="aguaLateral"></div><div id="cestoGiratorio" class="cestoGiratorio"><div id="paleta" class="paleta"></div></div></div>
+<div style="background:#1e293b;color:#fff;padding:8px;border-radius:8px;font-size:10px;width:90px"><div style="text-align:center;font-weight:900">PLACA</div><div id="ledTriacDir" style="background:#334155;padding:4px;border-radius:4px;margin:2px;text-align:center">▶ T1 DIR<br>⚫ OFF</div><div id="ledTriacEsq" style="background:#334155;padding:4px;border-radius:4px;margin:2px;text-align:center">◀ T2 ESQ<br>⚫ OFF</div><div id="ledTriacBomba" style="background:#334155;padding:4px;border-radius:4px;margin:2px;text-align:center">💦 T4<br>⚫ OFF</div><div id="ledTriacAtuador" style="background:#334155;padding:4px;border-radius:4px;margin:2px;text-align:center">🌀 T3<br>⚫ OFF</div></div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:8px;font-size:10px;font-weight:800;text-align:center"><div id="boxDir" style="background:#dcfce7;padding:8px;border-radius:8px;color:#000">▶ HORÁRIO<br><span id="statusDir">OK</span></div><div id="boxEsq" style="background:#dcfce7;padding:8px;border-radius:8px;color:#000">◀ ANTI-HORÁRIO<br><span id="statusEsq">OK</span></div><div id="boxCent" style="background:#e0e7ff;padding:8px;border-radius:8px;color:#000">🌀 CENTRIFUGA<br><span id="statusCent">OK</span></div></div>
+</div>
+</div>
+</div>
+
+<div id="abaLaudo" class="aba"><div class="card"><h3>📋 LAUDO</h3><input id="laudoCliente" placeholder="Cliente"><input id="laudoFone" placeholder="Fone"><select id="laudoDefeito"><option>Triac DIR BT137</option><option>Triac ESQ BT137</option><option>Triac Atuador BWL11</option></select><input id="laudoValor" placeholder="Valor"><button onclick="gerarLaudo()">📋 GERAR</button><div id="laudoGerado" style="background:#fff;color:#000;padding:12px;border-radius:8px;margin-top:8px;white-space:pre-line"></div></div></div>
+<div id="abaAdm" class="aba"><div class="card" style="border:2px solid #f97316"><h3>👑 ADM - 1 ANO</h3><div id="admBloqueado" style="background:#fee2e2;color:#000;padding:10px">🔒 Só ADM-999</div><div id="admConteudo" style="display:none"><input id="admNomeUser" placeholder="Nome Cliente"><input id="admIdUser" placeholder="ID que enviou no WhatsApp 61995534479"><select id="admStatusUser"><option value="ativo">✅ ATIVO 1 ANO</option><option value="bloqueado">❌ BLOQUEADO</option></select><button onclick="cadastrarUsuarioFirebase()" style="width:100%;background:#f97316;color:#fff">➕ LIBERAR 1 ANO</button><div id="listaUsuarios" style="background:#fff;color:#000;padding:10px;border-radius:8px;margin-top:8px;font-size:11px"></div></div></div></div>
+
+<div id="abaPlaca" class="aba"><div class="card" style="border:2px solid #a855f7"><h3>🧠 MAPA PLACA INTELIGENTE POR MODELO</h3><div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:10px 0"><button onclick="mapaPlaca('valvulaNaoEntra')" style="background:#fde68a;color:#000">❌ Não entra água</button><button onclick="mapaPlaca('valvulaNaoPara')" style="background:#fde68a;color:#000">🌊 Não para água</button><button onclick="mapaPlaca('motorDir')" style="background:#fca5a5;color:#000">▶ Não gira DIR</button><button onclick="mapaPlaca('motorEsq')" style="background:#fca5a5;color:#000">◀ Não gira ESQ</button><button onclick="mapaPlaca('motorRonca')" style="background:#fde68a;color:#000">🔊 Motor ronca</button><button onclick="mapaPlaca('bombaNaoDrena')" style="background:#93c5fd;color:#000">💦 Bomba não drena</button><button onclick="mapaPlaca('naoCentrifuga')" style="background:#c4b5fd;color:#000">🌀 NÃO CENTRIFUGA</button><button onclick="mapaPlaca('transborda')" style="background:#93c5fd;color:#000">🌊 Transborda</button><button onclick="mapaPlaca('naoLiga')" style="background:#86efac;color:#000">⚫ Não liga</button><button onclick="mapaPlaca('displayLouco')" style="background:#f9a8d4;color:#000">💡 Display louco</button><button onclick="mapaPlaca('choque')" style="background:#fee2e2;color:#000">⚡ Choque</button><button onclick="mapaPlaca('queimaTriac')" style="background:#fecaca;color:#000">🔥 Queima Triac</button></div><div id="mapaResult" style="background:#fff;color:#000;padding:14px;border-radius:10px;white-space:pre-line;font-weight:700;min-height:200px;border:2px solid #a855f7;font-size:12px">👆 Selecione modelo e clique 🌀 NÃO CENTRIFUGA para diagnóstico por modelo + atuador bom/ruim + freio</div><div style="background:#fff;color:#000;border-radius:12px;padding:12px;margin-top:10px"><b>🗺️ CLIQUE NO COMPONENTE:</b><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;text-align:center;font-weight:800;font-size:11px;margin-top:8px"><div onclick="mapaPlaca('valvulaNaoEntra')" style="background:#fde68a;padding:10px;border-radius:8px;cursor:pointer;border:2px solid #000">🔌 RELÉ K1</div><div onclick="mapaPlaca('motorDir')" style="background:#fca5a5;padding:10px;border-radius:8px;cursor:pointer;border:2px solid #000">▶ TRIAC DIR T1</div><div onclick="mapaPlaca('motorEsq')" style="background:#fca5a5;padding:10px;border-radius:8px;cursor:pointer;border:2px solid #000">◀ TRIAC ESQ T2</div><div onclick="mapaPlaca('bombaNaoDrena')" style="background:#93c5fd;padding:10px;border-radius:8px;cursor:pointer;border:2px solid #000">💦 TRIAC BOMBA T4</div><div onclick="mapaPlaca('naoCentrifuga')" style="background:#c4b5fd;padding:10px;border-radius:8px;cursor:pointer;border:2px solid #000">🌀 TRIAC ATUADOR T3</div><div onclick="mapaPlaca('naoLiga')" style="background:#86efac;padding:10px;border-radius:8px;cursor:pointer;border:2px solid #000">⚡ FONTE FUSÍVEL</div></div></div></div></div>
+</div>
+
 <script>
-window.USUARIOS=[{id:'ADM-999',nome:'ADM Sóstenes',status:'ativo',adm:true,expiraEm:Date.now()+365*24*60*60*60*1000}];
-window.MODELOS=[{marca:'Electrolux',modelo:'LAC12',id:'ELX-LAC12-001',kg:'12'},{marca:'Brastemp',modelo:'BWL11',id:'BRA-BWL11-002',kg:'11'},{marca:'Consul',modelo:'CWH12',id:'CON-CWH12-003',kg:'12'}];
+window.USUARIOS=[{id:'ADM-999',nome:'ADM Sóstenes',status:'ativo',adm:true,expiraEm:Date.now()+3650*24*60*60*1000}];
+window.MODELOS=[
+{marca:'Electrolux',modelo:'LAC09 9kg',id:'ELX-LAC09-001',kg:'9'},
+{marca:'Electrolux',modelo:'LAC10 10kg',id:'ELX-LAC10-002',kg:'10'},
+{marca:'Electrolux',modelo:'LAC11 11kg',id:'ELX-LAC11-003',kg:'11'},
+{marca:'Electrolux',modelo:'LAC12 12kg - MAIS COMUM',id:'ELX-LAC12-001',kg:'12'},
+{marca:'Electrolux',modelo:'LAC13 13kg',id:'ELX-LAC13-004',kg:'13'},
+{marca:'Electrolux',modelo:'LTC09 9kg',id:'ELX-LTC09-005',kg:'9'},
+{marca:'Electrolux',modelo:'LTC10 10kg',id:'ELX-LTC10-006',kg:'10'},
+{marca:'Electrolux',modelo:'LTC12 12kg',id:'ELX-LTC12-007',kg:'12'},
+{marca:'Electrolux',modelo:'LTD09 9kg',id:'ELX-LTD09-008',kg:'9'},
+{marca:'Electrolux',modelo:'LTD10 10kg',id:'ELX-LTD10-009',kg:'10'},
+{marca:'Electrolux',modelo:'LAC16 16kg',id:'ELX-LAC16-010',kg:'16'},
+{marca:'Brastemp',modelo:'BWL11 11kg - CLÁSSICA NÃO CENTRIFUGA',id:'BRA-BWL11-002',kg:'11'},
+{marca:'Brastemp',modelo:'BWK12 12kg - ACTIVA',id:'BRA-BWK12-011',kg:'12'},
+{marca:'Brastemp',modelo:'BWJ12 12kg',id:'BRA-BWJ12-012',kg:'12'},
+{marca:'Brastemp',modelo:'BWN15 15kg - TITAN',id:'BRA-BWN15-013',kg:'15'},
+{marca:'Brastemp',modelo:'BNF11 11kg',id:'BRA-BNF11-014',kg:'11'},
+{marca:'Brastemp',modelo:'BWF11 11kg',id:'BRA-BWF11-015',kg:'11'},
+{marca:'Consul',modelo:'CWH12 12kg',id:'CON-CWH12-003',kg:'12'},
+{marca:'Consul',modelo:'CWH11 11kg',id:'CON-CWH11-016',kg:'11'},
+{marca:'Consul',modelo:'CWB12 12kg',id:'CON-CWB12-017',kg:'12'},
+{marca:'Consul',modelo:'CWB09 9kg',id:'CON-CWB09-018',kg:'9'},
+{marca:'Consul',modelo:'CWL10 10kg',id:'CON-CWL10-019',kg:'10'},
+{marca:'Colormaq',modelo:'LCB12 12kg',id:'COL-LCB12-020',kg:'12'},
+{marca:'Colormaq',modelo:'LCB15 15kg',id:'COL-LCB15-021',kg:'15'},
+{marca:'Colormaq',modelo:'LCM12 12kg',id:'COL-LCM12-022',kg:'12'},
+{marca:'Samsung',modelo:'WW4000 11kg',id:'SAM-WW11-023',kg:'11'},
+{marca:'Samsung',modelo:'WA17 17kg',id:'SAM-WA17-024',kg:'17'},
+{marca:'LG',modelo:'WCAM 11kg',id:'LG-WCAM-025',kg:'11'},
+{marca:'LG',modelo:'Prime 12kg',id:'LG-PR12-026',kg:'12'},
+{marca:'Panasonic',modelo:'NA-F120 12kg',id:'PAN-NA12-027',kg:'12'}
+];
 let deviceId=localStorage.getItem('bancada_device_id');if(!deviceId){deviceId='ID-'+Math.random().toString(36).substring(2,6).toUpperCase()+Math.random().toString(36).substring(2,4).toUpperCase();localStorage.setItem('bancada_device_id',deviceId);}document.getElementById('deviceIdDisplay').textContent=deviceId;
 let firstAccess=localStorage.getItem('bancada_first_access');if(!firstAccess){firstAccess=Date.now();localStorage.setItem('bancada_first_access',firstAccess);}let diasTrial=Math.floor((Date.now()-parseInt(firstAccess))/(1000*60*60*24));let diasRestantes=7-diasTrial;
-let trialInfo=document.getElementById('trialInfo');if(diasRestantes>0){trialInfo.innerHTML='✅ <b>'+diasRestantes+' dias grátis</b> - Depois envie seu ID no WhatsApp';trialInfo.style.background='#dcfce7';trialInfo.style.color='#000';}else{trialInfo.innerHTML='⏰ <b>7 dias acabaram</b> - Seu ID: <b>'+deviceId+'</b> - Clique WhatsApp para liberar por 1 ano';trialInfo.style.background='#fee2e2';trialInfo.style.color='#000';}
+let trialInfo=document.getElementById('trialInfo');if(diasRestantes>0){trialInfo.innerHTML='✅ <b>'+diasRestantes+' dias grátis</b> - Depois WhatsApp (61) 99553-4479';trialInfo.style.background='#dcfce7';trialInfo.style.color='#000';}else{trialInfo.innerHTML='⏰ <b>7 dias acabaram</b> - ID: <b>'+deviceId+'</b>';trialInfo.style.background='#fee2e2';trialInfo.style.color='#000';}
 window.copiarId=function(){navigator.clipboard.writeText(deviceId);alert('Copiado: '+deviceId);}
-window.enviarWhatsApp=function(){let texto=encodeURIComponent('Olá Sóstenes! Meu ID da Bancada Lavadora é: '+deviceId+' - Quero liberar meu acesso por 1 ano.');window.open('https://wa.me/5561995534479?text='+texto,'_blank');}
-let timer=null,tempo=0,nivel=12,usuarioAtual=null,tampaFechada=true;
-async function entrarApp(){document.getElementById('loginCard').style.display='none';document.getElementById('conteudo').style.display='block';document.getElementById('userLogado').textContent=usuarioAtual.nome;document.getElementById('userIdShow').textContent=usuarioAtual.id;if(usuarioAtual.id==='ADM-999'||usuarioAtual.adm){document.getElementById('admBloqueado').style.display='none';document.getElementById('admConteudo').style.display='block';}carregarModelosSelect();listarUsuarios();}
-async function fazerLogin(){let idDigitado=document.getElementById('loginId').value.trim().toUpperCase();if(!idDigitado)idDigitado=deviceId;let msg=document.getElementById('loginMsg');if(idDigitado===deviceId && diasRestantes>0){usuarioAtual={id:deviceId,nome:'Trial '+diasRestantes+' dias restantes',status:'ativo',trial:true};document.getElementById('trialStatus').textContent='Trial: '+diasRestantes+' dias grátis';entrarApp();return;}try{let snap=await window.fb.getDoc(window.fb.doc(window.db,"usuarios",idDigitado));if(snap.exists()){let u=snap.data();if(u.status!=='ativo'){msg.textContent='❌ ID BLOQUEADO';return;}if(u.expiraEm && Date.now()>u.expiraEm && u.id!=='ADM-999'){let dataExp=new Date(u.expiraEm).toLocaleDateString('pt-BR');msg.innerHTML='⏰ Sua chave de 1 ANO expirou em '+dataExp+'<br>ID: '+idDigitado+'<br><button onclick="enviarWhatsApp()" style="background:#22c55e">💬 Renovar no WhatsApp (61) 99553-4479</button>';msg.style.color='#fff';return;}let diasR=u.expiraEm?Math.ceil((u.expiraEm-Date.now())/(86400000)):365;document.getElementById('trialStatus').textContent='✅ Liberado por 1 ano - Restam '+diasR+' dias até '+ (u.expiraData||'');usuarioAtual=u;entrarApp();return;}}catch(e){console.log(e);}let localU=window.USUARIOS.find(x=>x.id===idDigitado);if(localU){usuarioAtual=localU;entrarApp();return;}if(diasRestantes<=0 && idDigitado===deviceId){msg.innerHTML='⏰ 7 dias acabaram. Seu ID: <b>'+deviceId+'</b><br><button onclick="enviarWhatsApp()" style="background:#22c55e">💬 Liberar 1 ano no WhatsApp</button>';return;}msg.textContent='❌ ID não encontrado: '+idDigitado;}
-function sair(){location.reload();}
-window.cadastrarUsuarioFirebase=async function(){let nome=document.getElementById('admNomeUser').value.trim();let id=document.getElementById('admIdUser').value.trim().toUpperCase();let st=document.getElementById('admStatusUser').value;if(!nome||!id){alert('Preencha Nome e ID que cliente enviou no seu WhatsApp (61) 99553-4479');return;}let agora=Date.now();let expira=agora+365*24*60*60*1000;let expiraData=new Date(expira).toLocaleDateString('pt-BR');let novo={id,nome,status:st,adm:id==='ADM-999',criadoEm:agora,expiraEm:expira,expiraData,dias:365,tipo:'ANUAL - 1 ANO'};try{await window.fb.setDoc(window.fb.doc(window.db,"usuarios",id),novo);alert('✅ LIBERADO POR 1 ANO!\n\nID: '+id+'\nCliente: '+nome+'\nExpira: '+expiraData+'\n\nAvise o cliente que já pode entrar com o ID dele.');}catch(e){alert('Erro: '+e.message);}window.USUARIOS.push(novo);listarUsuarios();}
-window.listarUsuarios=function(){document.getElementById('listaUsuarios').innerHTML=window.USUARIOS.map(u=>{let dias=u.expiraEm?Math.ceil((u.expiraEm-Date.now())/86400000):'-';return u.id+' - '+u.nome+' - '+(u.status==='ativo'?'✅':'❌')+' - Expira: '+(u.expiraData||'')+' ('+dias+' dias)'}).join('<br>');}
+window.enviarWhatsApp=function(){let t=encodeURIComponent('Olá Sóstenes! Meu ID da Bancada é: '+deviceId+' - Quero liberar 1 ano.');window.open('https://wa.me/5561995534479?text='+t,'_blank');}
+let timer=null,tempo=0,nivel=12,usuarioAtual=null,anguloMotor=0;
 function mostrarAba(id,btn){document.querySelectorAll('.aba').forEach(a=>a.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.tabBtn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}
 window.carregarModelosSelect=function(){let s=document.getElementById('modelo');s.innerHTML='';window.MODELOS.forEach((m,i)=>{let o=document.createElement('option');o.value=i;o.textContent=m.marca+' '+m.modelo;s.appendChild(o);});trocarModelo();}
 function trocarModelo(){let m=window.MODELOS[document.getElementById('modelo').value||0];if(!m)return;document.getElementById('nomeMaquina').textContent=m.marca+' '+m.modelo;document.getElementById('idMaquina').textContent='ID: '+m.id;}
-function toggleTampa(){}
-function injetarDefeitoPlaca(){let d=document.getElementById('defeitoPlaca').value;let a=document.getElementById('alertaPlaca');let r=document.getElementById('reacaoPlaca');let m={ok:['✅ PLACA BOA','Normal'],triacDir:['🚨 TRIAC DIR','Só gira ESQ'],triacBomba:['🚨 TRIAC BOMBA','Não drena'],triacAtuador:['🚨 TRIAC ATUADOR','Não centrifuga']};a.textContent=m[d][0];r.textContent=m[d][1];}
-function mapaPlaca(t){document.getElementById('mapaResult').textContent=t;}
-function gerarLaudo(){document.getElementById('laudoGerado').textContent='LAUDO - Cliente: '+(document.getElementById('laudoCliente').value||'')+' - ID: '+ (usuarioAtual?usuarioAtual.id:'')+' - Data: '+new Date().toLocaleDateString('pt-BR');}
-function iniciar(){if(timer)clearInterval(timer);nivel=12;tempo=0;timer=setInterval(()=>{tempo++;document.getElementById('tempo').textContent=tempo+'s';document.getElementById('nivelTxt').textContent=nivel+'%';document.getElementById('aguaLateral').style.height=nivel+'%';},900);}
-function parar(){clearInterval(timer);}
-listarUsuarios();
+function injetarDefeitoPlaca(){let d=document.getElementById('defeitoPlaca').value;let a=document.getElementById('alertaPlaca');let r=document.getElementById('reacaoPlaca');let boxDir=document.getElementById('boxDir');let boxEsq=document.getElementById('boxEsq');let boxCent=document.getElementById('boxCent');let map={ok:['✅ PLACA BOA - Motor gira HORÁRIO e ANTI-HORÁRIO','Normal - gira DIR 4s + ESQ 4s'],triacDir:['🚨 TRIAC DIR T1 QUEIMADO - Não gira HORÁRIO','SÓ gira ANTI-HORÁRIO - roupa embola'],triacEsq:['🚨 TRIAC ESQ T2 QUEIMADO - Não gira ANTI-HORÁRIO','SÓ gira HORÁRIO'],triacBomba:['🚨 TRIAC BOMBA T4 QUEIMADO - Não drena','Enche mas não esvazia'],triacAtuador:['🚨 TRIAC ATUADOR T3 BWL11 - Não centrifuga','Lava normal mas não centrifuga - BWL11 clássico'],capacitor:['🚨 CAPACITOR 15uF FRACO - Motor ronca','Motor tenta girar sem força'],fusivel:['🚨 FUSÍVEL 5A QUEIMADO - Não liga','Placa sem 5V']};let v=map[d]||map.ok;a.textContent=v[0];r.textContent=v[1];a.style.background=d==='ok'?'#dcfce7':'#fecaca';boxDir.style.background=d==='triacDir'?'#fecaca':'#dcfce7';boxEsq.style.background=d==='triacEsq'?'#fecaca':'#dcfce7';boxCent.style.background=d==='triacAtuador'?'#fecaca':'#e0e7ff';document.getElementById('statusDir').textContent=d==='triacDir'?'❌ FALHA':d==='fusivel'?'⚫ OFF':'✅ OK';document.getElementById('statusEsq').textContent=d==='triacEsq'?'❌ FALHA':d==='fusivel'?'⚫ OFF':'✅ OK';document.getElementById('statusCent').textContent=d==='triacAtuador'?'❌ FALHA':d==='fusivel'?'⚫ OFF':'✅ OK';}
+function iniciar(){if(timer) clearInterval(timer);nivel=12;tempo=0;anguloMotor=0;document.getElementById('status').textContent='💧 Enchendo até 82%...';document.getElementById('direcaoMotor').textContent='💧 ENCHENDO';timer=setInterval(passo,800);}
+function passo(){
+tempo++;let placa=document.getElementById('defeitoPlaca').value;let statusEl=document.getElementById('status');let direcaoEl=document.getElementById('direcaoMotor');let eixo=document.getElementById('eixoMotor');let seta=document.getElementById('setaMotor');let paleta=document.getElementById('paleta');let agua=document.getElementById('aguaLateral');let ledDir=document.getElementById('ledTriacDir');let ledEsq=document.getElementById('ledTriacEsq');
+if(placa==='fusivel'){statusEl.textContent='⚫ PLACA SEM 5V - FUSÍVEL - Motor não gira';direcaoEl.textContent='⚫ OFF SEM 5V';direcaoEl.style.background='#ef4444';paleta.className='paleta';eixo.style.transform='rotate(0deg)';seta.style.transform='rotate(0deg)';ledDir.innerHTML='▶ T1 DIR<br>⚫ OFF';ledEsq.innerHTML='◀ T2 ESQ<br>⚫ OFF';ledDir.style.background='#334155';ledEsq.style.background='#334155';document.getElementById('tempo').textContent=tempo+'s';return;}
+if(nivel<82){nivel+=4;if(nivel>82)nivel=82;statusEl.textContent='💧 Enchendo '+nivel+'% - Motor parado';direcaoEl.textContent='💧 ENCHENDO '+nivel+'%';direcaoEl.style.background='#38bdf8';paleta.className='paleta';eixo.style.transform='rotate('+anguloMotor+'deg)';ledDir.style.background='#334155';ledEsq.style.background='#334155';ledDir.innerHTML='▶ T1 DIR<br>⚫ OFF';ledEsq.innerHTML='◀ T2 ESQ<br>⚫ OFF';}
+else{
+let ciclo=tempo%8;let querDir=ciclo<4;
+if(placa==='triacDir' && querDir){statusEl.textContent='❌ FALHA: Queria girar HORÁRIO DIR mas TRIAC DIR T1 queimado - Motor parado - roupa embola';direcaoEl.textContent='❌ FALHA DIR T1';direcaoEl.style.background='#ef4444';paleta.className='paleta';eixo.style.transform='rotate('+anguloMotor+'deg)';seta.style.transform='rotate('+anguloMotor+'deg)';ledDir.innerHTML='▶ T1 DIR<br>🔴 QUEIMADO';ledDir.style.background='#ef4444';ledEsq.innerHTML='◀ T2 ESQ<br>⚫ OFF';ledEsq.style.background='#334155';}
+else if(placa==='triacEsq' && !querDir){statusEl.textContent='❌ FALHA: Queria girar ANTI-HORÁRIO ESQ mas TRIAC ESQ T2 queimado';direcaoEl.textContent='❌ FALHA ESQ T2';direcaoEl.style.background='#ef4444';paleta.className='paleta';eixo.style.transform='rotate('+anguloMotor+'deg)';seta.style.transform='rotate('+anguloMotor+'deg)';ledEsq.innerHTML='◀ T2 ESQ<br>🔴 QUEIMADO';ledEsq.style.background='#ef4444';ledDir.innerHTML='▶ T1 DIR<br>⚫ OFF';ledDir.style.background='#334155';}
+else if(placa==='capacitor'){statusEl.textContent='🔊 CAPACITOR FRACO - Motor RONCA HUUUUM - tenta girar '+(querDir?'HORÁRIO':'ANTI-HORÁRIO')+' sem força';direcaoEl.textContent='🔊 RONCA CAP FRACO';direcaoEl.style.background='#f59e0b';anguloMotor+=5;eixo.style.transform='rotate('+anguloMotor+'deg)';seta.style.transform='rotate('+anguloMotor+'deg)';paleta.className='paleta';ledDir.innerHTML=querDir?'▶ T1 DIR<br>🟡 RONCA':'▶ T1 DIR<br>⚫ OFF';ledEsq.innerHTML=!querDir?'◀ T2 ESQ<br>🟡 RONCA':'◀ T2 ESQ<br>⚫ OFF';ledDir.style.background=querDir?'#f59e0b':'#334155';ledEsq.style.background=!querDir?'#f59e0b':'#334155';}
+else{if(querDir){statusEl.textContent='🔄 LAVANDO - Girando HORÁRIO DIR ▶ - Triac T1 DIR ON - Motor DIR';direcaoEl.textContent='▶ GIRANDO HORÁRIO DIR';direcaoEl.style.background='#22c55e';anguloMotor+=45;eixo.style.transform='rotate('+anguloMotor+'deg)';seta.style.transform='rotate('+anguloMotor+'deg)';paleta.className='paleta girandoDir';ledDir.innerHTML='▶ T1 DIR<br>🟢 ON 220V';ledDir.style.background='#22c55e';ledEsq.innerHTML='◀ T2 ESQ<br>⚫ OFF';ledEsq.style.background='#334155';}else{statusEl.textContent='🔄 LAVANDO - Girando ANTI-HORÁRIO ESQ ◀ - Triac T2 ESQ ON - Motor ESQ';direcaoEl.textContent='◀ GIRANDO ANTI-HORÁRIO ESQ';direcaoEl.style.background='#22c55e';anguloMotor-=45;eixo.style.transform='rotate('+anguloMotor+'deg)';seta.style.transform='rotate('+anguloMotor+'deg)';paleta.className='paleta girandoEsq';ledEsq.innerHTML='◀ T2 ESQ<br>🟢 ON 220V';ledEsq.style.background='#22c55e';ledDir.innerHTML='▶ T1 DIR<br>⚫ OFF';ledDir.style.background='#334155';}}
+}
+document.getElementById('tempo').textContent=tempo+'s';document.getElementById('nivelTxt').textContent=nivel+'%';agua.style.height=nivel+'%';document.getElementById('reacaoPlaca').textContent=statusEl.textContent;
+}
+function parar(){clearInterval(timer);document.getElementById('paleta').className='paleta';document.getElementById('status').textContent='⏸️ Motor parado - '+tempo+'s - freio acionado';document.getElementById('direcaoMotor').textContent='⏸️ PARADO';document.getElementById('direcaoMotor').style.background='#000';document.getElementById('ledTriacDir').innerHTML='▶ T1 DIR<br>⚫ OFF';document.getElementById('ledTriacEsq').innerHTML='◀ T2 ESQ<br>⚫ OFF';document.getElementById('ledTriacDir').style.background='#334155';document.getElementById('ledTriacEsq').style.background='#334155';}
+
+function mapaPlaca(t){
+let r=document.getElementById('mapaResult');
+let modeloAtual = window.MODELOS[document.getElementById('modelo').value||0]||{marca:'Electrolux',modelo:'LAC12'};
+let nomeModelo = modeloAtual.marca+' '+modeloAtual.modelo;
+let isBWL11 = modeloAtual.modelo.includes('BWL11');
+let isLAC12 = modeloAtual.modelo.includes('LAC12')||modeloAtual.modelo.includes('LTC12');
+let isConsul = modeloAtual.marca==='Consul';
+let mapa={
+naoCentrifuga: `🌀 ${nomeModelo.toUpperCase()} - NÃO CENTRIFUGA
+
+${isBWL11 ? `🔴 BWL11 11kg - 90% DOS CASOS:
+1. TRIAC ATUADOR T3 BT137/BTA16 queimado - posição T3 perto conector atuador
+   TESTE: Multímetro T1-T2 = curto = queimado
+   TROCA: Triac + resistor 330R + MOC3021 - R$12
+   COBRAR: R$150 a 220
+2. ATUADOR BOM OU RUIM?
+   BOM: 1k a 3k ohms + puxa forte no 220V direto
+   RUIM: OL ou 0 ohms = queimado / não puxa fraco = troca R$65
+3. FREIO BOM OU RUIM?
+   BOM: Cesto gira livre com mão quando atuador puxado
+   RUIM: Mola freio quebrada / gearbox travado / sabão agarrado` : ''}
+
+${isLAC12 ? `🔵 LAC12/LTC12 - 60% PLACA + 40% OUTROS:
+1. TRIAC ATUADOR + PRESSOSTATO - LAC12 não vê nível vazio
+   Se ficou água = bomba não drenou = triac bomba T4 também queimado
+2. ATUADOR BOM? LAC12 mede 800 a 1.5k ohms - tem que puxar forte
+3. FREIO BOM? LAC12 freio com lona - se molha sabão agarra` : ''}
+
+${isConsul ? `🟣 CONSUL CWH12/CWB12 - QUEIMA 2 TRIACS JUNTOS:
+70% TRIAC BOMBA T4 + TRIAC ATUADOR T3 juntos
+20% Pressostato travado cheio
+10% Mola freio quebrada` : ''}
+
+${!isBWL11 && !isLAC12 && !isConsul ? `🟡 ${nomeModelo} - DIAGNÓSTICO GERAL:
+1. ATUADOR: 1k a 3k = BOM / OL = RUIM
+2. FREIO: Cesto solto quando atuador puxado = BOM / Travado = RUIM (mola/gearbox)
+3. TRIAC ATUADOR T3 = 80% dos casos - BT137 queimado` : ''}
+
+📍 COMPONENTES QUE MAIS QUEIMAM:
+- T3 TRIAC ATUADOR BT137/BTA16
+- Atuador térmico - 1k a 3k ohms
+- Resistor gate 330R + MOC3021
+- Pressostato - mangueira furada
+- Mola freio + gearbox
+
+🔧 FLUXO BANCADA:
+1. Atuador direto 220V - puxa? BOM / não puxa? RUIM
+2. Cesto solto com atuador puxado? BOM / travado? FREIO RUIM
+3. Se atuador BOM + cesto SOLTO + não centrifuga = TRIAC T3
+
+💰 COBRANÇA:
+Só triac T3: R$120 a 180
+Triac + atuador: R$180 a 250
+Freio/gearbox: R$200 a 350`,
+
+bombaNaoDrena:`💦 BOMBA NÃO DRENA - ${nomeModelo}
+📍 Triac bomba T4 BT137
+🔍 Sem 220V na bomba = triac T4 queimado
+Com 220V + não drena = bomba travada moeda/queimada
+Se bomba não drena, nunca centrifuga
+💰 R$100 a 150`,
+motorDir:`▶ NÃO GIRA DIR - ${nomeModelo} - Triac DIR T1 BT137 - Só gira ESQ - R$120 a 180`,
+motorEsq:`◀ NÃO GIRA ESQ - ${nomeModelo} - Triac ESQ T2 BT137 - Só gira DIR - R$120 a 180`,
+valvulaNaoEntra:`❌ NÃO ENTRA ÁGUA - Relé K1 12V 10A / Triac válvula - Sem 220V = queimado - R$80 a 150`,
+valvulaNaoPara:`🌊 NÃO PARA ÁGUA - Relé K1 colado - troca relé`,
+motorRonca:`🔊 MOTOR RONCA HUUUUM - ${nomeModelo} - Capacitor 15uF estufado - Mede <12uF = fraco - R$90 a 130`,
+transborda:`🌊 TRANSBORDA - Pressostato/mangueira furada - Sopra tem que fazer CLICK`,
+naoLiga:`⚫ NÃO LIGA - Fusível 5A + Varistor + Fonte 5V 7805 + barata na trilha - R$80 a 150`,
+displayLouco:`💡 DISPLAY LOUCO - Capacitor 470uF 16V estufado perto micro - troca + limpa álcool`,
+choque:`⚡ CHOQUE - Falta aterramento + motor fuga - Aterrar`,
+queimaTriac:`🔥 QUEIMA TRIAC DIRETO - Motor/bomba/atuador em curto <10 ohms - troca ANTES do triac`
+};
+r.textContent=mapa[t]||'Clique em um sintoma';
+}
+function gerarLaudo(){let c=document.getElementById('laudoCliente').value||'Cliente';let m=window.MODELOS[document.getElementById('modelo').value||0];let def=document.getElementById('laudoDefeito').value;document.getElementById('laudoGerado').textContent='🧾 LAUDO TÉCNICO\n\nCliente: '+c+'\nMáquina: '+m.marca+' '+m.modelo+' ID:'+m.id+'\nDefeito: '+document.getElementById('alertaPlaca').textContent+'\nDiagnóstico: '+document.getElementById('reacaoPlaca').textContent+'\nPeça: '+def+'\nValor: R$ '+(document.getElementById('laudoValor').value||'')+'\n\nData: '+new Date().toLocaleDateString('pt-BR')+'\nTécnico: Sóstenes (61) 99553-4479';}
+async function fazerLogin(){let idDigitado=document.getElementById('loginId').value.trim().toUpperCase();if(!idDigitado)idDigitado=deviceId;let msg=document.getElementById('loginMsg');if(idDigitado===deviceId && diasRestantes>0){usuarioAtual={id:deviceId,nome:'Trial '+diasRestantes+' dias',status:'ativo',trial:true};document.getElementById('trialStatus').textContent='Trial: '+diasRestantes+' dias';entrarApp();return;}try{let snap=await window.fb.getDoc(window.fb.doc(window.db,"usuarios",idDigitado));if(snap.exists()){let u=snap.data();if(u.status!=='ativo'){msg.textContent='❌ ID BLOQUEADO';return;}if(u.expiraEm && Date.now()>u.expiraEm && u.id!=='ADM-999'){let dataExp=new Date(u.expiraEm).toLocaleDateString('pt-BR');msg.innerHTML='⏰ Chave 1 ANO expirou em '+dataExp+'<br>ID: '+idDigitado+'<br><button onclick="enviarWhatsApp()" style="background:#22c55e">💬 Renovar (61) 99553-4479</button>';return;}let diasR=u.expiraEm?Math.ceil((u.expiraEm-Date.now())/86400000):365;document.getElementById('trialStatus').textContent=u.id==='ADM-999'?'👑 ADM VITALÍCIO':'✅ 1 ano - Restam '+diasR+' dias';usuarioAtual=u;entrarApp();return;}}catch(e){console.log(e);}let localU=window.USUARIOS.find(x=>x.id===idDigitado);if(localU){usuarioAtual=localU;entrarApp();return;}if(diasRestantes<=0 && idDigitado===deviceId){msg.innerHTML='⏰ 7 dias acabaram. ID: <b>'+deviceId+'</b><br><button onclick="enviarWhatsApp()" style="background:#22c55e">💬 Liberar 1 ano</button>';return;}msg.textContent='❌ ID não encontrado: '+idDigitado;}
+function entrarApp(){document.getElementById('loginCard').style.display='none';document.getElementById('conteudo').style.display='block';document.getElementById('userLogado').textContent=usuarioAtual.nome;document.getElementById('userIdShow').textContent=usuarioAtual.id;if(usuarioAtual.id==='ADM-999'||usuarioAtual.adm){document.getElementById('admBloqueado').style.display='none';document.getElementById('admConteudo').style.display='block';}carregarModelosSelect();listarUsuarios();injetarDefeitoPlaca();}
+function sair(){location.reload();}
+window.cadastrarUsuarioFirebase=async function(){let nome=document.getElementById('admNomeUser').value.trim();let id=document.getElementById('admIdUser').value.trim().toUpperCase();let st=document.getElementById('admStatusUser').value;if(!nome||!id){alert('Preencha Nome e ID do WhatsApp 61995534479');return;}let agora=Date.now();let expira=agora+365*24*60*60*1000;let expiraData=new Date(expira).toLocaleDateString('pt-BR');let novo={id,nome,status:st,adm:id==='ADM-999',criadoEm:agora,expiraEm:expira,expiraData,dias:365};try{await window.fb.setDoc(window.fb.doc(window.db,"usuarios",id),novo);alert('✅ LIBERADO 1 ANO! ID: '+id+' Expira: '+expiraData);}catch(e){alert('Erro: '+e.message);}window.USUARIOS.push(novo);listarUsuarios();}
+window.listarUsuarios=function(){document.getElementById('listaUsuarios').innerHTML=window.USUARIOS.map(u=>{let dias=u.expiraEm?Math.ceil((u.expiraEm-Date.now())/86400000):'-';return u.id+' - '+u.nome+' - '+(u.status==='ativo'?'✅':'❌')+' - '+(u.expiraData||'VITALÍCIO')+' ('+dias+' dias)'}).join('<br>');}
+carregarModelosSelect();listarUsuarios();
 </script></body></html>
