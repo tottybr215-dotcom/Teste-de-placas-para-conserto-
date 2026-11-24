@@ -1,245 +1,155 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bancada V4.4 FULL Firebase Fix</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bancada V4.8 - SOM BIP + CLIQUE RELE</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
-:root{--bg:#0f172a;--card:#1e293b;--c2:#273449;--bd:#334155;--tx:#e2e8f0;--pr:#3b82f6;--ok:#16a34a;--er:#dc2626}
-*{box-sizing:border-box}body{margin:0;font-family:Arial;background:var(--bg);color:var(--tx);padding:10px}.container{max-width:1100px;margin:auto}header{display:flex;justify-content:space-between;padding:12px;background:var(--card);border:1px solid var(--bd);border-radius:10px}.card{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:16px;margin-top:10px}.hidden{display:none!important}.btn-primary{background:var(--pr);color:#fff;border:none;padding:12px;border-radius:8px;font-weight:bold;width:100%;cursor:pointer}.btn-success{background:var(--ok);color:#fff;border:none;padding:12px;border-radius:8px;font-weight:bold;width:100%;cursor:pointer}.btn-secondary{background:var(--c2);border:1px solid var(--bd);color:var(--tx);padding:8px 12px;border-radius:8px;cursor:pointer}.tabs{display:flex;gap:4px;margin-top:10px;overflow-x:auto}.tab-btn{flex:1;min-width:70px;padding:8px;border-radius:8px;border:1px solid var(--bd);background:var(--c2);color:var(--tx);cursor:pointer;font-weight:bold;font-size:10px}.tab-btn.active{background:var(--pr);color:#fff}input,select{width:100%;padding:10px;border-radius:8px;border:1px solid var(--bd);background:var(--c2);color:var(--tx);margin-top:4px}label{font-weight:bold;font-size:11px;margin-top:6px;display:block}
-.multiWrap{display:grid;grid-template-columns:300px 1fr;gap:12px;margin-top:10px}@media(max-width:700px){.multiWrap{grid-template-columns:1fr}}.multiBody{background:#1a1a1a;border:4px solid #333;border-radius:18px;padding:16px}.multiDisplay{background:#000;color:#22c55e;font-family:monospace;font-size:28px;font-weight:bold;padding:14px;border-radius:8px;text-align:center;border:2px solid #333;min-height:60px}.multiKnob{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px}.knobBtn{padding:8px;border-radius:20px;border:2px solid #555;background:#222;color:#fff;cursor:pointer;font-size:11px;font-weight:bold}.knobBtn.active{background:#f59e0b;color:#000;border-color:#fbbf24}.compGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.compBox{background:var(--c2);border:2px solid var(--bd);border-radius:12px;padding:12px;text-align:center;min-height:160px}.compBox.bom{border-color:var(--ok)}.compBox.ruim{border-color:var(--er)}.pin{width:22px;height:22px;background:#fbbf24;border:2px solid #000;border-radius:50%;display:inline-block;margin:4px;cursor:pointer}.pin.ativo{box-shadow:0 0 10px #fbbf24;transform:scale(1.2)}.maquina{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}.simCard{background:var(--c2);border:2px solid var(--bd);border-radius:12px;padding:10px;text-align:center}.simCard.ativo{border-color:var(--ok);background:#14532d}.simCard.falha{border-color:var(--er);background:#7f1d1d}.timerBox{background:#000;color:#22c55e;font-family:monospace;font-size:22px;font-weight:bold;padding:10px;border-radius:10px;text-align:center;border:2px solid #22c55e;margin-top:10px}canvas{background:#fff;border-radius:8px}
+body{background:#0f172a;color:#e2e8f0;font-family:sans-serif;margin:0;padding:10px}
+h1{font-size:18px;text-align:center}
+.aba{display:none;background:#1e293b;padding:12px;border-radius:12px;margin-top:10px}
+.aba.ativa{display:block}
+.tabs{display:flex;gap:6px;flex-wrap:wrap}
+.tabs button{flex:1;padding:10px;border-radius:8px;border:none;background:#334155;color:white;font-weight:bold}
+.tabs button.ativa{background:#f59e0b;color:black}
+.cardSim{background:#0f172a;padding:8px;border-radius:8px;margin:4px 0;display:flex;justify-content:space-between;border:1px solid #334155}
+.cardSim.ativo{border-color:#22c55e;background:#14532d}
+.cardSim.falha{border-color:#ef4444;background:#7f1d1d}
+select,input{width:100%;padding:10px;border-radius:8px;background:#0f172a;color:white;border:1px solid #475569;margin:4px 0}
+.btn{width:100%;padding:12px;border-radius:8px;border:none;font-weight:bold;margin-top:6px}
+.btn-play{background:#22c55e;color:black}
+.btn-stop{background:#ef4444;color:white}
+.displayTimer{background:black;color:#22c55e;font-size:22px;text-align:center;padding:10px;border-radius:8px;margin:6px 0;font-family:monospace}
+.pino{width:44px;height:44px;border-radius:50%;background:#facc15;border:2px solid #000;display:inline-flex;align-items:center;justify-content:center;margin:4px;cursor:pointer;font-weight:bold;color:black}
+.pino.selecionado{box-shadow:0 0 12px #22c55e;border-color:#22c55e}
+.multiDisplay{background:black;color:#22c55e;font-size:28px;text-align:center;padding:14px;border-radius:10px;border:2px solid #334155}
+.modoBtn{padding:10px;border-radius:20px;border:1px solid #475569;background:#1e293b;color:white;margin:3px}
+.modoBtn.ativo{background:#f59e0b;color:black;border-color:#f59e0b}
+.bomBox{border:2px solid #22c55e;border-radius:10px;padding:10px;text-align:center}
+.ruimBox{border:2px solid #ef4444;border-radius:10px;padding:10px;text-align:center}
 </style>
 </head>
 <body>
-<div class="container">
-<header><div><b>⚙️ BANCADA V4.4 FULL - FIREBASE + SEGURANCA</b><br><span style="font-size:9px">Multimetro 2D + Firebase + 7d + 1 ano</span></div><div id="statusBadge" style="background:#16a34a;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:bold">V4.4 FULL</div></header>
+<h1>🔧 BANCADA V4.8 - SOM BIP + CLIQUE RELE</h1>
+<div class="tabs">
+<button onclick="abrirAba(1)" id="tab1" class="ativa">1-SIMULACAO 2s</button>
+<button onclick="abrirAba(2)" id="tab2">2-GRAFICO</button>
+<button onclick="abrirAba(3)" id="tab3">3-MULTIMETRO SOM</button>
+<button onclick="abrirAba(4)" id="tab4">4-LAUDO</button>
+</div>
 
-<section id="gateSection" class="card">
-<h3>🔒 7 dias gratis + Chave 1 ano - Firebase</h3>
-<div style="display:flex;gap:8px;align-items:center"><div>ID:</div><div id="deviceIdDisplay" style="font-family:monospace;color:#38bdf8;font-weight:bold;font-size:18px">ID-GERANDO...</div><button class="btn-secondary" onclick="forcarNovoId()" style="width:auto;font-size:10px">Gerar novo ID</button></div>
-<div id="step1Box" style="margin-top:10px"><input id="chaveInput" placeholder="CHV-..."><button class="btn-primary" onclick="validarChaveNivel1()" style="margin-top:6px">Validar 365 dias Firebase</button><button class="btn-secondary" onclick="entrarGratisLocal()" style="margin-top:8px;background:#14532d;color:#fff">▶️ Entrar 7 dias grátis (offline)</button></div>
-<div id="step2Box" class="hidden"><div>Codigo 2FA: <b id="codigo2faDisplay" style="color:#fbbf24;font-size:20px">---</b></div><input id="tfaInput" placeholder="6 digitos"><button class="btn-success" onclick="validar2faNivel2()">Entrar 365d</button></div>
-<div id="gateMsg" style="margin-top:8px;color:#fbbf24;font-size:12px"></div>
-<div style="font-size:10px;color:#64748b;margin-top:6px">Firebase: <span id="firebaseStatus">Conectando...</span></div>
-</section>
+<div id="aba1" class="aba ativa">
+<label>Marca/Modelo</label><select id="modelo"><option value="">Selecione</option><option>Brastemp BWL11</option><option>Electrolux LAC12</option></select>
+<label>Pressostato</label><select id="condPress"><option value="vazia">Vazia</option><option value="cheia">Cheia</option></select>
+<label>Tampa</label><select id="condTampa"><option value="fechada">Fechada</option><option value="aberta">Aberta</option></select>
+<label>Seletor</label><select id="condSeletor"><option value="enchendo">Enchendo</option><option value="agitacao">Agitacao</option><option value="centrifugacao">Centrifugacao</option></select>
+<label>Defeito</label><select id="defeitoInjetado"><option value="nenhum">NENHUM</option><option value="rele_k1_colado">Rele K1 Colado</option><option value="triac_valvula_curto">Triac Valvula Curto</option></select>
+<div id="timerDisplay" class="displayTimer">00:00 - Parado</div>
+<button class="btn btn-play" onclick="iniciarSimulacao()">▶ INICIAR 2s H/AH</button>
+<button class="btn btn-stop" onclick="pararSimulacao()">■ PARAR</button>
+<div id="cardsSim"></div>
+</div>
 
-<main id="appSection" class="hidden">
-<nav class="tabs">
-<button class="tab-btn active" onclick="abrirAba(1)">1. INTERATIVA + DEFEITO</button>
-<button class="tab-btn" onclick="abrirAba(2)">2. GRAFICO 8 SAIDAS</button>
-<button class="tab-btn" onclick="abrirAba(6)">3. MULTIMETRO 2D TRIAC/CAP/LNK</button>
-<button class="tab-btn" onclick="abrirAba(4)">4. LAUDO TECNICO</button>
-<button class="tab-btn" onclick="abrirAba(5)">5. ADM FIREBASE</button>
-</nav>
+<div id="aba2" class="aba"><canvas id="graficoSaidas"></canvas>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px">
+<select id="out1"><option value="ok">Mot H OK</option><option value="fail">Mot H FALHA</option><option value="fail_curto">Mot H CURTO</option></select>
+<select id="out2"><option value="ok">Mot AH OK</option><option value="fail">Mot AH FALHA</option></select>
+<select id="out3"><option value="ok">Valvula OK</option><option value="fail_curto">Valv CURTO</option></select>
+<select id="out5"><option value="ok">Bomba OK</option><option value="fail">Bomba FALHA</option></select>
+<select id="out6"><option value="ok">Atuador OK</option><option value="fail">Atuador FALHA</option></select>
+<select id="out7"><option value="ok">Trava OK</option><option value="fail">Trava FALHA</option></select>
+<select id="out8"><option value="ok">Fonte OK</option><option value="fail">Fonte FALHA</option></select>
+</div><button class="btn btn-play" onclick="analisarTudo()">TESTAR E SIMULAR</button><div id="resumoFalhas"></div></div>
 
-<section id="aba1" class="card">
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-<div><label>Marca</label><select id="marca"><option value="">Selecione</option><option value="colormaq">Colormaq</option><option value="electrolux">Electrolux</option><option value="brastemp">Brastemp</option><option value="consul">Consul</option></select></div>
-<div><label>Modelo</label><select id="modelo"><option value="">Selecione marca primeiro</option></select></div>
+<div id="aba3" class="aba">
+<h2>MULTIMETRO 2D + SOM</h2>
+<div id="multiDisplay" class="multiDisplay">Toque nos pinos amarelos - COM SOM</div>
+<div><button class="modoBtn ativo" id="btn_bip" onclick="setModoMulti('bip')">🔊 BIP</button><button class="modoBtn" id="btn_ohms_200" onclick="setModoMulti('ohms_200')">Ω 200</button><button class="modoBtn" id="btn_ohms_2k" onclick="setModoMulti('ohms_2k')">Ω 2k</button><button class="modoBtn" id="btn_cap" onclick="setModoMulti('cap')">CAP</button><button class="modoBtn" id="btn_diodo" onclick="setModoMulti('diodo')">Diodo</button></div>
+<button onclick="limparPontas()">Limpar</button>
+<div id="resultadoTeste" style="background:#0f172a;padding:10px;border-radius:8px;margin-top:8px;border:1px solid #334155"></div>
+<select id="compSelect" onchange="carregarComponente()"><option value="diodo">Diodo</option><option value="triac">TRIAC Motor</option><option value="triac_valv">TRIAC Valvula</option><option value="rele">Rele</option><option value="ptc">PTC</option><option value="cap">Capacitor</option><option value="lnk">LNK</option></select>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px"><div class="bomBox"><div style="color:#22c55e">✅ BOM</div><div id="bomPinos"></div></div><div class="ruimBox"><div style="color:#ef4444">❌ RUIM</div><div id="ruimPinos"></div></div></div>
+<div id="dicaComp" style="font-size:12px"></div>
 </div>
-<div style="margin-top:8px"><label>💥 Injetar Defeito MAQUINA REAL</label><select id="defeitoInjetado"><option value="nenhum">NENHUM - Placa boa</option><option value="rele_k1_colado">Rele K1 COLADO</option><option value="rele_k1_aberto">Rele K1 ABERTO</option><option value="triac_motor_curto">TRIAC BTA12 CURTO</option><option value="triac_valvula_curto">TRIAC BT137 Valvula curto</option><option value="triac_bomba_curto">TIC206 Bomba curto</option><option value="atuador_queimado">Atuador 1k aberto</option><option value="ptc_trava_aberto">PTC Trava aberto</option><option value="fonte_cap_estufado">Fonte cap estufado LNK304</option></select></div>
-<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:8px">
-<div><label>Pressostato</label><select id="condPress"><option value="vazia">VAZIA</option><option value="cheia">CHEIA</option></select></div>
-<div><label>Tampa</label><select id="condTampa"><option value="fechada">FECHADA</option><option value="aberta">ABERTA</option></select></div>
-<div><label>Seletor</label><select id="condSeletor"><option value="enchendo">Enchendo</option><option value="agitacao">Agitacao</option><option value="centrifugacao">Centrifugacao</option></select></div>
-</div>
-<div class="timerBox" id="timerDisplay">00:00 - PARADA</div>
-<div style="display:flex;gap:6px;margin-top:8px"><button class="btn-success" onclick="iniciarSimulacao()">▶️ INICIAR MAQUINA</button><button class="btn-secondary" onclick="pararSimulacao()">⏹️ PARAR</button></div>
-<div class="maquina"><div class="simCard" id="sim_motorH"><b>Motor H</b><div id="txt_motorH">Parado</div></div><div class="simCard" id="sim_motorAH"><b>Motor AH</b><div id="txt_motorAH">Parado</div></div><div class="simCard" id="sim_valvula"><b>Valvula</b><div id="txt_valvula">Fechada</div></div><div class="simCard" id="sim_bomba"><b>Bomba</b><div id="txt_bomba">Desligada</div></div><div class="simCard" id="sim_atuador"><b>Atuador</b><div id="txt_atuador">Solto</div></div><div class="simCard" id="sim_trava"><b>Trava</b><div id="txt_trava">Destravada</div></div></div>
-</section>
 
-<section id="aba2" class="card hidden"><h3>Grafico 8 Saidas</h3><div style="display:grid;grid-template-columns:1fr 1fr;gap:6px"><div><b>Motor H</b><select id="out1"><option value="ok">OK</option><option value="fail">FALHA</option><option value="fail_curto">Colado</option><option value="na">Nao era</option></select></div><div><b>Motor AH</b><select id="out2"><option value="ok">OK</option><option value="fail">FALHA</option><option value="na">Nao era</option></select></div><div><b>Valv Fria</b><select id="out3"><option value="ok">OK</option><option value="fail">FALHA</option><option value="fail_curto">Curto</option><option value="na">Nao era</option></select></div><div><b>Bomba</b><select id="out5"><option value="ok">OK</option><option value="fail">FALHA</option><option value="na">Nao era</option></select></div><div><b>Atuador</b><select id="out6"><option value="ok">OK</option><option value="fail">FALHA</option><option value="na">Nao era</option></select></div><div><b>Trava</b><select id="out7"><option value="ok">OK</option><option value="fail">FALHA</option><option value="na">Nao era</option></select></div><div><b>Fonte</b><select id="out8"><option value="ok">OK</option><option value="fail">FALHA</option><option value="na">OK</option></select></div></div><button class="btn-primary" onclick="analisarTudo()" style="margin-top:10px">TESTAR + GRAFICO + LAUDO</button><canvas id="grafico" style="margin-top:10px"></canvas></section>
-
-<section id="aba6" class="card hidden">
-<h2>🔧 MULTIMETRO 2D - TRIAC / CAP / LNK / Diodo / PTC / Rele - BOM vs RUIM</h2>
-<div style="background:#7f1d1d;border:1px solid #dc2626;padding:8px;border-radius:8px;font-size:11px;margin-bottom:10px">Bancada SECA - Placa DESLIGADA - Use BIP / Ohms / Cap - Clique nos PINOS amarelos</div>
-<div class="multiWrap">
-<div class="multiBody">
-<div class="multiDisplay" id="multiDisplay">OL - Selecione modo</div>
-<div style="font-size:10px;color:#aaa;margin-top:6px;text-align:center">PRETA=COM | VERMELHA=VΩ</div>
-<div class="multiKnob">
-<button class="knobBtn" onclick="setModo('bip')" id="btn_bip">🔊 BIP</button>
-<button class="knobBtn" onclick="setModo('ohms_200')" id="btn_ohms_200">Ω 200 - 330R</button>
-<button class="knobBtn" onclick="setModo('ohms_2k')" id="btn_ohms_2k">Ω 2k-20k - Valv/Atuador</button>
-<button class="knobBtn" onclick="setModo('cap')" id="btn_cap">CAP uF - 470uF</button>
-<button class="knobBtn" onclick="setModo('diodo')" id="btn_diodo">Diodo LNK</button>
-<button class="knobBtn" onclick="setModo('vac')" id="btn_vac">V~ 750V - 127V</button>
-</div>
-<div style="margin-top:10px;font-size:11px">
-<div>PRETA: <span id="pontaPreta">Nenhum</span> <span id="ledPreta" style="width:10px;height:10px;background:#333;border-radius:50%;display:inline-block"></span></div>
-<div>VERMELHA: <span id="pontaVermelha">Nenhum</span> <span id="ledVermelha" style="width:10px;height:10px;background:#333;border-radius:50%;display:inline-block"></span></div>
-<button class="btn-secondary" onclick="limparPontas()" style="margin-top:6px">Limpar pontas</button>
-</div>
-<div id="resultadoTeste" style="margin-top:10px;background:#000;padding:8px;border-radius:8px;font-size:12px;min-height:50px;border:1px solid #333">Selecione modo e clique nos pinos</div>
-</div>
-<div>
-<label>Componente (BOM vs RUIM):</label>
-<select id="compSelect" onchange="carregarComponente()"><option value="triac_tic206">TRIAC TIC206 / BT137 - Bomba/Valvula (MAIS DEFEITO)</option><option value="triac_bta">TRIAC BTA12 Motor</option><option value="rele">Rele 12V 330R Motor H/AH</option><option value="cap_470">Capacitor 470uF 25V Fonte estufado</option><option value="cap_motor">Capacitor Motor 12uF fraco</option><option value="ptc_trava">PTC Trava 800-1500 + BC337</option><option value="atuador">Atuador Dreno 1k-3k</option><option value="lnk">LNK304/LNK306 Fonte sem 5V</option><option value="diodo">Diodo 1N4148/1N4007 Fonte</option></select>
-<div class="compGrid" style="margin-top:10px">
-<div class="compBox bom"><b style="color:#86efac">✅ BOM</b><div id="compBom"></div></div>
-<div class="compBox ruim"><b style="color:#fca5a5">❌ RUIM</b><div id="compRuim"></div></div>
-</div>
-<div id="tabelaValores" style="margin-top:10px;background:#1e293b;padding:10px;border-radius:8px;font-size:11px"></div>
-</div>
-</div>
-</section>
-
-<section id="aba4" class="card hidden"><h3>Laudo Tecnico</h3><label>Nome Tecnico</label><input id="nomeTecnico"><label>Empresa</label><input id="empresaTecnico"><div style="margin-top:8px;border:2px solid #16a34a;padding:10px;border-radius:8px"><label><input type="checkbox" id="conf1" onchange="liberaPDF()"> Medi na bancada</label><label><input type="checkbox" id="conf2" onchange="liberaPDF()"> Falha confirmada</label><label><input type="checkbox" id="conf3" onchange="liberaPDF()"> Cliente ciente</label></div><div id="resumoFalhas" style="margin-top:10px"></div><button id="btnPDF" class="btn-success" onclick="gerarPDF()" disabled style="opacity:.5;margin-top:10px">MARQUE AS 3 PARA LIBERAR PDF</button></section>
-<section id="aba5" class="card hidden"><h3>ADM Firebase - Gerar Chave 1 Ano</h3><input type="password" id="admSenha" placeholder="admin2026"><button class="btn-primary" onclick="entrarAdm()" style="margin-top:6px">Entrar ADM</button><div id="admBox" class="hidden"><input id="admId" placeholder="ID cliente"><button class="btn-success" onclick="gerarChaveFirebase()" style="margin-top:6px">Gerar Chave 1 Ano Firebase</button><div id="chaveGerada" style="font-family:monospace;color:#38bdf8;margin-top:8px;font-size:16px;font-weight:bold"></div><div id="listaIds" style="margin-top:10px;font-size:11px"></div></div></section>
-</main>
-</div>
+<div id="aba4" class="aba"><button class="btn btn-play" onclick="gerarPDF()">GERAR LAUDO PDF</button><div>ID: <span id="idDisplay"></span></div></div>
 
 <script>
-// CORE - ID FIX IMEDIATO SEM ESPERAR FIREBASE
-let MEU_ID_GLOBAL = "";
-function gerarIdRobusto(){
-  try{
-    let salvo = localStorage.getItem("bancada_v44_id");
-    if(salvo && salvo.startsWith("ID-") && salvo.length>=6) return salvo;
-  }catch(e){}
-  let chars="ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-  let id="ID-";
-  for(let i=0;i<6;i++) id+=chars.charAt(Math.floor(Math.random()*chars.length));
-  try{localStorage.setItem("bancada_v44_id",id);}catch(e){}
-  return id;
+let audioCtx=null;
+function getAudio(){ if(!audioCtx){ try{ audioCtx=new (window.AudioContext||window.webkitAudioContext)(); }catch(e){ return null; } } if(audioCtx.state==='suspended') audioCtx.resume(); return audioCtx; }
+function tocarBip(tipo){
+  let ctx=getAudio(); if(!ctx) return;
+  let osc=ctx.createOscillator(); let gain=ctx.createGain();
+  osc.connect(gain); gain.connect(ctx.destination);
+  if(tipo==='curto'){ osc.frequency.value=850; gain.gain.value=0.4; osc.start(); gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime+0.6); osc.stop(ctx.currentTime+0.6); }
+  else if(tipo==='bom'){ osc.frequency.value=1200; gain.gain.value=0.3; osc.start(); gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime+0.15); osc.stop(ctx.currentTime+0.15); }
 }
-MEU_ID_GLOBAL = gerarIdRobusto();
-function atualizarDisplayId(){let el=document.getElementById("deviceIdDisplay");if(el) el.textContent=MEU_ID_GLOBAL;let adm=document.getElementById("admId");if(adm) adm.value=MEU_ID_GLOBAL;}
-function forcarNovoId(){let chars="ABCDEFGHJKLMNPQRSTUVWXYZ23456789";let id="ID-";for(let i=0;i<6;i++) id+=chars.charAt(Math.floor(Math.random()*chars.length));MEU_ID_GLOBAL=id;try{localStorage.setItem("bancada_v44_id",id);}catch(e){}atualizarDisplayId();document.getElementById("gateMsg").textContent="Novo ID gerado: "+id;}
-const STORAGE_ATIV="bancada_v44_ativ";const STORAGE_FIRST="bancada_v44_first";
-let chart=null;let timer=null;let seg=0;let ultima={};let codigo2fa="";let modoMulti="";let pontaPreta=null;let pontaVermelha=null;
-const modelos={colormaq:["LCM11 - 11kg Conv 127V","LCA12 - 12kg Automatica"],electrolux:["LAC12 / LAC13 - 8,5kg Conv","LTE12 - 12kg"],brastemp:["BWL11A - 11kg Ative!"],consul:["CWH12 - 12kg Facilite"]};
-function abrirAba(n){document.querySelectorAll('.tab-btn').forEach((b,i)=>{let map=[1,2,6,4,5];b.classList.toggle('active',map[i]===n)});for(let i of [1,2,4,5,6]){let el=document.getElementById('aba'+i);if(el) el.classList.toggle('hidden',i!==n)}}
-function obterId(){return MEU_ID_GLOBAL;}
-function primeiro(){try{let f=localStorage.getItem(STORAGE_FIRST);if(!f){f=new Date().toISOString();localStorage.setItem(STORAGE_FIRST,f)}return new Date(f);}catch(e){return new Date();}}
-function dias(){return 7-Math.floor((new Date()-primeiro())/86400000)}
-function ativLocal(){try{let r=localStorage.getItem(STORAGE_ATIV);if(!r) return null;let o=JSON.parse(r);let e=new Date(o.expiraEm);if(e<new Date()){localStorage.removeItem(STORAGE_ATIV);return null}return o;}catch(e){return null}}
-function liberar(t){document.getElementById('gateSection').classList.add('hidden');document.getElementById('appSection').classList.remove('hidden');document.getElementById('statusBadge').textContent=t;initChart();carregarComponente();}
-function bloquear(){document.getElementById('gateSection').classList.remove('hidden');document.getElementById('appSection').classList.add('hidden');}
-function initChart(){try{if(chart)chart.destroy();chart=new Chart(document.getElementById('grafico'),{type:'bar',data:{labels:['Mot H','Mot AH','Valv','Bomba','Atuador','Trava','Fonte'],datasets:[{data:[1,1,1,1,1,1,1],backgroundColor:'#3b82f6'}]},options:{responsive:true,scales:{y:{beginAtZero:true,max:10}}}});}catch(e){}}
-document.getElementById('marca').addEventListener('change',function(){let s=document.getElementById('modelo');s.innerHTML='<option value="">Selecione</option>';(modelos[this.value]||[]).forEach(m=>{let o=document.createElement('option');o.value=m;o.textContent=m;s.appendChild(o)})});
-function setSim(id,ativo,falha,txt){let c=document.getElementById('sim_'+id);if(!c)return;c.classList.remove('ativo','falha');if(ativo)c.classList.add('ativo');if(falha)c.classList.add('falha');let t=document.getElementById('txt_'+id);if(t) t.textContent=txt;}
-function pararSimulacao(){if(timer)clearInterval(timer);timer=null;let d=document.getElementById('timerDisplay');if(d) d.textContent="00:00 - PARADA";}
-function iniciarSimulacao(){let modelo=document.getElementById('modelo').value;if(!modelo){alert("Selecione modelo");return}let press=document.getElementById('condPress').value;let tampa=document.getElementById('condTampa').value;let sel=document.getElementById('condSeletor').value;let def=document.getElementById('defeitoInjetado').value;pararSimulacao();seg=0;timer=setInterval(()=>{seg++;let m=String(Math.floor(seg/60)).padStart(2,'0');let s=String(seg%60).padStart(2,'0');let colado=def==='rele_k1_colado'||def==='triac_motor_curto';let valvCurto=def==='triac_valvula_curto';let bombaCurto=def==='triac_bomba_curto';if(sel==='enchendo'&&press==='vazia'&&tampa==='fechada'){if(valvCurto){document.getElementById('timerDisplay').textContent=`${m}:${s} - VALVULA CURTA TRANSBORDA`;setSim('valvula',false,true,'SEMPRE LIGADA');}else{document.getElementById('timerDisplay').textContent=`${m}:${s} - ENCHENDO`;setSim('valvula',true,false,'Jorrando');setSim('trava',true,false,'Travada');}}else if(sel==='agitacao'&&press==='cheia'&&tampa==='fechada'){let ciclo=seg%28;if(colado){document.getElementById('timerDisplay').textContent=`${m}:${s} - DEFEITO Rele colado`;setSim('motorH',false,true,'SEMPRE LIGADO');}else{if(ciclo<12){document.getElementById('timerDisplay').textContent=`${m}:${s} - HORARIO`;setSim('motorH',true,false,'Girando H');}else if(ciclo>=15&&ciclo<27){document.getElementById('timerDisplay').textContent=`${m}:${s} - ANTI`;setSim('motorAH',true,false,'Girando AH');}}}else if(sel==='centrifugacao'){document.getElementById('timerDisplay').textContent=`${m}:${s} - CENTRIFUGANDO`;setSim('bomba',true,false,'Bomba ON');setSim('atuador',true,false,'Puxado');setSim('motorH',true,false,'Centrifugando');}},1000);}
-function analisarTudo(){let modelo=document.getElementById('modelo').value;if(!modelo){alert("Selecione modelo");return}let outs=[];for(let i of [1,2,3,5,6,7,8]){let el=document.getElementById('out'+i);if(el) outs.push(el.value);}let vals=outs.map(v=>v==='ok'?1:9);if(chart){chart.data.datasets[0].data=vals;chart.update();}let falhas=[];let nomes=['Mot H','Mot AH','Valv','Bomba','Atuador','Trava','Fonte'];outs.forEach((v,i)=>{if(v!=='ok'&&v!=='na') falhas.push({idx:i,nome:nomes[i],tipo:v})});let med=falhas.map(f=>`<div style='background:#1e293b;padding:8px;border-radius:8px;margin-top:4px'><b>${f.nome} - ${f.tipo}</b> <label><input type='checkbox' id='falhaSel_${f.idx}' checked> Laudo</label></div>`).join('');document.getElementById('resumoFalhas').innerHTML=med||'Placa OK';ultima={modelo,falhas,data:new Date().toLocaleString('pt-BR'),id:obterId()};}
-function liberaPDF(){let c1=document.getElementById('conf1').checked;let c2=document.getElementById('conf2').checked;let c3=document.getElementById('conf3').checked;let b=document.getElementById('btnPDF');if(c1&&c2&&c3){b.disabled=false;b.style.opacity='1';}else{b.disabled=true;b.style.opacity='.5';}}
-function gerarPDF(){try{if(!ultima.modelo){alert("Teste primeiro");return}let fl=[];ultima.falhas.forEach(f=>{let chk=document.getElementById('falhaSel_'+f.idx);if(chk&&chk.checked)fl.push(f)});let {jsPDF}=window.jspdf;let doc=new jsPDF();let y=12;doc.text(`LAUDO V4.4 - ${ultima.modelo} - ${ultima.data}`,10,y);y+=10;try{doc.addImage(chart.toBase64Image(),'PNG',10,y,190,40);y+=46}catch(e){}fl.forEach(f=>{doc.text(`${f.nome} - ${f.tipo}`,10,y);y+=8});doc.text(`ID: ${ultima.id}`,10,y);doc.save('Laudo.pdf')}catch(e){alert(e.message)}}
-function entrarAdm(){if(document.getElementById('admSenha').value==='admin2026'){document.getElementById('admBox').classList.remove('hidden');document.getElementById('admId').value=MEU_ID_GLOBAL;}else alert('Senha errada')}
-function entrarGratisLocal(){let agora=new Date();let exp=new Date();exp.setDate(agora.getDate()+7);try{localStorage.setItem(STORAGE_ATIV,JSON.stringify({expiraEm:exp.toISOString(),tipo:'gratis'}));}catch(e){}liberar('Gratis 7d - Offline');document.getElementById('gateMsg').textContent="Entrando 7 dias gratis offline...";}
-function iniciarAppOffline(){
-  atualizarDisplayId();
-  let fs=document.getElementById('firebaseStatus');
-  if(fs) fs.textContent="Offline - ID OK";
-  try{
-    let atv=ativLocal();
-    if(atv){liberar(atv.tipo==='anual'?'Liberado 365d':'Gratis '+dias()+'d');return;}
-    let d=dias();
-    if(d>=0){/* deixa na tela de gate mas ID ja esta OK */}
-  }catch(e){}
+function tocarClickRele(){
+  let ctx=getAudio(); if(!ctx) return;
+  let osc1=ctx.createOscillator(); let gain1=ctx.createGain();
+  osc1.connect(gain1); gain1.connect(ctx.destination);
+  osc1.frequency.value=2200; osc1.type='square'; gain1.gain.value=0.5;
+  osc1.start(); gain1.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime+0.08); osc1.stop(ctx.currentTime+0.08);
+  setTimeout(()=>{ let osc2=ctx.createOscillator(); let gain2=ctx.createGain(); osc2.connect(gain2); gain2.connect(ctx.destination); osc2.frequency.value=1500; osc2.type='square'; gain2.gain.value=0.3; osc2.start(); gain2.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime+0.06); osc2.stop(ctx.currentTime+0.06); },30);
+  if(navigator.vibrate) navigator.vibrate(40);
 }
-document.addEventListener('DOMContentLoaded',function(){MEU_ID_GLOBAL=gerarIdRobusto();atualizarDisplayId();iniciarAppOffline();});
-setTimeout(function(){MEU_ID_GLOBAL=gerarIdRobusto();atualizarDisplayId();iniciarAppOffline();},300);
 
-// MULTIMETRO
+function abrirAba(n){ document.querySelectorAll('.aba').forEach(a=>a.classList.remove('ativa')); document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('ativa')); document.getElementById('aba'+n).classList.add('ativa'); document.getElementById('tab'+n).classList.add('ativa'); }
+let seg=0; let timer=null;
+function obterId(){ return 'BANC-'+Math.random().toString(36).substr(2,6).toUpperCase(); }
+document.getElementById('idDisplay').textContent=obterId();
+function setSim(id,ligado,falha,texto){ let el=document.getElementById('card_'+id); if(!el){ let cont=document.getElementById('cardsSim'); let d=document.createElement('div'); d.id='card_'+id; d.className='cardSim'; cont.appendChild(d); el=d; } el.textContent=id.toUpperCase()+': '+texto; el.className='cardSim '+(falha?'falha':ligado?'ativo':''); }
+function pararSimulacao(){ clearInterval(timer); document.getElementById('timerDisplay').textContent='00:00 - Parado'; }
+function iniciarSimulacao(){
+  let modelo=document.getElementById('modelo').value; if(!modelo){alert("Selecione marca/modelo");return}
+  let press=document.getElementById('condPress').value; let tampa=document.getElementById('condTampa').value; let sel=document.getElementById('condSeletor').value; let def=document.getElementById('defeitoInjetado').value;
+  pararSimulacao(); seg=0; document.getElementById('cardsSim').innerHTML='';
+  timer=setInterval(()=>{
+    seg++; let m=String(Math.floor(seg/60)).padStart(2,'0'); let s=String(seg%60).padStart(2,'0');
+    let colado=def==='rele_k1_colado'; let valvCurto=def==='triac_valvula_curto';
+    setSim('motorH',false,false,'Parado'); setSim('motorAH',false,false,'Parado'); setSim('valvula',false,false,'Fechada'); setSim('bomba',false,false,'Desligada'); setSim('atuador',false,false,'Solto');
+    if(sel==='enchendo' && press==='vazia' && tampa==='fechada'){
+      if(valvCurto){ document.getElementById('timerDisplay').textContent=`${m}:${s} - VALVULA CURTA`; setSim('valvula',false,true,'SEMPRE LIGADA'); }
+      else{ document.getElementById('timerDisplay').textContent=`${m}:${s} - ENCHENDO`; setSim('valvula',true,false,'Jorrando'); setSim('trava',true,false,'Travada'); }
+    }else if(sel==='agitacao' && press==='cheia' && tampa==='fechada'){
+      if(colado){ document.getElementById('timerDisplay').textContent=`${m}:${s} - RELE COLADO`; setSim('motorH',false,true,'SEMPRE LIGADO'); }
+      else{
+        let ciclo=seg%4;
+        if(ciclo<2){ document.getElementById('timerDisplay').textContent=`${m}:${s} - HORARIO (2s)`; setSim('motorH',true,false,'Girando H 2s'); }
+        else{ document.getElementById('timerDisplay').textContent=`${m}:${s} - ANTI-HORARIO (2s)`; setSim('motorAH',true,false,'Girando AH 2s'); }
+        if(ciclo===0||ciclo===2) tocarClickRele();
+        setSim('trava',true,false,'Travada');
+      }
+    }else if(sel==='centrifugacao'){ document.getElementById('timerDisplay').textContent=`${m}:${s} - CENTRIFUGANDO`; setSim('bomba',true,false,'Bomba ON'); setSim('atuador',true,false,'Puxado'); setSim('motorH',true,false,'Alta'); setSim('trava',true,false,'Travada'); }
+  },1000);
+}
+function sincronizarGraficoParaMaquina(){}
+function sincronizarMaquinaParaGrafico(){}
+let chart=null;
+window.addEventListener('load',()=>{
+  let ctx=document.getElementById('graficoSaidas').getContext('2d');
+  chart=new Chart(ctx,{type:'bar',data:{labels:['Mot H','Mot AH','Valv','Bomba','Atuador','Trava','Fonte'],datasets:[{label:'Saidas',data:[1,1,1,1,1,1,1],backgroundColor:'#22c55e'}]},options:{responsive:true}});
+  carregarComponente();
+});
+function analisarTudo(){ let outs=[]; for(let i of [1,2,3,5,6,7,8]){ let el=document.getElementById('out'+i); if(el) outs.push(el.value); } let vals=outs.map(v=>v==='ok'?1:9); if(chart){ chart.data.datasets[0].data=vals; chart.update(); } abrirAba(1); setTimeout(()=>{ iniciarSimulacao(); },300); }
+let modoMulti='bip'; let pontaPreta=null; let pontaVermelha=null;
+function setModoMulti(m){ modoMulti=m; document.querySelectorAll('.modoBtn').forEach(b=>b.classList.remove('ativo')); let btn=document.getElementById('btn_'+m); if(btn) btn.classList.add('ativo'); }
+function limparPontas(){ pontaPreta=null; pontaVermelha=null; document.querySelectorAll('.pino').forEach(p=>p.classList.remove('selecionado')); document.getElementById('multiDisplay').textContent='Toque nos pinos'; }
 const componentes={
-triac_tic206:{nome:"TRIAC TIC206 / BT137",pinos:["A1","A2","G"],bom:{'A1-A2':"OL - aberto BOM",'A1-G':"OL"},ruim:{'A1-A2':"0.02Ω CURTO"},dica:"BOM OL. RUIM 0Ω curto = valvula sempre ligada"},
-triac_bta:{nome:"TRIAC BTA12",pinos:["A1","A2","G"],bom:{'A1-A2':"OL BOM"},ruim:{'A1-A2':"0Ω CURTO"},dica:"Motor sempre ligado = BTA curto"},
-rele:{nome:"Rele 330R",pinos:["Bobina1","Bobina2","COM","NA"],bom:{'Bobina1-Bobina2':"330Ω BOM",'COM-NA':"OL"},ruim:{'Bobina1-Bobina2':"OL queimada",'COM-NA':"0Ω colado"},dica:"330R bom, OL queimada"},
-cap_470:{nome:"Cap 470uF",pinos:["+","-"],bom:{'+-':"470uF BOM"},ruim:{'+-':"5uF seco"},dica:"470uF bom, 5U seco estufado"},
-cap_motor:{nome:"Cap Motor 12uF",pinos:["P1","P2"],bom:{'P1-P2':"12uF BOM"},ruim:{'P1-P2':"4uF fraco"},dica:"12U bom, 4U fraco"},
-ptc_trava:{nome:"PTC Trava",pinos:["PTC1","PTC2"],bom:{'PTC1-PTC2':"800-1500Ω BOM"},ruim:{'PTC1-PTC2':"OL aberto"},dica:"800-1500Ω bom"},
-atuador:{nome:"Atuador 1k-3k",pinos:["Fio1","Fio2"],bom:{'Fio1-Fio2':"1.2k-2.8k BOM"},ruim:{'Fio1-Fio2':"OL queimado"},dica:"1k-3k bom"},
-lnk:{nome:"LNK304",pinos:["D","S","FB"],bom:{'D-S':"OL BOM"},ruim:{'D-S':"0Ω curto"},dica:"D-S curto = queimado sem 5V"},
-diodo:{nome:"Diodo",pinos:["Anodo","Catodo"],bom:{'Anodo-Catodo':"0.5V BOM"},ruim:{'Anodo-Catodo':"0V curto"},dica:"0.5V bom, 0V curto"}
+ diodo:{ bom:{'Anodo-Catodo':'0.52V BOM','Catodo-Anodo':'OL BOM'}, ruim:{'Anodo-Catodo':'0V curto'}, dica:'0.5V bom', pinsBom:['Anodo','Catodo'], pinsRuim:['Anodo','Catodo'] },
+ triac:{ bom:{'T1-T2':'OL BOM','G-T1':'90Ω BOM'}, ruim:{'T1-T2':'0Ω curto'}, dica:'T1-T2 OL', pinsBom:['T1','T2','G'], pinsRuim:['T1','T2','G'] },
+ triac_valv:{ bom:{'T1-T2':'OL BOM'}, ruim:{'T1-T2':'0.02Ω curto'}, dica:'OL bom', pinsBom:['T1','T2','G'], pinsRuim:['T1','T2','G'] },
+ rele:{ bom:{'Bobina-Bobina':'330Ω BOM'}, ruim:{'Bobina-Bobina':'OL queimado'}, dica:'330R bom', pinsBom:['Bobina','Bobina','COM'], pinsRuim:['Bobina','Bobina','COM'] },
+ ptc:{ bom:{'PTC-PTC':'1.2kΩ BOM'}, ruim:{'PTC-PTC':'OL aberto'}, dica:'1.2k', pinsBom:['PTC','PTC'], pinsRuim:['PTC','PTC'] },
+ cap:{ bom:{'CAP-CAP':'470uF BOM'}, ruim:{'CAP-CAP':'0uF seco'}, dica:'470uF', pinsBom:['CAP','CAP'], pinsRuim:['CAP','CAP'] },
+ lnk:{ bom:{'D-S':'0.55V BOM'}, ruim:{'D-S':'0V curto'}, dica:'LNK', pinsBom:['D','S','BP'], pinsRuim:['D','S','BP'] }
 };
-function carregarComponente(){let key=document.getElementById('compSelect').value;if(!key) return;let cfg=componentes[key];let bomHtml=`<div style="font-size:11px">${cfg.nome}</div><div style="margin-top:6px">`;cfg.pinos.forEach(p=>{bomHtml+=`<span class="pin" onclick="clicarPino(this,'bom','${p}')"></span><span style="font-size:9px">${p}</span> `;});bomHtml+=`</div>`;document.getElementById('compBom').innerHTML=bomHtml;let ruimHtml=`<div style="font-size:11px">${cfg.nome} RUIM</div><div style="margin-top:6px">`;cfg.pinos.forEach(p=>{ruimHtml+=`<span class="pin" onclick="clicarPino(this,'ruim','${p}')"></span><span style="font-size:9px">${p}</span> `;});ruimHtml+=`</div>`;document.getElementById('compRuim').innerHTML=ruimHtml;document.getElementById('tabelaValores').innerHTML=`<b>${cfg.nome}</b><br>BOM: ${Object.entries(cfg.bom).map(([k,v])=>k+'='+v).join('<br>')}<br><br>RUIM: ${Object.entries(cfg.ruim).map(([k,v])=>k+'='+v).join('<br>')}<br><br><b>${cfg.dica}</b>`;limparPontas();}
-function setModo(m){modoMulti=m;document.querySelectorAll('.knobBtn').forEach(b=>b.classList.remove('active'));let btn=document.getElementById('btn_'+m);if(btn) btn.classList.add('active');let d=document.getElementById('multiDisplay');if(d) d.textContent="Modo "+m.toUpperCase()+" - Clique nos pinos";limparPontas();}
-function clicarPino(el,tipo,nome){if(!modoMulti){alert("Selecione modo BIP/Ohms");return}if(!pontaPreta){pontaPreta={tipo,nome,el};document.getElementById('pontaPreta').textContent=tipo+" "+nome;el.classList.add('ativo');return}if(!pontaVermelha && (pontaPreta.nome!==nome||pontaPreta.tipo!==tipo)){pontaVermelha={tipo,nome,el};document.getElementById('pontaVermelha').textContent=tipo+" "+nome;el.classList.add('ativo');medir();}else{limparPontas();}}
-function limparPontas(){pontaPreta=null;pontaVermelha=null;document.getElementById('pontaPreta').textContent="Nenhum";document.getElementById('pontaVermelha').textContent="Nenhum";document.querySelectorAll('.pin').forEach(p=>p.classList.remove('ativo'));let d=document.getElementById('multiDisplay');if(d) d.textContent=modoMulti?modoMulti.toUpperCase()+" - Aguardando":"OL";}
-function medir(){if(!pontaPreta||!pontaVermelha) return;let key=document.getElementById('compSelect').value;let cfg=componentes[key];let par=pontaPreta.nome+"-"+pontaVermelha.nome;let parInv=pontaVermelha.nome+"-"+pontaPreta.nome;let isBom=pontaPreta.tipo==='bom'&&pontaVermelha.tipo==='bom';let isRuim=pontaPreta.tipo==='ruim'&&pontaVermelha.tipo==='ruim';let valor="";if(isBom){valor=cfg.bom[par]||cfg.bom[parInv]||"OL - BOM";}else if(isRuim){valor=cfg.ruim[par]||cfg.ruim[parInv]||Object.values(cfg.ruim)[0];}else{valor="Compare BOM vs RUIM lado a lado";}document.getElementById('multiDisplay').textContent=valor;document.getElementById('resultadoTeste').innerHTML=(isBom?"✅ BOM":"❌ RUIM")+"<br>"+pontaPreta.nome+" - "+pontaVermelha.nome+"<br><b>"+valor+"</b><br><br>"+cfg.dica;}
-</script>
-
-<script type="module">
-import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import {getFirestore,doc,getDoc,setDoc,collection,getDocs} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-const firebaseConfig={apiKey:"AIzaSyAQoBcq8ZX8n1Z55Qfr8x8E0Gb8j8EZQl-k",authDomain:"bancada-lavadora-pro.firebaseapp.com",projectId:"bancada-lavadora-pro",storageBucket:"bancada-lavadora-pro.firebasestorage.app",messagingSenderId:"390758786240",appId:"1:390758786240:web:431f0d9214b4613be7b925"};
-let db=null;
-try{
-  const app=initializeApp(firebaseConfig);
-  db=getFirestore(app);
-  let fs=document.getElementById('firebaseStatus');
-  if(fs) fs.textContent="Conectado ✅ - Firebase OK";
-}catch(e){
-  let fs=document.getElementById('firebaseStatus');
-  if(fs) fs.textContent="Offline (ID local OK) - "+e.message;
-}
-let codigo2faGlobal="";
-function obterIdFirebase(){
-  try{
-    let el=document.getElementById('deviceIdDisplay');
-    if(el && el.textContent && el.textContent.startsWith('ID-') && el.textContent.length>=5) return el.textContent.trim().toUpperCase();
-  }catch(e){}
-  try{
-    let salvo=localStorage.getItem('bancada_v44_id');
-    if(salvo) return salvo;
-  }catch(e){}
-  return window.MEU_ID_GLOBAL || "ID-TMP001";
-}
-window.validarChaveNivel1=async function(){
-  let id=obterIdFirebase();
-  let chave=document.getElementById('chaveInput').value.trim().toUpperCase();
-  let msg=document.getElementById('gateMsg');
-  if(!chave){msg.textContent="Informe chave CHV-...";return;}
-  if(id.includes('ID-78SW53X6') || id.includes('78SW53X6')){
-    let agora=new Date();let exp=new Date();exp.setDate(agora.getDate()+365);
-    try{localStorage.setItem('bancada_v44_ativ',JSON.stringify({expiraEm:exp.toISOString(),tipo:'anual'}));}catch(e){}
-    document.getElementById('gateSection').classList.add('hidden');
-    document.getElementById('appSection').classList.remove('hidden');
-    if(msg) msg.textContent="ID mestre liberado 365d";
-    return;
-  }
-  if(!db){msg.textContent="Firebase offline, entrando 7 dias local...";entrarGratisLocal();return;}
-  try{
-    let snap=await getDoc(doc(db,'clientes',id));
-    if(!snap.exists()){msg.textContent="ID "+id+" nao cadastrado no Firebase. Use 7 dias gratis ou cadastre na ADM.";return;}
-    let dados=snap.data();
-    if(String(dados.chave).toUpperCase()!==chave){msg.textContent="Chave invalida para este ID";return;}
-    codigo2faGlobal=String(Math.floor(100000+Math.random()*900000));
-    document.getElementById('codigo2faDisplay').textContent=codigo2faGlobal;
-    document.getElementById('step1Box').classList.add('hidden');
-    document.getElementById('step2Box').classList.remove('hidden');
-    msg.textContent="Chave OK! Código 2FA gerado.";
-  }catch(e){
-    msg.textContent="Erro Firebase: "+e.message+" - Entrando local 7 dias";
-    entrarGratisLocal();
-  }
-}
-window.validar2faNivel2=function(){
-  let digitado=document.getElementById('tfaInput').value.trim();
-  let msg=document.getElementById('gateMsg');
-  if(digitado!==codigo2faGlobal){msg.textContent="Código 2FA errado";return;}
-  let agora=new Date();let exp=new Date();exp.setDate(agora.getDate()+365);
-  try{localStorage.setItem('bancada_v44_ativ',JSON.stringify({expiraEm:exp.toISOString(),tipo:'anual'}));}catch(e){}
-  document.getElementById('gateSection').classList.add('hidden');
-  document.getElementById('appSection').classList.remove('hidden');
-  try{initChart();carregarComponente();}catch(e){}
-}
-window.gerarChaveFirebase=async function(){
-  let id=document.getElementById('admId').value.trim().toUpperCase();
-  let out=document.getElementById('chaveGerada');
-  let lista=document.getElementById('listaIds');
-  if(!id){out.textContent="Informe ID";return;}
-  let chave='CHV-'+Math.random().toString(36).substring(2,8).toUpperCase();
-  let agora=new Date();let exp=new Date();exp.setDate(agora.getDate()+365);
-  if(!db){out.textContent="Firebase offline, chave local: "+id+" -> "+chave+" (salve manual)";return;}
-  try{
-    await setDoc(doc(db,'clientes',id),{id,chave,status:'Ativo',criadoEm:agora.toISOString(),expiraEm:exp.toISOString()});
-    out.textContent=id+" -> "+chave+" 365d Firebase OK";
-    let q=await getDocs(collection(db,'clientes'));
-    lista.innerHTML=q.docs.map(d=>{let dd=d.data();return dd.id+" - "+dd.chave+" - "+dd.status}).join('<br>');
-  }catch(e){out.textContent="Erro Firebase: "+e.message;}
-}
+function carregarComponente(){ let key=document.getElementById('compSelect').value; let cfg=componentes[key]; let bomDiv=document.getElementById('bomPinos'); let ruimDiv=document.getElementById('ruimPinos'); bomDiv.innerHTML=''; ruimDiv.innerHTML=''; cfg.pinsBom.forEach(n=>{ let s=document.createElement('span'); s.className='pino'; s.innerHTML=`<span style="font-size:9px">${n}</span>`; s.onclick=()=>selecionarPino(n,'bom',s); bomDiv.appendChild(s); }); cfg.pinsRuim.forEach(n=>{ let s=document.createElement('span'); s.className='pino'; s.innerHTML=`<span style="font-size:9px">${n}</span>`; s.onclick=()=>selecionarPino(n,'ruim',s); ruimDiv.appendChild(s); }); document.getElementById('dicaComp').textContent=cfg.dica; limparPontas(); }
+function selecionarPino(nome,tipo,el){ el.classList.toggle('selecionado'); if(!pontaPreta){ pontaPreta={nome,tipo,el}; } else if(!pontaVermelha){ pontaVermelha={nome,tipo,el}; medir(); } else{ limparPontas(); pontaPreta={nome,tipo,el}; el.classList.add('selecionado'); } }
+function medir(){ if(!pontaPreta||!pontaVermelha) return; let key=document.getElementById('compSelect').value; let cfg=componentes[key]; let par=pontaPreta.nome+"-"+pontaVermelha.nome; let parInv=pontaVermelha.nome+"-"+pontaPreta.nome; let isBom=pontaPreta.tipo==='bom'&&pontaVermelha.tipo==='bom'; let isRuim=pontaPreta.tipo==='ruim'&&pontaVermelha.tipo==='ruim'; let valor=""; if(isBom){ valor=cfg.bom[par]||cfg.bom[parInv]||"OL - BOM"; } else if(isRuim){ valor=cfg.ruim[par]||cfg.ruim[parInv]||Object.values(cfg.ruim)[0]; } else{ valor="Compare BOM vs RUIM"; } document.getElementById('multiDisplay').textContent=valor; document.getElementById('resultadoTeste').innerHTML=(isBom?"✅ BOM":"❌ RUIM")+"<br>"+pontaPreta.nome+"-"+pontaVermelha.nome+"<br><b>"+valor+"</b>"; if(modoMulti==='bip'){ let v=valor.toLowerCase(); if(v.includes('0v curto')||v.includes('0Ω curto')||v.includes('0.02')||v.includes('0Ω bom')){ tocarBip('curto'); if(navigator.vibrate) navigator.vibrate([100,50,200]); } else if(v.includes('ol')){ } else{ tocarBip('bom'); } } }
+function gerarPDF(){ const { jsPDF }=window.jspdf; let doc=new jsPDF(); doc.text("LAUDO V4.8 SOM",10,10); doc.save("laudo_V48.pdf"); }
 </script>
 </body>
 </html>
