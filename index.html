@@ -1,194 +1,85 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BANCADA V5.1 - VIDRO TRANSPARENTE + ROTOR + SOM</title>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<style>
-body{background:#0f172a;color:#e2e8f0;font-family:sans-serif;margin:0;padding:10px}
-h1{font-size:15px;text-align:center;margin:6px}
-.aba{display:none;background:#1e293b;padding:12px;border-radius:12px;margin-top:10px}
-.aba.ativa{display:block}
-.tabs{display:flex;gap:4px;flex-wrap:wrap}
-.tabs button{flex:1;padding:9px;border-radius:8px;border:none;background:#334155;color:white;font-weight:bold;font-size:11px}
-.tabs button.ativa{background:#f59e0b;color:black}
-.cardSim{background:#0f172a;padding:7px;border-radius:8px;margin:3px 0;border:1px solid #334155;font-size:12px}
-.cardSim.ativo{border-color:#22c55e;background:#14532d}
-.cardSim.falha{border-color:#ef4444;background:#7f1d1d}
-select{width:100%;padding:9px;border-radius:8px;background:#0f172a;color:white;border:1px solid #475569;margin:3px 0}
-.btn{width:100%;padding:12px;border-radius:8px;border:none;font-weight:bold;margin-top:6px}
-.btn-play{background:#22c55e;color:black}
-.btn-stop{background:#ef4444;color:white}
-.displayTimer{background:black;color:#22c55e;font-size:20px;text-align:center;padding:10px;border-radius:8px;margin:6px 0;font-family:monospace}
-.pino{width:42px;height:42px;border-radius:50%;background:#facc15;border:2px solid #000;display:inline-flex;align-items:center;justify-content:center;margin:3px;cursor:pointer;color:black;font-weight:bold}
-.pino.selecionado{box-shadow:0 0 12px #22c55e}
-.multiDisplay{background:black;color:#22c55e;font-size:24px;text-align:center;padding:12px;border-radius:10px;border:2px solid #334155}
-.modoBtn{padding:8px;border-radius:20px;border:1px solid #475569;background:#1e293b;color:white;margin:2px;font-size:11px}
-.modoBtn.ativo{background:#f59e0b;color:black}
-.bomBox{border:2px solid #22c55e;border-radius:10px;padding:8px;text-align:center}
-.ruimBox{border:2px solid #ef4444;border-radius:10px;padding:8px;text-align:center}
-@keyframes onda{ from{transform:scaleX(0.8) translateX(-5%)} to{transform:scaleX(1.2) translateX(5%)} }
-@keyframes giraH{ from{transform:translate(-50%,-50%) rotate(0deg)} to{transform:translate(-50%,-50%) rotate(360deg)} }
-@keyframes giraAH{ from{transform:translate(-50%,-50%) rotate(0deg)} to{transform:translate(-50%,-50%) rotate(-360deg)} }
-@keyframes bolhas{ 0%{transform:translateY(0);opacity:0.8} 100%{transform:translateY(-120px);opacity:0} }
-</style>
-</head>
-<body>
-<h1>🔧 BANCADA V5.1 - VIDRO TRANSPARENTE + ROTOR + BIP + RELE</h1>
-<div class="tabs">
-<button onclick="abrirAba(1)" id="tab1" class="ativa">1-MAQUINA VIDRO</button>
-<button onclick="abrirAba(2)" id="tab2">2-GRAFICO</button>
-<button onclick="abrirAba(3)" id="tab3">3-MULTIMETRO</button>
-<button onclick="abrirAba(4)" id="tab4">4-LAUDO</button>
-</div>
-
-<div id="aba1" class="aba ativa">
-<label>Marca/Modelo</label><select id="modelo"><option value="">Selecione</option><option>Electrolux LAC12</option><option>Brastemp BWL11</option><option>Consul CWH12</option></select>
-<label>Pressostato</label><select id="condPress"><option value="vazia">Vazia</option><option value="cheia">Cheia</option></select>
-<label>Tampa</label><select id="condTampa"><option value="fechada">Fechada</option><option value="aberta">Aberta</option></select>
-<label>Seletor</label><select id="condSeletor"><option value="enchendo">Enchendo</option><option value="agitacao">Agitacao</option><option value="centrifugacao">Centrifugacao</option></select>
-<label>Defeito</label><select id="defeitoInjetado"><option value="nenhum">NENHUM</option><option value="rele_k1_colado">Rele K1 Colado</option><option value="triac_valvula_curto">Triac Valvula Curto</option><option value="triac_bomba_curto">Triac Bomba Curto</option></select>
-
-<!-- PALCO V5.1 VIDRO -->
-<div id="palcoRealista" style="position:relative;background:#0f172a;border-radius:20px;border:2px solid #334155;overflow:hidden;height:400px;margin:10px 0">
-  <div style="position:absolute;bottom:20px;left:50%;transform:translateX(-50%);width:300px;height:300px;border-radius:50%;border:10px solid #e2e8f0;background:#000;overflow:hidden;box-shadow:inset 0 0 50px #000">
-    <div id="aguaReal" style="position:absolute;bottom:0;width:100%;height:0%;background:linear-gradient(to top,#0369a1,#0ea5e9,#38bdf8);transition:height 0.8s linear">
-      <div style="position:absolute;top:-15px;width:120%;left:-10%;height:30px;background:radial-gradient(ellipse at center,rgba(255,255,255,0.9),transparent 60%);animation:onda 0.5s infinite alternate"></div>
-      <div style="position:absolute;width:100%;height:100%"><div style="position:absolute;bottom:10%;left:20%;width:6px;height:6px;background:white;border-radius:50%;animation:bolhas 2s infinite"></div><div style="position:absolute;bottom:15%;left:70%;width:4px;height:4px;background:white;border-radius:50%;animation:bolhas 1.5s infinite 0.3s"></div></div>
-    </div>
-    <div id="agitadorReal" style="position:absolute;top:50%;left:50%;width:90px;height:90px;background:radial-gradient(circle,#fff,#cbd5e1);border-radius:50%;transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px rgba(0,0,0,0.7);z-index:5;border:2px solid #475569">
-      <div style="width:100%;height:14px;background:#0f172a;position:absolute;border-radius:7px"></div>
-      <div style="width:14px;height:100%;background:#0f172a;position:absolute;border-radius:7px"></div>
-      <div style="width:28px;height:28px;background:white;border:2px solid #0f172a;border-radius:50%;z-index:6"></div>
-      <div style="position:absolute;top:4px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-bottom:10px solid #ef4444;z-index:7"></div>
-    </div>
-    <div id="turbilhao" style="position:absolute;top:50%;left:50%;width:200px;height:200px;border:2px dashed rgba(255,255,255,0.2);border-radius:50%;transform:translate(-50%,-50%);opacity:0"></div>
-  </div>
-  <div id="tampaReal" style="position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(180deg,rgba(255,255,255,0.28) 0%,rgba(200,220,255,0.18) 50%,rgba(255,255,255,0.12) 100%);backdrop-filter:blur(0.5px);z-index:15;transform-origin:top;transition:transform 0.8s cubic-bezier(.4,0,.2,1);display:flex;align-items:center;justify-content:center;border:3px solid rgba(255,255,255,0.4);border-radius:18px;cursor:pointer">
-    <div style="position:absolute;inset:12px;border:2px solid rgba(255,255,255,0.5);border-radius:12px;pointer-events:none"></div>
-    <div id="textoTampa" style="background:rgba(15,23,42,0.85);padding:8px 18px;border-radius:20px;border:1px solid rgba(255,255,255,0.3);color:white;font-weight:bold;font-size:12px;text-align:center">🔒 VIDRO - TAMPA FECHADA<span style="font-size:10px;display:block;opacity:0.8;margin-top:2px">Toque para abrir - Dá pra ver água subindo</span></div>
-  </div>
-  <div style="position:absolute;top:10px;right:10px;background:rgba(15,23,42,0.9);padding:6px 10px;border-radius:20px;border:1px solid #334155;font-size:11px;z-index:25;color:white">PRESSOSTATO: <span id="ledPress" style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#ef4444;box-shadow:0 0 6px #ef4444;vertical-align:middle"></span> <span id="txtPress">VAZIO</span></div>
-  <div id="jatoValvula" style="position:absolute;top:54px;left:50%;width:8px;height:0;background:linear-gradient(to bottom,#38bdf8,#0ea5e9,transparent);transform:translateX(-50%);transition:height 0.3s;z-index:12;border-radius:4px"></div>
-  <div id="txtMotorReal" style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.85);padding:5px 14px;border-radius:12px;font-size:11px;z-index:25;color:#22c55e;border:1px solid #334155">PARADO - VIDRO TRANSPARENTE</div>
-</div>
-
-<div id="timerDisplay" class="displayTimer">00:00 - Parado</div>
-<button class="btn btn-play" onclick="iniciarSimulacao()">▶ INICIAR 2s H/AH + SOM RELE</button>
-<button class="btn btn-stop" onclick="pararSimulacao()">■ PARAR</button>
-<div id="cardsSim"></div>
-</div>
-
-<div id="aba2" class="aba"><canvas id="graficoSaidas"></canvas><div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px"><select id="out1"><option value="ok">Mot H OK</option><option value="fail_curto">Mot H CURTO</option></select><select id="out2"><option value="ok">Mot AH OK</option><option value="fail">Mot AH FALHA</option></select><select id="out3"><option value="ok">Valvula OK</option><option value="fail_curto">Valv CURTO</option></select><select id="out5"><option value="ok">Bomba OK</option><option value="fail">Bomba FALHA</option></select><select id="out6"><option value="ok">Atuador OK</option><option value="fail">Atuador FALHA</option></select><select id="out7"><option value="ok">Trava OK</option><option value="fail">Trava FALHA</option></select><select id="out8"><option value="ok">Fonte OK</option><option value="fail">Fonte FALHA</option></select></div><button class="btn btn-play" onclick="analisarTudo()">TESTAR E SIMULAR</button><div id="resumoFalhas"></div></div>
-
-<div id="aba3" class="aba"><h2>MULTIMETRO + SOM</h2><div id="multiDisplay" class="multiDisplay">Toque nos pinos - COM SOM</div><div><button class="modoBtn ativo" id="btn_bip" onclick="setModoMulti('bip')">🔊 BIP</button><button class="modoBtn" id="btn_ohms_200" onclick="setModoMulti('ohms_200')">Ω 200</button><button class="modoBtn" id="btn_ohms_2k" onclick="setModoMulti('ohms_2k')">Ω 2k</button></div><button onclick="limparPontas()">Limpar</button><div id="resultadoTeste" style="background:#0f172a;padding:10px;border-radius:8px;margin-top:8px;border:1px solid #334155"></div><select id="compSelect" onchange="carregarComponente()"><option value="diodo">Diodo</option><option value="triac">TRIAC Motor</option><option value="triac_valv">TRIAC Valvula</option><option value="rele">Rele</option><option value="ptc">PTC</option><option value="cap">Capacitor</option><option value="lnk">LNK</option></select><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px"><div class="bomBox"><div style="color:#22c55e">✅ BOM</div><div id="bomPinos"></div></div><div class="ruimBox"><div style="color:#ef4444">❌ RUIM</div><div id="ruimPinos"></div></div></div><div id="dicaComp" style="font-size:12px;margin-top:6px"></div></div>
-
-<div id="aba4" class="aba"><button class="btn btn-play" onclick="gerarPDF()">📄 LAUDO PDF</button><div>ID: <span id="idDisplay"></span></div></div>
-
-<script>
-let audioCtx=null;
-function getAudio(){ if(!audioCtx){ try{ audioCtx=new (window.AudioContext||window.webkitAudioContext)(); }catch(e){ return null; } } if(audioCtx.state==='suspended') audioCtx.resume(); return audioCtx; }
-function tocarBip(tipo){ let ctx=getAudio(); if(!ctx) return; let osc=ctx.createOscillator(); let gain=ctx.createGain(); osc.connect(gain); gain.connect(ctx.destination); if(tipo==='curto'){ osc.frequency.value=850; gain.gain.value=0.4; osc.start(); gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime+0.6); osc.stop(ctx.currentTime+0.6); } else if(tipo==='bom'){ osc.frequency.value=1200; gain.gain.value=0.3; osc.start(); gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime+0.15); osc.stop(ctx.currentTime+0.15); } }
-function tocarClickRele(){ let ctx=getAudio(); if(!ctx) return; let osc1=ctx.createOscillator(); let gain1=ctx.createGain(); osc1.connect(gain1); gain1.connect(ctx.destination); osc1.frequency.value=2200; osc1.type='square'; gain1.gain.value=0.5; osc1.start(); gain1.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime+0.08); osc1.stop(ctx.currentTime+0.08); setTimeout(()=>{ let osc2=ctx.createOscillator(); let gain2=ctx.createGain(); osc2.connect(gain2); gain2.connect(ctx.destination); osc2.frequency.value=1500; osc2.type='square'; gain2.gain.value=0.3; osc2.start(); gain2.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime+0.06); osc2.stop(ctx.currentTime+0.06); },30); if(navigator.vibrate) navigator.vibrate(40); }
-
-function abrirAba(n){ document.querySelectorAll('.aba').forEach(a=>a.classList.remove('ativa')); document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('ativa')); document.getElementById('aba'+n).classList.add('ativa'); document.getElementById('tab'+n).classList.add('ativa'); }
-let seg=0; let timer=null;
-function obterId(){ return 'BANC-'+Math.random().toString(36).substr(2,6).toUpperCase(); }
-document.getElementById('idDisplay').textContent=obterId();
-function setSim(id,ligado,falha,texto){ let el=document.getElementById('card_'+id); if(!el){ let cont=document.getElementById('cardsSim'); let d=document.createElement('div'); d.id='card_'+id; d.className='cardSim'; cont.appendChild(d); el=d; } el.textContent=id.toUpperCase()+': '+texto; el.className='cardSim '+(falha?'falha':ligado?'ativo':''); }
-function pararSimulacao(){ clearInterval(timer); document.getElementById('timerDisplay').textContent='00:00 - Parado'; }
-function iniciarSimulacao(){
-  let modelo=document.getElementById('modelo').value; if(!modelo){alert("Selecione marca/modelo");return}
-  let press=document.getElementById('condPress').value; let tampa=document.getElementById('condTampa').value; let sel=document.getElementById('condSeletor').value; let def=document.getElementById('defeitoInjetado').value;
-  pararSimulacao(); seg=0; document.getElementById('cardsSim').innerHTML='';
-  timer=setInterval(()=>{
-    seg++; let m=String(Math.floor(seg/60)).padStart(2,'0'); let s=String(seg%60).padStart(2,'0');
-    let colado=def==='rele_k1_colado'; let valvCurto=def==='triac_valvula_curto';
-    setSim('motorH',false,false,'Parado'); setSim('motorAH',false,false,'Parado'); setSim('valvula',false,false,'Fechada'); setSim('bomba',false,false,'Desligada'); setSim('atuador',false,false,'Solto');
-    if(sel==='enchendo' && press==='vazia' && tampa==='fechada'){
-      if(valvCurto){ document.getElementById('timerDisplay').textContent=`${m}:${s} - VALVULA CURTA`; setSim('valvula',false,true,'SEMPRE LIGADA'); }
-      else{ document.getElementById('timerDisplay').textContent=`${m}:${s} - ENCHENDO`; setSim('valvula',true,false,'Jorrando'); setSim('trava',true,false,'Travada'); }
-    }else if(sel==='agitacao' && press==='cheia' && tampa==='fechada'){
-      if(colado){ document.getElementById('timerDisplay').textContent=`${m}:${s} - RELE COLADO`; setSim('motorH',false,true,'SEMPRE LIGADO'); }
-      else{
-        let ciclo=seg%4;
-        if(ciclo<2){ document.getElementById('timerDisplay').textContent=`${m}:${s} - HORARIO (2s)`; setSim('motorH',true,false,'Girando H 2s'); }
-        else{ document.getElementById('timerDisplay').textContent=`${m}:${s} - ANTI-HORARIO (2s)`; setSim('motorAH',true,false,'Girando AH 2s'); }
-        if(ciclo===0||ciclo===2) tocarClickRele();
-        setSim('trava',true,false,'Travada');
-      }
-    }else if(sel==='centrifugacao'){ document.getElementById('timerDisplay').textContent=`${m}:${s} - CENTRIFUGANDO`; setSim('bomba',true,false,'Bomba ON'); setSim('atuador',true,false,'Puxado'); setSim('motorH',true,false,'Alta'); setSim('trava',true,false,'Travada'); }
-  },1000);
-}
-let chart=null;
-window.addEventListener('load',()=>{
-  let ctx=document.getElementById('graficoSaidas').getContext('2d');
-  chart=new Chart(ctx,{type:'bar',data:{labels:['Mot H','Mot AH','Valv','Bomba','Atuador','Trava','Fonte'],datasets:[{label:'Saidas',data:[1,[STRIPPED]
-  carregarComponente();
-});
-function analisarTudo(){ let outs=[]; for(let i of [1,2,3,5,6,7,8]){ let el=document.getElementById('out'+i); if(el) outs.push(el.value); } let vals=outs.map(v=>v==='ok'?1:9); if(chart){ chart.data.datasets[0].data=vals; chart.update(); } abrirAba(1); setTimeout(()=>{ iniciarSimulacao(); },300); }
-let modoMulti='bip'; let pontaPreta=null; let pontaVermelha=null;
-function setModoMulti(m){ modoMulti=m; document.querySelectorAll('.modoBtn').forEach(b=>b.classList.remove('ativo')); let btn=document.getElementById('btn_'+m); if(btn) btn.classList.add('ativo'); }
-function limparPontas(){ pontaPreta=null; pontaVermelha=null; document.querySelectorAll('.pino').forEach(p=>p.classList.remove('selecionado')); document.getElementById('multiDisplay').textContent='Toque nos pinos'; }
-const componentes={ diodo:{ bom:{'Anodo-Catodo':'0.52V BOM','Catodo-Anodo':'OL BOM'}, ruim:{'Anodo-Catodo':'0V curto'}, dica:'0.5V bom', pinsBom:['Anodo','Catodo'], pinsRuim:['Anodo','Catodo'] }, triac:{ bom:{'T1-T2':'OL BOM','G-T1':'90Ω BOM'}, ruim:{'T1-T2':'0Ω curto'}, dica:'T1-T2 OL', pinsBom:['T1','T2','G'], pinsRuim:['T1','T2','G'] }, triac_valv:{ bom:{'T1-T2':'OL BOM'}, ruim:{'T1-T2':'0.02Ω curto'}, dica:'OL bom', pinsBom:['T1','T2','G'], pinsRuim:['T1','T2','G'] }, rele:{ bom:{'Bobina-Bobina':'330Ω BOM'}, ruim:{'Bobina-Bobina':'OL queimado'}, dica:'330R bom', pinsBom:['Bobina','Bobina','COM'], pinsRuim:['Bobina','Bobina','COM'] }, ptc:{ bom:{'PTC-PTC':'1.2kΩ BOM'}, ruim:{'PTC-PTC':'OL aberto'}, dica:'1.2k', pinsBom:['PTC','PTC'], pinsRuim:['PTC','PTC'] }, cap:{ bom:{'CAP-CAP':'470uF BOM'}, ruim:{'CAP-CAP':'0uF seco'}, dica:'470uF', pinsBom:['CAP','CAP'], pinsRuim:['CAP','CAP'] }, lnk:{ bom:{'D-S':'0.55V BOM'}, ruim:{'D-S':'0V curto'}, dica:'LNK', pinsBom:['D','S','BP'], pinsRuim:['D','S','BP'] } };
-function carregarComponente(){ let key=document.getElementById('compSelect').value; let cfg=componentes[key]; let bomDiv=document.getElementById('bomPinos'); let ruimDiv=document.getElementById('ruimPinos'); bomDiv.innerHTML=''; ruimDiv.innerHTML=''; cfg.pinsBom.forEach(n=>{ let s=document.createElement('span'); s.className='pino'; s.innerHTML=`<span style="font-size:9px">${n}</span>`; s.onclick=()=>selecionarPino(n,'bom',s); bomDiv.appendChild(s); }); cfg.pinsRuim.forEach(n=>{ let s=document.createElement('span'); s.className='pino'; s.innerHTML=`<span style="font-size:9px">${n}</span>`; s.onclick=()=>selecionarPino(n,'ruim',s); ruimDiv.appendChild(s); }); document.getElementById('dicaComp').textContent=cfg.dica; limparPontas(); }
-function selecionarPino(nome,tipo,el){ el.classList.toggle('selecionado'); if(!pontaPreta){ pontaPreta={nome,tipo,el}; } else if(!pontaVermelha){ pontaVermelha={nome,tipo,el}; medir(); } else{ limparPontas(); pontaPreta={nome,tipo,el}; el.classList.add('selecionado'); } }
-function medir(){ if(!pontaPreta||!pontaVermelha) return; let key=document.getElementById('compSelect').value; let cfg=componentes[key]; let par=pontaPreta.nome+"-"+pontaVermelha.nome; let parInv=pontaVermelha.nome+"-"+pontaPreta.nome; let isBom=pontaPreta.tipo==='bom'&&pontaVermelha.tipo==='bom'; let isRuim=pontaPreta.tipo==='ruim'&&pontaVermelha.tipo==='ruim'; let valor=""; if(isBom){ valor=cfg.bom[par]||cfg.bom[parInv]||"OL - BOM"; } else if(isRuim){ valor=cfg.ruim[par]||cfg.ruim[parInv]||Object.values(cfg.ruim)[0]; } else{ valor="Compare BOM vs RUIM"; } document.getElementById('multiDisplay').textContent=valor; document.getElementById('resultadoTeste').innerHTML=(isBom?"✅ BOM":"❌ RUIM")+"<br>"+pontaPreta.nome+"-"+pontaVermelha.nome+"<br><b>"+valor+"</b>"; if(modoMulti==='bip'){ let v=valor.toLowerCase(); if(v.includes('0v curto')||v.includes('0Ω curto')||v.includes('0.02')||v.includes('0Ω bom')){ tocarBip('curto'); if(navigator.vibrate) navigator.vibrate([100,50,200]); } else if(v.includes('ol')){ } else{ tocarBip('bom'); } } }
-function gerarPDF(){ const { jsPDF }=window.jspdf; let doc=new jsPDF(); doc.text("LAUDO V5.1 VIDRO",10,10); doc.save("laudo_V51.pdf"); }
-
-// PALCO V5.1 VIDRO - NOVO
-let nivelAguaReal = 0;
-let tampaAbertaReal = false;
-document.getElementById('tampaReal').onclick = function(){
-  tampaAbertaReal = !tampaAbertaReal;
-  this.style.transform = tampaAbertaReal ? 'rotateX(88deg)' : 'rotateX(0deg)';
-  let txt = document.getElementById('textoTampa');
-  if(tampaAbertaReal){ txt.innerHTML='🔓 TAMPA ABERTA'; document.getElementById('condTampa').value='aberta'; }
-  else { txt.innerHTML='🔒 VIDRO - TAMPA FECHADA<span style="font-size:10px;display:block;opacity:0.8;margin-top:2px">Toque para abrir - Dá pra ver água subindo</span>'; document.getElementById('condTampa').value='fechada'; }
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>V10.2 COMPLETO FINAL - FIREBASE + ID + PLACA</title><script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+const firebaseConfig = {
+  apiKey: "SUA_API_KEY_AQUI",
+  authDomain: "SEU_PROJETO.firebaseapp.com",
+  projectId: "SEU_PROJETO_ID",
+  storageBucket: "SEU_PROJETO.appspot.com",
+  messagingSenderId: "SEU_ID",
+  appId: "SEU_APP_ID"
 };
-function atualizarPalcoRealista(){
-  let sel = document.getElementById('condSeletor').value;
-  let press = document.getElementById('condPress').value;
-  let tampaSel = document.getElementById('condTampa').value;
-  let motorH = document.getElementById('card_motorH');
-  let motorAH = document.getElementById('card_motorAH');
-  let valv = document.getElementById('card_valvula');
-  let tampaDiv = document.getElementById('tampaReal');
-  if(tampaSel==='aberta' && !tampaAbertaReal){ tampaDiv.style.transform='rotateX(88deg)'; tampaAbertaReal=true; document.getElementById('textoTampa').innerHTML='🔓 TAMPA ABERTA'; }
-  if(tampaSel==='fechada' && tampaAbertaReal){ tampaDiv.style.transform='rotateX(0deg)'; tampaAbertaReal=false; document.getElementById('textoTampa').innerHTML='🔒 VIDRO - TAMPA FECHADA<span style="font-size:10px;display:block;opacity:0.8;margin-top:2px">Toque para abrir - Dá pra ver água subindo</span>'; }
-  let agua = document.getElementById('aguaReal');
-  let jato = document.getElementById('jatoValvula');
-  let turbilhao = document.getElementById('turbilhao');
-  if(sel==='enchendo' && press==='vazia' && tampaSel==='fechada'){ if(nivelAguaReal < 85) nivelAguaReal += 1.2; jato.style.height='130px'; }
-  else if(sel==='centrifugacao'){ if(nivelAguaReal > 0) nivelAguaReal -= 3; jato.style.height='0px'; }
-  else { jato.style.height='0px'; }
-  if(press==='cheia') nivelAguaReal = 82;
-  if(press==='vazia' && sel!=='enchendo' && sel!=='centrifugacao' && nivelAguaReal<1) nivelAguaReal=0;
-  agua.style.height = nivelAguaReal + '%';
-  let led = document.getElementById('ledPress');
-  let txt = document.getElementById('txtPress');
-  let txtMotor = document.getElementById('txtMotorReal');
-  if(nivelAguaReal > 70){ led.style.background='#22c55e'; txt.textContent='CHEIO '+Math.round(nivelAguaReal)+'%'; document.getElementById('condPress').value='cheia'; }
-  else if(nivelAguaReal < 10){ led.style.background='#ef4444'; txt.textContent='VAZIO'; }
-  else { led.style.background='#f59e0b'; txt.textContent='ENCHENDO '+Math.round(nivelAguaReal)+'%'; }
-  let agit = document.getElementById('agitadorReal');
-  if(agit){
-    if(motorH && motorH.classList.contains('ativo')){
-      agit.style.animation='giraH 0.35s linear infinite'; turbilhao.style.opacity='0.6'; turbilhao.style.animation='giraH 1s linear infinite';
-      txtMotor.textContent='➡️ ROTOR DIREITA 2s - ÁGUA '+Math.round(nivelAguaReal)+'% - VIDRO'; txtMotor.style.color='#22c55e';
-    } else if(motorAH && motorAH.classList.contains('ativo')){
-      agit.style.animation='giraAH 0.35s linear infinite'; turbilhao.style.opacity='0.6'; turbilhao.style.animation='giraAH 1s linear infinite';
-      txtMotor.textContent='⬅️ ROTOR ESQUERDA 2s - ÁGUA '+Math.round(nivelAguaReal)+'% - VIDRO'; txtMotor.style.color='#38bdf8';
-    } else {
-      agit.style.animation='none'; turbilhao.style.opacity='0';
-      if(valv && valv.classList.contains('ativo')){ txtMotor.textContent='💧 ENCHENDO - ÁGUA '+Math.round(nivelAguaReal)+'% - VIDRO TRANSPARENTE'; txtMotor.style.color='#38bdf8'; }
-      else txtMotor.textContent='PARADO - ÁGUA '+Math.round(nivelAguaReal)+'% - VIDRO TRANSPARENTE';
-    }
-  }
+let db=null, firebaseOK=false;
+try{const app=initializeApp(firebaseConfig);db=getFirestore(app);firebaseOK=true;}catch(e){firebaseOK=false;}
+window.db=db;window.firebaseOK=firebaseOK;window.fbTools={collection,getDocs,addDoc};
+window.testarFirebase=async function(){
+ let d=document.getElementById('firebaseStatus');
+ if(!firebaseOK){d.textContent='❌ Config inválido - troque SUA_API_KEY';d.style.background='#fee2e2';return;}
+ try{d.textContent='⏳ Conectando...';let s=await getDocs(collection(db,"usuarios"));d.textContent='✅ Firebase OK! '+s.size+' usuários. Config puxada!';d.style.background='#dcfce7';window.carregarDoFirebase();}
+ catch(err){d.textContent='❌ ERRO: '+err.message+' - Troca regra Firestore para allow read,write if true';d.style.background='#fee2e2';}
 }
-setInterval(atualizarPalcoRealista,100);
+window.carregarDoFirebase=async function(){
+ try{
+  let u=await getDocs(collection(db,"usuarios"));let lu=[];u.forEach(x=>lu.push(x.data()));if(lu.length>0){window.USUARIOS=lu;window.listarUsuarios();}
+  let m=await getDocs(collection(db,"modelos"));let lm=[];m.forEach(x=>lm.push(x.data()));if(lm.length>0){window.MODELOS=lm;window.carregarModelosSelect();}
+ }catch(e){console.log(e);}
+}
 </script>
-</body>
-</html>
+<style>*{box-sizing:border-box}body{font-family:Arial;background:#0f172a;color:#fff;margin:0;padding:10px}h1{font-size:16px;text-align:center}select,button,input{padding:10px;border-radius:8px;border:none;font-weight:700;margin:3px}button{background:#22c55e;color:#000;cursor:pointer}input{background:#fff;color:#000}.card{background:#1e293b;padding:12px;border-radius:12px;margin:8px 0}.big{font-size:19px;font-weight:900}.ok{color:#22c55e}.bad{color:#ef4444}.warn{color:#facc15}.tabs{display:flex;gap:4px;flex-wrap:wrap}.tabBtn{background:#334155;color:#fff;flex:1;min-width:75px;padding:9px;font-size:11px}.tabBtn.active{background:#22c55e;color:#000}.aba{display:none}.aba.active{display:block}.switch{position:relative;width:70px;height:34px;background:#ef4444;border-radius:20px;cursor:pointer;display:inline-block}.switch.on{background:#22c55e}.switchKnob{position:absolute;top:3px;left:3px;width:28px;height:28px;background:#fff;border-radius:50%;transition:.3s}.switch.on .switchKnob{left:39px}.cestoContainer{position:relative;height:230px;border:3px solid #000;border-radius:12px;overflow:hidden;background:#e2e8f0}.aguaLateral{position:absolute;bottom:0;left:0;width:100%;height:12%;background:linear-gradient(#38bdf8,#0284c7);transition:height .6s;z-index:2}.cestoGiratorio{position:absolute;bottom:10px;left:50%;width:120px;height:140px;margin-left:-60px;border:3px solid #334155;border-radius:10px 10px 30px 30px;background:repeating-linear-gradient(90deg,#cbd5e1 0 6px,#94a3b8 6px 8px);z-index:3;display:flex;align-items:flex-end;justify-content:center}.paleta{width:70px;height:70px;background:radial-gradient(#e2e8f0,#94a3b8);border:3px solid #000;border-radius:50%;display:flex;align-items:center;justify-content:center;position:relative;margin-bottom:6px}@keyframes giraDir{0%{transform:rotate(-25deg)}100%{transform:rotate(25deg)}}@keyframes giraEsq{0%{transform:rotate(25deg)}100%{transform:rotate(-25deg)}}.girandoDir{animation:giraDir .4s infinite alternate}.girandoEsq{animation:giraEsq .4s infinite alternate}@keyframes centrifuga{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}.centrifugando{animation:centrifuga .3s linear infinite}.alertaTensao{padding:10px;border-radius:8px;font-weight:800;margin:6px 0}.tensaoOk{background:#dcfce7;color:#000}.tensaoBad{background:#fee2e2;color:#000}.segOk{background:#dcfce7;color:#000}.segBad{background:#fee2e2;color:#000}</style></head><body>
+<h1>🧺 V10.2 COMPLETO - FIREBASE + SEGURANÇA + ID + PLACA</h1>
+<div class="card" style="border:2px solid #f97316"><h3>🔥 FIREBASE - CORRIGIDO DESDE ONTEM</h3><div id="firebaseStatus" style="background:#fff;color:#000;padding:10px;border-radius:8px;font-weight:800">Clique em TESTAR - se não tiver config, usa modo local</div><button onclick="testarFirebase()" style="background:#f97316;color:#fff">🔥 TESTAR FIREBASE</button></div>
+<div class="card" id="loginCard" style="border:2px solid #facc15"><h3>🔐 LOGIN ID</h3><input id="loginId" placeholder="TEC-001"><button onclick="fazerLogin()">🔓 ENTRAR</button><button onclick="document.getElementById('loginId').value='ADM-999';fazerLogin()" style="background:#8b5cf6;color:#fff">👑 ADM-999</button><div id="loginMsg" style="font-weight:800;margin-top:6px"></div><div style="font-size:11px;color:#facc15">Demo: TEC-001 ativo / TEC-002 bloqueado / ADM-999 ADM</div></div>
+<div id="conteudo" style="display:none">
+<div class="tabs"><button class="tabBtn active" onclick="mostrarAba('abaSim',this)">1 SIMULAÇÃO</button><button class="tabBtn" onclick="mostrarAba('abaGraf',this)">2 GRÁFICO</button><button class="tabBtn" onclick="mostrarAba('abaLaudo',this)">3 LAUDO</button><button class="tabBtn" onclick="mostrarAba('abaTeste',this)">4 BIP</button><button class="tabBtn" onclick="mostrarAba('abaAdm',this)">5 ADM</button><button class="tabBtn" onclick="mostrarAba('abaCiclo',this)">6 CICLO</button><button class="tabBtn" onclick="mostrarAba('abaPlaca',this)">7 MAPA PLACA</button><button class="tabBtn" onclick="mostrarAba('abaSeg',this)">8 SEGURANÇA</button></div>
+
+<div id="abaSeg" class="aba"><div class="card" style="border:2px solid #ef4444"><h3>⚠️ SEGURANÇA - CHECKLIST ANTIGO</h3><label><input type="checkbox" id="seg1" onchange="checarSeguranca()"> 1. Desliguei da tomada</label><br><label><input type="checkbox" id="seg2" onchange="checarSeguranca()"> 2. EPI Luva + Óculos</label><br><label><input type="checkbox" id="seg3" onchange="checarSeguranca()"> 3. Descarreguei capacitor</label><br><label><input type="checkbox" id="seg4" onchange="checarSeguranca()"> 4. Bancada seca</label><br><label><input type="checkbox" id="seg5" onchange="checarSeguranca()"> 5. Multímetro escala certa</label><div id="segResult" class="segBad" style="padding:10px;border-radius:8px;margin-top:8px">❌ NÃO PODE MEXER</div><button onclick="liberarBancada()" style="background:#ef4444;color:#fff">🔒 LIBERAR BANCADA</button></div></div>
+
+<div id="abaSim" class="aba active">
+<div class="card"><b id="userLogado">-</b> | <b id="userIdShow">-</b> <button onclick="sair()" style="background:#ef4444;color:#fff;padding:5px">Sair</button></div>
+<div class="card"><label>Modelo:</label><select id="modelo" onchange="trocarModelo()"></select><div style="background:#fff;border-radius:12px;padding:10px;text-align:center;color:#000"><div id="nomeMaquina" style="font-weight:800">Electrolux LAC12</div><div id="idMaquina" style="color:#666;font-size:12px">ID: ELX-LAC12-001 | 12kg</div></div></div>
+<div class="card"><label>Tensão:</label><select id="tensaoRede" onchange="checarTensao()"><option value="127">127V</option><option value="220" selected>220V</option><option value="380">380V ERRO</option><option value="90">90V BAIXA</option></select><div id="alertaTensaoDiv" class="alertaTensao tensaoOk">✅ 220V OK</div><label>Tampa:</label><div id="switchTampa" class="switch on" onclick="toggleTampa()"><div class="switchKnob"></div></div> <span id="tampaTxt">FECHADA 🔒</span><br><label>Pressostato:</label><select id="defeito"><option value="ok">✅ Normal</option><option value="vazio">❌ Travado VAZIO</option><option value="cheio">❌ Travado CHEIO</option><option value="furado">❌ Mangueira furada</option></select><label>Válvula:</label><select id="valvula"><option value="ok">✅ OK</option><option value="travada">❌ Travada</option><option value="queimada">❌ Queimada</option></select><br><button onclick="iniciar()">▶ INICIAR</button><button onclick="parar()" style="background:#ef4444;color:#fff">⏹ PARAR</button><button onclick="resetar()" style="background:#facc15">🔄 RESET</button></div>
+<div class="card" style="border:2px solid #ef4444"><h3>🧠 INJETAR DEFEITO NA PLACA - REAGE NA SIMULAÇÃO</h3><select id="defeitoPlaca" onchange="injetarDefeitoPlaca()"><option value="ok">✅ PLACA BOA - SEM DEFEITO</option><option value="triacDir">🔴 TRIAC DIR BT137 queimado</option><option value="triacEsq">🔴 TRIAC ESQ queimado</option><option value="triacBomba">🔴 TRIAC BOMBA queimado</option><option value="triacAtuador">🔴 TRIAC ATUADOR queimado</option><option value="triacValvula">🔴 TRIAC VÁLVULA queimado</option><option value="releValvula">🔴 RELÉ VÁLVULA colado</option><option value="capacitor">🔴 CAPACITOR 15uF fraco</option><option value="fusivel">🔴 FUSÍVEL / FONTE 5V</option><option value="micro">🔴 MICROCONTROLADOR</option></select><div id="alertaPlaca" style="background:#dcfce7;color:#000;padding:10px;border-radius:8px;margin-top:8px;font-weight:800">✅ PLACA BOA</div><div id="reacaoPlaca" style="background:#fff;color:#000;padding:10px;border-radius:8px;margin-top:6px">Simulação normal - sem defeito na placa</div></div>
+<div class="card"><div>Tempo: <b id="tempo">0s</b> | Nível: <b id="nivelTxt">12%</b> | Pressão: <b id="pressaoTxt">1.0 kPa</b> | <b id="motorTxt2">Parado</b></div><div id="status" class="big ok">Aguardando...</div></div>
+<div class="card"><div style="display:flex;gap:10px;flex-wrap:wrap"><div style="flex:1;min-width:190px;background:#fff;border-radius:12px;padding:10px;text-align:center;color:#000"><div class="cestoContainer"><div id="aguaLateral" class="aguaLateral"></div><div id="cestoGiratorio" class="cestoGiratorio"><div id="paleta" class="paleta"><div style="width:56px;height:12px;background:#1e293b;border-radius:6px;position:absolute"></div><div style="width:12px;height:56px;background:#1e293b;border-radius:6px;position:absolute"></div><div style="width:20px;height:20px;background:#ef4444;border-radius:50%;border:3px solid #000;z-index:2"></div></div></div><div style="position:absolute;bottom:2px;left:0;width:100%;font-size:11px;font-weight:800" id="nivelDentro">12% VAZIA</div></div><div id="motorTxt" style="font-weight:800">⏸ Parado</div><div id="rpmTxt">0 RPM</div></div><div style="flex:1;min-width:180px;background:#fff;color:#000;border-radius:12px;padding:10px"><b>PRESSOSTATO + BOMBA</b><div id="pressostatoBox" style="background:#dcfce7;padding:10px;border-radius:8px">🟢 NORMAL</div><div>Bomba: <b id="bombaEstado">Desligada</b></div><button onclick="testarBipReal()" style="background:#2563eb;color:#fff;width:100%">🔊 BIP REAL</button><div id="resultadoTeste"></div></div></div></div>
+</div>
+<div id="abaGraf" class="aba"><div class="card"><h3>📈 GRÁFICOS</h3><select id="grafDefeito" onchange="desenharGrafDefeito()"><option value="ok">Normal</option><option value="vazio">Travado Vazio - Transborda</option><option value="cheio">Travado Cheio - Agita seco</option><option value="furado">Mangueira furada</option><option value="triacDir">Triac DIR - só gira ESQ</option><option value="triacBomba">Triac Bomba - não drena</option></select><canvas id="graficoDefeito" height="140"></canvas><div id="explicaGraf"></div></div><div class="card"><canvas id="grafico" height="120"></canvas></div></div>
+<div id="abaLaudo" class="aba"><div class="card"><h3>📋 LAUDO COM MAPEAMENTO PLACA</h3><label>Cliente:</label><input id="laudoCliente" placeholder="Nome"><label>Fone:</label><input id="laudoFone"><label>Defeito:</label><select id="laudoDefeito"><option>Pressostato travado vazio</option><option>Triac DIR BT137 queimado</option><option>Triac ESQ BT137 queimado</option><option>Triac Bomba queimado</option><option>Triac Atuador queimado - BWL11 clássico</option><option>Triac Válvula - Colormaq</option><option>Relé válvula colado</option><option>Capacitor 15uF fraco - Motor ronca</option><option>Fusível / Fonte 5V - Não liga</option><option>Microcontrolador queimado</option></select><label>Serviço:</label><input id="laudoServico" placeholder="Trocado Triac"><label>Valor:</label><input id="laudoValor" placeholder="150"><label>Garantia:</label><select id="laudoGarantia"><option>90 dias</option><option>30 dias</option></select><br><button onclick="gerarLaudo()">📋 GERAR LAUDO</button><button onclick="window.print()" style="background:#2563eb;color:#fff">🖨️ IMPRIMIR</button><div id="laudoGerado" style="background:#fff;color:#000;padding:12px;border-radius:8px;margin-top:8px;white-space:pre-line">Preencha</div></div></div>
+<div id="abaTeste" class="aba"><div class="card"><h3>🔊 BIP REAL SONORO</h3><button onclick="bipReal('ok')" style="background:#22c55e">✅ BIP OK</button><button onclick="bipReal('ruim')" style="background:#ef4444;color:#fff">❌ SEM BIP</button><button onclick="bipReal('click')" style="background:#a855f7;color:#fff">💨 CLICK</button><div id="testeSonoroResult" style="background:#fff;color:#000;padding:10px;border-radius:8px;margin-top:8px">Clique</div><div id="extraResult" style="background:#fff;color:#000;padding:10px;border-radius:8px;margin-top:6px">Teste extra</div></div></div>
+<div id="abaAdm" class="aba"><div class="card"><h3>👑 ADM - ATIVAR USUÁRIO</h3><div id="admBloqueado" style="background:#fee2e2;color:#000;padding:10px;border-radius:8px">🔒 Só ADM-999</div><div id="admConteudo" style="display:none"><label>Nome:</label><input id="admNomeUser" placeholder="João"><label>ID:</label><input id="admIdUser" placeholder="TEC-003"><label>Status:</label><select id="admStatusUser"><option value="ativo">✅ ATIVO</option><option value="bloqueado">❌ BLOQUEADO</option></select><button onclick="cadastrarUsuarioFirebase()">➕ CADASTRAR (Firebase + Local)</button><div id="listaUsuarios" style="background:#fff;color:#000;padding:10px;border-radius:8px;margin-top:8px"></div><hr><label>Marca:</label><select id="admMarca"><option>Electrolux</option><option>Brastemp</option><option>Consul</option><option>Samsung</option><option>LG</option><option>Colormaq</option></select><label>Modelo:</label><input id="admModelo" placeholder="LAC12"><label>ID Modelo:</label><input id="admId" placeholder="ELX-LAC12-001"><label>Kg:</label><input id="admKg" placeholder="12"><button onclick="cadastrarModelo()">➕ CADASTRAR MODELO</button><div id="listaAdm" style="background:#fff;color:#000;padding:10px;border-radius:8px;margin-top:8px"></div></div></div></div>
+<div id="abaCiclo" class="aba"><div class="card"><h3>🔄 CICLO 45 MIN</h3><div>Etapa: <b id="cicloEtapa">Parado</b></div><div>Progresso: <b id="cicloProgresso">0%</b></div><div style="background:#334155;height:20px;border-radius:10px;overflow:hidden"><div id="cicloBarra" style="background:#22c55e;height:100%;width:0%"></div></div><div id="cicloLog" style="background:#fff;color:#000;padding:10px;border-radius:8px;margin-top:8px">Clique INICIAR</div><br><button onclick="iniciarCiclo()">▶ INICIAR CICLO</button><button onclick="pararCiclo()" style="background:#ef4444;color:#fff">⏹ PARAR</button></div></div>
+<div id="abaPlaca" class="aba"><div class="card"><h3>🧠 MAPA PLACA - CLIQUE SINTOMA</h3><button onclick="mapaPlaca('valvulaNaoEntra')">❌ Não entra água</button><button onclick="mapaPlaca('motorDir')">▶ Não gira Dir</button><button onclick="mapaPlaca('motorEsq')">◀ Não gira Esq</button><button onclick="mapaPlaca('bombaNaoDrena')">💦 Bomba não drena</button><button onclick="mapaPlaca('naoCentrifuga')">🌀 Não centrifuga</button><button onclick="mapaPlaca('transborda')">🌊 Transborda</button><button onclick="mapaPlaca('naoLiga')">⚫ Não liga</button><div id="mapaResult" style="background:#fff;color:#000;padding:12px;border-radius:8px;margin-top:10px;white-space:pre-line">Clique sintoma</div><div style="background:#fff;color:#000;border-radius:12px;padding:12px;margin-top:8px"><b>🗺️ PLACA VISÃO:</b><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;text-align:center;font-weight:800;font-size:11px;margin-top:6px"><div onclick="mapaPlaca('valvulaNaoEntra')" style="background:#fde68a;padding:8px;border-radius:8px;cursor:pointer">🔌 RELÉ VÁLVULA</div><div onclick="mapaPlaca('motorDir')" style="background:#fca5a5;padding:8px;border-radius:8px">▶ TRIAC DIR</div><div onclick="mapaPlaca('motorEsq')" style="background:#fca5a5;padding:8px;border-radius:8px">◀ TRIAC ESQ</div><div onclick="mapaPlaca('bombaNaoDrena')" style="background:#93c5fd;padding:8px;border-radius:8px">💦 TRIAC BOMBA</div><div onclick="mapaPlaca('naoCentrifuga')" style="background:#c4b5fd;padding:8px;border-radius:8px">🌀 TRIAC ATUADOR</div><div onclick="mapaPlaca('naoLiga')" style="background:#86efac;padding:8px;border-radius:8px">⚡ FONTE FUSÍVEL</div></div></div></div></div>
+</div>
+<script>
+window.USUARIOS=[{id:'TEC-001',nome:'Sóstenes Ferreira',status:'ativo'},{id:'TEC-002',nome:'Bloqueado Teste',status:'bloqueado'},{id:'ADM-999',nome:'ADM Sóstenes',status:'ativo',adm:true}];
+window.MODELOS=[{marca:'Electrolux',modelo:'LAC12',id:'ELX-LAC12-001',kg:'12'},{marca:'Brastemp',modelo:'BWL11',id:'BRA-BWL11-002',kg:'11'},{marca:'Consul',modelo:'CWH12',id:'CON-CWH12-003',kg:'12'},{marca:'Samsung',modelo:'WA13',id:'SAM-WA13-004',kg:'13'},{marca:'LG',modelo:'WT13',id:'LG-WT13-005',kg:'13'},{marca:'Colormaq',modelo:'LCA12',id:'COL-LCA12-006',kg:'12'}];
+let timer=null,tempo=0,nivel=12,chart=null,chartDef=null,tampaFechada=true,cicloTimer=null,cicloPasso=0,usuarioAtual=null;
+function fazerLogin(){let id=document.getElementById('loginId').value.trim().toUpperCase();let u=window.USUARIOS.find(x=>x.id===id);let msg=document.getElementById('loginMsg');if(!u){msg.textContent='❌ ID NÃO ENCONTRADO';msg.style.color='#ef4444';return;}if(u.status!=='ativo'){msg.textContent='❌ BLOQUEADO PELO ADM';msg.style.color='#ef4444';return;}usuarioAtual=u;document.getElementById('loginCard').style.display='none';document.getElementById('conteudo').style.display='block';document.getElementById('userLogado').textContent=u.nome;document.getElementById('userIdShow').textContent=u.id;if(u.adm||u.id==='ADM-999'){document.getElementById('admBloqueado').style.display='none';document.getElementById('admConteudo').style.display='block';}carregarModelosSelect();listarUsuarios();}
+function sair(){location.reload();}
+window.cadastrarUsuarioFirebase=async function(){let nome=document.getElementById('admNomeUser').value;let id=document.getElementById('admIdUser').value.trim().toUpperCase();let st=document.getElementById('admStatusUser').value;if(!nome||!id){alert('Preencha');return;}let novo={id,nome,status:st,adm:false};if(window.firebaseOK&&window.db){try{await window.fbTools.addDoc(window.fbTools.collection(window.db,'usuarios'),novo);alert('✅ Salvo Firebase '+id);}catch(e){alert('Firebase erro: '+e.message+' - Mas salvou local');}}window.USUARIOS.push(novo);listarUsuarios();}
+window.listarUsuarios=function(){document.getElementById('listaUsuarios').innerHTML=window.USUARIOS.map(u=>u.id+' - '+u.nome+' - '+(u.status==='ativo'?'✅ ATIVO':'❌ BLOQUEADO')+' <button onclick="toggleUser(\''+u.id+'\')">Trocar</button>').join('<br>');}
+window.toggleUser=function(id){let u=window.USUARIOS.find(x=>x.id===id);u.status=u.status==='ativo'?'bloqueado':'ativo';listarUsuarios();}
+function checarSeguranca(){let ok=document.getElementById('seg1').checked&&document.getElementById('seg2').checked&&document.getElementById('seg3').checked;let r=document.getElementById('segResult');if(ok){r.textContent='✅ SEGURANÇA OK - Pode mexer';r.className='segOk';}else{r.textContent='❌ NÃO PODE MEXER';r.className='segBad';}r.style.padding='10px';r.style.borderRadius='8px';}
+function liberarBancada(){if(!document.getElementById('seg1').checked){alert('❌ Marque checklist!');bipSonoro(200,500);}else{alert('✅ Bancada liberada');bipSonoro(1200,200);}}
+function mostrarAba(id,btn){document.querySelectorAll('.aba').forEach(a=>a.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.tabBtn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');if(id==='abaGraf')desenharGrafDefeito();}
+window.carregarModelosSelect=function(){let s=document.getElementById('modelo');s.innerHTML='';window.MODELOS.forEach((m,i)=>{let o=document.createElement('option');o.value=i;o.textContent=m.marca+' '+m.modelo+' - '+m.kg+'kg';s.appendChild(o);});trocarModelo();listarAdm();}
+function trocarModelo(){let m=window.MODELOS[document.getElementById('modelo').value||0];document.getElementById('nomeMaquina').textContent=m.marca+' '+m.modelo;document.getElementById('idMaquina').textContent='ID: '+m.id+' | '+m.kg+'kg';}
+function cadastrarModelo(){let marca=document.getElementById('admMarca').value;let mod=document.getElementById('admModelo').value;let id=document.getElementById('admId').value;let kg=document.getElementById('admKg').value;if(!mod||!id){alert('Preencha');return;}window.MODELOS.push({marca,modelo:mod,id,kg:kg||'12'});carregarModelosSelect();alert('Modelo cadastrado');}
+function listarAdm(){document.getElementById('listaAdm').innerHTML=window.MODELOS.map(m=>m.marca+' '+m.modelo+' | '+m.id).join('<br>');}
+function toggleTampa(){tampaFechada=!tampaFechada;document.getElementById('switchTampa').classList.toggle('on',tampaFechada);document.getElementById('tampaTxt').textContent=tampaFechada?'FECHADA 🔒':'ABERTA 🔓';}
+function checarTensao(){let v=document.getElementById('tensaoRede').value;let d=document.getElementById('alertaTensaoDiv');if(v==='220'){d.className='alertaTensao tensaoOk';d.textContent='✅ 220V OK';}else if(v==='380'){d.className='alertaTensao tensaoBad';d.textContent='🚨 380V NÃO LIGUE!';bipReal('ruim');}else{d.className='alertaTensao tensaoBad';d.textContent='⚠️ Tensão '+v+'V';}}
+function bipSonoro(f,dur){try{let ctx=new (window.AudioContext||window.webkitAudioContext)();let o=ctx.createOscillator();let g=ctx.createGain();o.connect(g);g.connect(ctx.destination);o.frequency.value=f;o.type='square';g.gain.value=0.2;o.start();setTimeout(()=>{o.stop();ctx.close();},dur);}catch(e){}}
+function bipReal(t){if(t==='ok'){bipSonoro(1200,150);setTimeout(()=>bipSonoro(1200,150),250);document.getElementById('testeSonoroResult').textContent='✅ BIP BIP OK';}else{bipSonoro(200,600);document.getElementById('testeSonoroResult').textContent='❌ SEM BIP';}}
+function testarBipReal(){bipReal(document.getElementById('defeito').value==='ok'?'ok':'ruim');}
+function injetarDefeitoPlaca(){let d=document.getElementById('defeitoPlaca').value;let a=document.getElementById('alertaPlaca');let r=document.getElementById('reacaoPlaca');let m={ok:['✅ PLACA BOA','Simulação normal'],triacDir:['🚨 TRIAC DIR BT137 QUEIMADO','REAÇÃO: Paleta só gira ESQ, embola roupa. Trocar Triac DIR - Ref: Manual Brastemp + YouTube triac em curto'],triacEsq:['🚨 TRIAC ESQ QUEIMADO','REAÇÃO: Só gira DIR - Trocar Triac ESQ'],triacBomba:['🚨 TRIAC BOMBA QUEIMADO','REAÇÃO: Bomba não drena, água fica no cesto'],triacAtuador:['🚨 TRIAC ATUADOR QUEIMADO','REAÇÃO: Atuador não puxa, não centrifuga - BWL11 clássico'],triacValvula:['🚨 TRIAC VÁLVULA QUEIMADO','REAÇÃO: Painel acende mas não entra água - Colormaq'],releValvula:['🚨 RELÉ VÁLVULA COLADO','REAÇÃO: Entra água direto mesmo desligada'],capacitor:['🚨 CAPACITOR 15uF FRACO','REAÇÃO: Motor ronca HUUUM - Brastemp 15kg'],fusivel:['🚨 FUSÍVEL / FONTE 5V QUEIMADO','REAÇÃO: Não liga nada, painel apagado'],micro:['🚨 MICROCONTROLADOR QUEIMADO','REAÇÃO: Placa louca']};a.textContent=m[d][0];r.textContent=m[d][1];a.style.background=d==='ok'?'#dcfce7':'#fee2e2';if(d!=='ok')bipSonoro(200,500);document.getElementById('laudoDefeito').value=m[d][0];}
+function mapaPlaca(t){let r=document.getElementById('mapaResult');let m={valvulaNaoEntra:'❌ NÃO ENTRA ÁGUA\nPLACA: Relé válvula / Triac válvula\nONDE: Relé K1\nTESTE: Medir 220V na saída',motorDir:'▶ NÃO GIRA DIR\nPLACA: Triac DIR BT137 T1\nTESTE: Só gira ESQ',motorEsq:'◀ NÃO GIRA ESQ\nPLACA: Triac ESQ T2',bombaNaoDrena:'💦 BOMBA NÃO DRENA\nPLACA: Triac bomba T4\nTESTE: 220V direto na bomba',naoCentrifuga:'🌀 NÃO CENTRIFUGA\nPLACA: Triac atuador T3\nBWL11 clássico',transborda:'🌊 TRANSBORDA\nPLACA: Pressostato / trilha\nTESTE: Soprar mangueira CLICK?',naoLiga:'⚫ NÃO LIGA\nPLACA: Fusível / Varistor / Fonte 5V'};r.textContent=m[t]||'';}
+function gerarLaudo(){let c=document.getElementById('laudoCliente').value||'Cliente';let f=document.getElementById('laudoFone').value||'';let d=document.getElementById('laudoDefeito').value;let s=document.getElementById('laudoServico').value||'';let v=document.getElementById('laudoValor').value||'0';let g=document.getElementById('laudoGarantia').value;let m=window.MODELOS[document.getElementById('modelo').value||0];document.getElementById('laudoGerado').textContent='LAUDO TÉCNICO - MAPEAMENTO PLACA\nTécnico: '+(usuarioAtual?usuarioAtual.nome+' ID: '+usuarioAtual.id:'-')+'\nCliente: '+c+'\nFone: '+f+'\nMáquina: '+m.marca+' '+m.modelo+' ID: '+m.id+'\nDefeito placa: '+d+'\nReação simulação: '+document.getElementById('reacaoPlaca').textContent+'\nServiço: '+s+'\nValor: R$ '+v+'\nGarantia: '+g+'\nData: '+new Date().toLocaleDateString('pt-BR');}
+function desenharGrafDefeito(){let tipo=document.getElementById('grafDefeito').value;let dados=tipo==='ok'?[12,30,50,70,82,82,82,82]:tipo==='vazio'?[12,30,50,70,85,95,100,100]:tipo==='cheio'?[12,12,12,12,12,12,12,12]:tipo==='furado'?[12,25,35,40,42,45,45,45]:tipo==='triacDir'?[12,30,20,30,20,30,20,30]:[12,50,60,65,70,75,80,80];document.getElementById('explicaGraf').textContent='Gráfico: '+tipo;if(chartDef)chartDef.destroy();chartDef=new Chart(document.getElementById('graficoDefeito').getContext('2d'),{type:'line',data:{labels:['0s','5s','10s','15s','20s','25s','30s','35s'],datasets:[{label:'Nível %',data:dados,borderColor:'#22c55e',fill:false}]},options:{responsive:true}});}
+function iniciar(){let ok=document.getElementById('seg1')&&document.getElementById('seg1').checked;if(!ok){alert('⚠️ Vai na ABA 8 SEGURANÇA e marca checklist - Desligou da tomada?');document.querySelectorAll('.tabBtn')[7].click();return;}if(timer)clearInterval(timer);nivel=12;tempo=0;if(chart)chart.destroy();chart=new Chart(document.getElementById('grafico').getContext('2d'),{type:'line',data:{labels:[],datasets:[{label:'Nível %',data:[],borderColor:'#22c55e',fill:false},{label:'Pressão kPa',data:[],borderColor:'#38bdf8',fill:false}]},options:{responsive:true}});timer=setInterval(passo,900);}
+function passo(){tempo++;let etapa=document.getElementById('etapa')?document.getElementById('etapa').value:'lavando';let placa=document.getElementById('defeitoPlaca').value;let status=document.getElementById('status');let pal=document.getElementById('paleta');let cesto=document.getElementById('cestoGiratorio');if(placa==='fusivel'){status.textContent='⚫ PLACA SEM 5V - FUSÍVEL QUEIMADO';status.className='big bad';return;}if(placa==='triacDir'&&etapa==='lavando'){pal.className='paleta girandoEsq';status.textContent='❌ TRIAC DIR QUEIMADO - Só ESQ';status.className='big bad';}else if(placa==='triacEsq'&&etapa==='lavando'){pal.className='paleta girandoDir';status.textContent='❌ TRIAC ESQ QUEIMADO - Só DIR';}else if(placa==='capacitor'){pal.className='paleta';status.textContent='🔊 MOTOR RONCA - CAPACITOR FRACO';status.className='big bad';}else{if(!tampaFechada&&etapa==='centrifugando'){status.textContent='⛔ TAMPA ABERTA!';status.className='big bad';return;}if(etapa==='enchendo'){if(nivel<82){nivel+=5;status.textContent='💧 Enchendo '+nivel+'%';status.className='big warn';}else{status.textContent='✅ 82% Cheio';status.className='big ok';}}else if(etapa==='lavando'){let dir=tempo%4<2;pal.className='paleta '+(dir?'girandoDir':'girandoEsq');status.textContent='🔄 Lavando';status.className='big ok';}else if(etapa==='centrifugando'){if(placa==='triacAtuador'){status.textContent='❌ TRIAC ATUADOR - Não centrifuga';status.className='big bad';cesto.className='cestoGiratorio';}else if(placa==='triacBomba'){status.textContent='❌ TRIAC BOMBA - Não drena';status.className='big bad';}else{if(nivel>12)nivel-=8;cesto.className='cestoGiratorio centrifugando';status.textContent='🌀 CENTRIFUGANDO';status.className='big ok';}}}document.getElementById('tempo').textContent=tempo+'s';document.getElementById('nivelTxt').textContent=nivel+'%';document.getElementById('pressaoTxt').textContent=(nivel*0.08).toFixed(1)+' kPa';document.getElementById('aguaLateral').style.height=nivel+'%';document.getElementById('nivelDentro').textContent=nivel+'%';if(chart){chart.data.labels.push(tempo+'s');chart.data.datasets[0].data.push(nivel);chart.data.datasets[1].data.push(nivel*0.08);if(chart.data.labels.length>20){chart.data.labels.shift();chart.data.datasets[0].data.shift();chart.data.datasets[1].data.shift();}chart.update();}}
+function parar(){clearInterval(timer);document.getElementById('paleta').className='paleta';document.getElementById('cestoGiratorio').className='cestoGiratorio';}
+function resetar(){parar();nivel=12;tempo=0;document.getElementById('aguaLateral').style.height='12%';document.getElementById('nivelTxt').textContent='12%';}
+function iniciarCiclo(){if(cicloTimer)clearInterval(cicloTimer);cicloPasso=0;let etapas=[['Enchendo','💧 Enchendo'],['Lavando','🔄 Dir/Esq'],['Enxaguando','💧 Enxaguando'],['Centrifugando','🌀 750 RPM'],['FIM','✅ Pronto']];cicloTimer=setInterval(()=>{cicloPasso++;let idx=Math.min(4,Math.floor(cicloPasso/10));document.getElementById('cicloEtapa').textContent=etapas[idx][0];document.getElementById('cicloLog').textContent=etapas[idx][1];let prog=Math.min(100,cicloPasso*2);document.getElementById('cicloProgresso').textContent=prog+'%';document.getElementById('cicloBarra').style.width=prog+'%';if(cicloPasso>=50)clearInterval(cicloTimer);},500);}
+function pararCiclo(){clearInterval(cicloTimer);}
+listarUsuarios();
+</script></body></html>
