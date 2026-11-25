@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover"><title>Bancada V12.15 FULL - Tela Cheia</title>
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover"><title>Bancada V12.15 FULL</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>window.BANCADA_DEVICE_ID='ID-'+Math.random().toString(36).substring(2,6).toUpperCase()+Math.random().toString(36).substring(2,4).toUpperCase();try{var s=localStorage.getItem('bancada_device_id');if(s&&s.length>=4){window.BANCADA_DEVICE_ID=s;}else{localStorage.setItem('bancada_device_id',window.BANCADA_DEVICE_ID);}}catch(e){}</script>
 <script type="module">
@@ -7,37 +7,56 @@ import { getFirestore, doc, getDoc, setDoc, collection, getDocs } from "https://
 const firebaseConfig={apiKey:"AIzaSyA0qBcq82X8n1Z55Qfr8x8E0Gb8jEZQl-k",authDomain:"bancada-lavadora-pro.firebaseapp.com",projectId:"bancada-lavadora-pro",storageBucket:"bancada-lavadora-pro.firebasestorage.app",messagingSenderId:"390758786240",appId:"1:390758786240:web:431f0d9214b4613be7b925"};
 try{const app=initializeApp(firebaseConfig);const db=getFirestore(app);window.db=db;window.fb={doc,getDoc,setDoc,collection,getDocs};}catch(e){}
 </script>
-<style>html,body{width:100%;min-height:100dvh;margin:0;padding:0;background:#0f172a;overflow-x:hidden}body{display:flex;flex-direction:column;font-family:Arial;color:#fff}*{box-sizing:border-box}h1{font-size:12px;text-align:center;margin:0;padding:10px 0;width:100%;background:#020617;border-bottom:2px solid #facc15}button,input,select,textarea{padding:12px;border-radius:10px;border:none;font-weight:700;margin:4px 0;cursor:pointer;width:100%}button{background:#22c55e;color:#000}input,select,textarea{background:#fff;color:#000;font-size:16px}.card{background:#1e293b;padding:12px;border-radius:0;margin:0;width:100%;border:none;border-bottom:1px solid #334155}#loginCard{flex:1;width:100%;min-height:calc(100dvh - 100px);display:flex;flex-direction:column;justify-content:center;padding:20px 14px;background:#0f172a;border:3px solid #facc15;margin:0}#conteudo{width:100%;flex:1;background:#1e293b}.tabs{display:flex;gap:3px;flex-wrap:wrap;padding:6px;width:100%;background:#020617}.tabBtn{background:#334155;color:#fff;flex:1;min-width:60px;padding:10px;font-size:10px;border-radius:8px}.tabBtn.active{background:#22c55e;color:#000}.aba{display:none;width:100%}.aba.active{display:block;width:100%}footer{background:#020617;color:#94a3b8;text-align:center;padding:14px 8px;font-size:9px;border-top:2px solid #facc15;margin-top:auto;width:100%;line-height:1.5}.maquinaElectroluxDesenho{position:relative;width:100%;max-width:340px;height:520px;margin:0 auto;background:linear-gradient(to bottom,#f8fafc 0%,#e2e8f0 100%);border-radius:22px;border:4px solid #000;overflow:hidden;box-shadow:0 12px 30px rgba(0,0,0,0.4);display:flex;flex-direction:column}.painelAzulElectrolux{width:100%;height:96px;background:linear-gradient(135deg,#0ea5e9 0%,#0284c7 40%,#0369a1 100%);border-bottom:3px solid #000;display:flex;align-items:center;padding:0 10px;gap:8px;position:relative;z-index:5}.logoElectrolux{writing-mode:vertical-rl;transform:rotate(180deg);font-size:9px;font-weight:900;color:#fff;letter-spacing:1px;background:rgba(0,0,0,0.15);padding:6px 3px;border-radius:6px}.displayCentral{background:#000;border:2px solid #38bdf8;border-radius:10px;width:110px;height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#22c55e;font-family:monospace;box-shadow:inset 0 0 10px rgba(56,189,248,0.5)}.displayCentral .tempoDisplay{font-size:18px;font-weight:900}.displayCentral .etapaDisplay{font-size:7px;color:#facc15}.botoesPainel{display:flex;flex-wrap:wrap;gap:4px;flex:1}.botaoPainel{width:28px;height:28px;border-radius:50%;border:2px solid #000;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;cursor:pointer}.botaoPainel.ativo{box-shadow:0 0 8px #fff;transform:scale(1.1)}.botaoPower{background:#ef4444;color:#fff}.botaoPlay{background:#22c55e;color:#000}.seletorProgramaDesenho{width:48px;height:48px;border-radius:50%;border:3px solid #000;background:radial-gradient(#fff,#cbd5e1);display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:900;position:relative}.seletorProgramaDesenho::after{content:'';position:absolute;top:3px;left:50%;width:3px;height:10px;background:#000;border-radius:2px;transform:translateX(-50%)}.corpoBrancoMaquina{flex:1;background:linear-gradient(to bottom,#fff 0%,#f1f5f9 100%);position:relative;display:flex;flex-direction:column;align-items:center;padding-top:8px}.tampaVidroDesenho{width:92%;height:58%;background:linear-gradient(to bottom,rgba(255,255,255,0.9) 0%,rgba(226,232,240,0.8) 100%);border:4px solid #1e293b;border-radius:18px 18px 40px 40px;position:relative;overflow:hidden;box-shadow:inset 0 4px 20px rgba(0,0,0,0.15);perspective:1200px;display:flex;align-items:center;justify-content:center}.tampaVidroDesenho::before{content:'';position:absolute;top:0;left:0;width:100%;height:35%;background:linear-gradient(to bottom,rgba(255,255,255,0.9),transparent);z-index:10;pointer-events:none;border-radius:18px 18px 0 0}.tamborReal3DDesenho{position:relative;width:88%;height:86%;border-radius:50%;background:radial-gradient(ellipse at center,#f8fafc 0%,#cbd5e1 30%,#94a3b8 65%,#475569 100%);border:4px solid #334155;transform:rotateX(58deg);transform-style:preserve-3d;transition:transform 0.3s;overflow:hidden;display:flex;align-items:center;justify-content:center;box-shadow:inset 0 0 30px rgba(0,0,0,0.3),0 8px 20px rgba(0,0,0,0.2)}.tamborReal3DDesenho.girando{animation:giraTamborDesenho 0.14s infinite linear}@keyframes giraTamborDesenho{0%{transform:rotateX(58deg) rotateZ(0deg)}100%{transform:rotateX(58deg) rotateZ(360deg)}}.aguaReal3DDesenho{position:absolute;bottom:0;left:0;width:100%;height:12%;background:linear-gradient(to top,rgba(2,132,199,0.95) 0%,rgba(56,189,248,0.85) 50%,rgba(125,211,252,0.7) 100%);transition:height 0.9s cubic-bezier(0.4,0,0.2,1);z-index:2;box-shadow:0 -4px 15px rgba(56,189,248,0.4)}.aguaReal3DDesenho.enchendo::before{content:'';position:absolute;top:-10px;left:-50%;width:200%;height:16px;background:radial-gradient(ellipse,rgba(255,255,255,0.95) 0%,rgba(255,255,255,0.3) 50%,transparent 70%);animation:ondaRealDesenho 0.55s infinite linear}.aguaReal3DDesenho.enchendo::after{content:'💦';position:absolute;top:-22px;right:16%;font-size:20px;animation:caindoRealDesenho 0.4s infinite ease-in-out}@keyframes ondaRealDesenho{0%{transform:translateX(0)}100%{transform:translateX(20%)}}@keyframes caindoRealDesenho{0%{transform:translateY(-12px) scale(0.8)}50%{transform:translateY(4px) scale(1.1)}100%{transform:translateY(-12px) scale(0.8)}}.batedorReal3DDesenho{position:absolute;bottom:10%;left:50%;width:48%;height:68%;transform:translateX(-50%) rotateX(-58deg) translateZ(28px);transform-origin:50% 85%;transform-style:preserve-3d;background:linear-gradient(to bottom,#e2e8f0 0%,#94a3b8 100%);border-radius:14px;border:3px solid #334155;box-shadow:0 4px 12px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;z-index:3}.batedorReal3DDesenho::before{content:'';width:60%;height:60%;background:radial-gradient(#f1f5f9,#64748b);border-radius:50%;border:2px solid #000}@keyframes giraHorarioDesenho{0%{transform:translateX(-50%) rotateX(-58deg) rotateZ(-110deg) translateZ(28px)}50%{transform:translateX(-50%) rotateX(-58deg) rotateZ(110deg) translateZ(28px)}100%{transform:translateX(-50%) rotateX(-58deg) rotateZ(-110deg) translateZ(28px)}}@keyframes giraAntiDesenho{0%{transform:translateX(-50%) rotateX(-58deg) rotateZ(110deg) translateZ(28px)}50%{transform:translateX(-50%) rotateX(-58deg) rotateZ(-110deg) translateZ(28px)}100%{transform:translateX(-50%) rotateX(-58deg) rotateZ(110deg) translateZ(28px)}}@keyframes giraRapidoDesenho{0%{transform:translateX(-50%) rotateX(-58deg) rotateZ(0deg) translateZ(32px)}100%{transform:translateX(-50%) rotateX(-58deg) rotateZ(720deg) translateZ(32px)}}.batedor-dir-desenho{animation:giraHorarioDesenho 0.68s infinite ease-in-out}.batedor-esq-desenho{animation:giraAntiDesenho 0.68s infinite ease-in-out}.batedor-rapido-desenho{animation:giraRapidoDesenho 0.11s infinite linear}.baseMaquinaDesenho{width:100%;height:18px;background:linear-gradient(to bottom,#cbd5e1,#94a3b8);border-top:3px solid #000;margin-top:auto;display:flex;justify-content:space-around;align-items:center}.peMaquina{width:32px;height:8px;background:#1e293b;border-radius:0 0 6px 6px}.bolhasContainer{position:absolute;bottom:0;left:0;width:100%;height:100%;z-index:4;pointer-events:none;overflow:hidden}.idBox{background:#0f172a;border:1px dashed #facc15;padding:8px;border-radius:10px;text-align:center}.idCode{font-size:26px;font-weight:900;color:#38bdf8;letter-spacing:2px}.comp{padding:6px;border-radius:8px;font-size:9px;font-weight:900;text-align:center;cursor:pointer;border:2px solid #000}.comp.ok{background:#e2e8f0;color:#000}.comp.ruim{background:#ef4444;color:#fff;box-shadow:0 0 10px #ef4444}.placaGrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;background:#0b1220;padding:8px;border-radius:10px;border:2px solid #a855f7;margin-top:6px}.saidaBox{background:#fff;color:#000;padding:8px;border-radius:8px;margin-top:8px;font-weight:800;font-size:10px;min-height:80px;white-space:pre-line;border-left:6px solid #ef4444}#avisoSeguranca{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.92);z-index:9999;display:none;align-items:center;justify-content:center;padding:12px}#avisoBox{background:#fff;color:#000;border:4px solid #ef4444;border-radius:16px;padding:16px;max-width:380px;width:100%}</style></head><body>
+<style>html,body{margin:0;padding:0;background:#0f172a}body{display:block;font-family:Arial;color:#fff}*{box-sizing:border-box}h1{font-size:12px;text-align:center;margin:0;padding:10px 0;width:100%;background:#020617;border-bottom:2px solid #facc15}button,input,select,textarea{padding:10px;border-radius:10px;border:none;font-weight:700;margin:3px 0;cursor:pointer;width:100%}button{background:#22c55e;color:#000}input,select,textarea{background:#fff;color:#000;font-size:15px}.card{background:#1e293b;padding:8px;margin:0;width:100%;border-bottom:1px solid #334155}#loginCard{width:100%;display:block;margin:0;padding:4px 10px;background:#0f172a;border:3px solid #facc15;border-top:none}#conteudo{width:100%;background:#1e293b;display:block;margin:0;padding:0}.tabs{display:flex;gap:3px;padding:6px;width:100%;background:#020617;margin:0}.tabBtn{background:#334155;color:#fff;flex:1;min-width:60px;padding:10px;font-size:10px;border-radius:8px}.tabBtn.active{background:#22c55e;color:#000}.aba{display:none;width:100%;margin:0;padding:0}.aba.active{display:block!important;width:100%;margin:0;padding:0}
+.layout-topo-maquina{display:flex;flex-direction:row;gap:6px;align-items:flex-start;margin:0;padding:4px;background:#1e293b;width:100%}
+.lado-esquerdo-selecoes{width:160px;flex:0 0 160px;display:flex;flex-direction:column;gap:3px;background:#0f172a;padding:5px;border-radius:8px;border:1px solid #334155}
+.lado-direito-maquina{flex:1;min-width:0}
+@media(max-width:700px){.layout-topo-maquina{flex-direction:column}.lado-esquerdo-selecoes{width:100%;flex:1 1 auto;order:2}.lado-direito-maquina{width:100%;order:1}}
+footer{background:#020617;color:#94a3b8;text-align:center;padding:14px 8px;font-size:9px;border-top:2px solid #facc15;margin-top:10px;width:100%;line-height:1.5}
+.maquinaElectroluxDesenho{position:relative;width:100%;max-width:360px;height:520px;margin:0 auto;background:linear-gradient(to bottom,#f8fafc 0%,#e2e8f0 100%);border-radius:22px;border:4px solid #000;overflow:hidden;box-shadow:0 12px 30px rgba(0,0,0,0.4);display:flex;flex-direction:column}.painelAzulElectrolux{width:100%;height:96px;background:linear-gradient(135deg,#0ea5e9 0%,#0284c7 40%,#0369a1 100%);border-bottom:3px solid #000;display:flex;align-items:center;padding:0 10px;gap:8px;z-index:5}.logoElectrolux{writing-mode:vertical-rl;transform:rotate(180deg);font-size:9px;font-weight:900;color:#fff;background:rgba(0,0,0,0.15);padding:6px 3px;border-radius:6px}.displayCentral{background:#000;border:2px solid #38bdf8;border-radius:10px;width:110px;height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#22c55e;font-family:monospace}.displayCentral .tempoDisplay{font-size:18px;font-weight:900}.displayCentral .etapaDisplay{font-size:7px;color:#facc15}.seletorProgramaDesenho{width:48px;height:48px;border-radius:50%;border:3px solid #000;background:radial-gradient(#fff,#cbd5e1);display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:900}.corpoBrancoMaquina{flex:1;background:linear-gradient(to bottom,#fff 0%,#f1f5f9 100%);display:flex;flex-direction:column;align-items:center;padding-top:8px;position:relative}.tampaVidroDesenho{width:92%;height:58%;background:linear-gradient(to bottom,rgba(255,255,255,0.9) 0%,rgba(226,232,240,0.8) 100%);border:4px solid #1e293b;border-radius:18px 18px 40px 40px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}.tamborReal3DDesenho{position:relative;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#ffffff 0%,#e2e8f0 20%,#94a3b8 55%,#475569 100%);border:4px solid #1e293b;box-shadow:inset 0 0 25px rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center;overflow:hidden}.aguaReal3DDesenho{position:absolute;bottom:0;left:0;width:100%;background:linear-gradient(to top,rgba(2,132,199,0.9),rgba(56,189,248,0.6));transition:height 0.8s;z-index:1}.batedorReal3DDesenho{position:absolute;top:50%;left:50%;width:90px;height:90px;background:radial-gradient(circle at 35% 35%,#f8fafc,#cbd5e1 45%,#64748b);border:3px solid #000;border-radius:50%;transform:translate(-50%,-50%);z-index:5}.paletaBatedor{position:absolute;bottom:50%;left:50%;width:14px;height:34px;background:linear-gradient(to top,#94a3b8,#e2e8f0);border:1px solid #000;border-radius:6px 6px 2px 2px;margin-left:-7px;transform-origin:50% 100%}.paletaBatedor:nth-child(1){transform:rotate(0deg)}.paletaBatedor:nth-child(2){transform:rotate(120deg)}.paletaBatedor:nth-child(3){transform:rotate(240deg)}@keyframes giraHorarioRapido{0%{transform:translate(-50%,-50%) rotate(0deg)}100%{transform:translate(-50%,-50%) rotate(720deg)}}@keyframes giraAntiHorarioRapido{0%{transform:translate(-50%,-50%) rotate(0deg)}100%{transform:translate(-50%,-50%) rotate(-720deg)}}.batedor-horario-rapido{animation:giraHorarioRapido 0.7s linear infinite}.batedor-antihorario-rapido{animation:giraAntiHorarioRapido 0.7s linear infinite}.batedor-lento{animation:giraHorarioRapido 2.5s linear infinite}
+/* EFEITO NOVO: ÁGUA MOLHANDO MÁQUINA POR FORA - SEM ALTERAR CÓDIGO FONTE */
+.aguaMolhandoFora{position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(to bottom,rgba(56,189,248,0.0) 0%,rgba(2,132,199,0.15) 40%,rgba(2,132,199,0.45) 85%,rgba(2,132,199,0.7) 100%);z-index:12;pointer-events:none;opacity:0;transition:opacity 0.6s;display:none}
+.aguaMolhandoFora.ativo{display:block;opacity:1;animation:brilhoMolhado 0.6s infinite alternate}
+@keyframes brilhoMolhado{0%{opacity:0.5;filter:brightness(1)}100%{opacity:0.85;filter:brightness(1.3)}}
+.gotasTransbordo{position:absolute;top:0;left:0;width:100%;height:100%;z-index:13;pointer-events:none;display:none}
+.gotasTransbordo.ativo{display:block}
+.gota{position:absolute;width:6px;height:10px;background:linear-gradient(to bottom,#7dd3fc,#0284c7);border-radius:50% 50% 50% 50% / 60% 60% 40% 40%;animation:cairGota 1.2s linear infinite}
+@keyframes cairGota{0%{transform:translateY(-10px);opacity:0}20%{opacity:1}100%{transform:translateY(480px);opacity:0}}
+.baseMaquinaDesenho{width:100%;height:18px;background:linear-gradient(to bottom,#cbd5e1,#94a3b8);border-top:3px solid #000;margin-top:auto;display:flex;justify-content:space-around;align-items:center}.peMaquina{width:32px;height:8px;background:#1e293b;border-radius:0 0 6px 6px}.bolhasContainer{position:absolute;bottom:0;left:0;width:100%;height:100%;z-index:4;pointer-events:none;overflow:hidden}.idBox{background:#0f172a;border:1px dashed #facc15;padding:8px;border-radius:10px;text-align:center}.idCode{font-size:26px;font-weight:900;color:#38bdf8;letter-spacing:2px}.comp{padding:6px;border-radius:8px;font-size:9px;font-weight:900;text-align:center;cursor:pointer;border:2px solid #000}.comp.ok{background:#e2e8f0;color:#000}.comp.ruim{background:#ef4444;color:#fff}.placaGrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;background:#0b1220;padding:8px;border-radius:10px;border:2px solid #a855f7;margin-top:6px}.saidaBox{background:#fff;color:#000;padding:8px;border-radius:8px;margin-top:8px;font-weight:800;font-size:10px;min-height:80px;white-space:pre-line;border-left:6px solid #ef4444}#avisoSeguranca{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.92);z-index:9999;display:none;align-items:center;justify-content:center;padding:12px}#avisoBox{background:#fff;color:#000;border:4px solid #ef4444;border-radius:16px;padding:16px;max-width:380px;width:100%}
+</style></head><body>
 <div id="avisoSeguranca"><div id="avisoBox"><div style="text-align:center;font-size:32px">⚠️</div><h2 style="text-align:center;margin:6px 0;font-size:16px;color:#000">AVISO DE SEGURANÇA</h2><div style="background:#fee2e2;border:2px solid #ef4444;border-radius:8px;padding:8px;font-size:11px;font-weight:700;color:#000"><p>⚡ <b>RISCO DE CHOQUE 220V PODE MATAR!</b></p></div><div style="margin-top:8px;display:flex;align-items:center;gap:6px"><input type="checkbox" id="checkSeg" style="width:18px;height:18px"><label for="checkSeg" style="font-size:11px;font-weight:800;color:#000">Li e estou ciente do risco 220V</label></div><button onclick="fecharAvisoSeguranca()" style="width:100%;background:#22c55e;color:#000;font-size:13px;margin-top:8px;padding:12px">✅ ENTENDI, ENTRAR NA SIMULAÇÃO</button></div></div>
 <h1>🧺 Bancada V12.15 FULL - Tela Cheia - DESENHO ELECTROLUX 3D</h1>
 <div id="loginCard"><div style="font-size:11px;color:#facc15">7 dias grátis - WhatsApp (61) 99553-4479 p/ liberar 1 ano</div>
-<div class="idBox"><div style="font-size:10px">SEU ID DISPOSITIVO - JÁ LIBERADO</div><div id="deviceIdDisplay" class="idCode">ID-</div><div style="display:flex;gap:4px;margin-top:6px"><button onclick="copiarId()" style="flex:1;background:#334155;color:#fff;font-size:11px">📋 Copiar ID</button><button onclick="enviarWhatsApp()" style="flex:1;font-size:11px">💬 WhatsApp 61995534479</button></div><div id="firebaseStatus" style="padding:4px;border-radius:6px;font-size:9px;margin-top:4px;background:#fff;color:#000">⏳ Conectando bancada-lavadora-pro...</div></div>
+<div class="idBox"><div style="font-size:10px">SEU ID DISPOSITIVO - JÁ LIBERADO</div><div id="deviceIdDisplay" class="idCode">ID-</div><div style="display:flex;gap:4px;margin-top:6px"><button onclick="copiarId()" style="flex:1;background:#334155;color:#fff;font-size:11px">📋 Copiar ID</button><button onclick="enviarWhatsApp()" style="flex:1;font-size:11px">💬 WhatsApp 61995534479</button></div><div id="firebaseStatus" style="padding:4px;border-radius:6px;font-size:9px;margin-top:4px;background:#fff;color:#000">⏳ Conectando...</div></div>
 <input id="loginId" placeholder="ID-XXXXXX">
 <div style="position:relative;width:100%;display:flex;align-items:center"><button onclick="fazerLogin()" style="flex:1;font-size:15px;padding:16px">🔓 ENTRAR COM MEU ID</button><div onclick="acessoAdmDiscreto()" style="position:absolute;right:6px;top:50%;transform:translateY(-50%);width:20px;height:20px;display:flex;align-items:center;justify-content:center;color:#0f5132;font-size:10px;font-weight:900;opacity:0.5;cursor:pointer;z-index:5" title="ADM">≡</div></div>
 <div id="loginMsg" style="font-weight:800;margin-top:6px;font-size:11px"></div></div>
 <div id="conteudo" style="display:none"><div style="display:flex;justify-content:space-between;font-size:11px;padding:0 6px"><div><b id="userLogado">-</b><br><span id="userIdShow" style="font-size:9px"></span></div><button onclick="sair()" style="background:#ef4444;color:#fff;padding:4px;font-size:9px;width:auto">Sair</button></div>
-<div class="tabs" style="margin-top:6px"><button class="tabBtn active" onclick="mostrarAba('abaSim',this)">1 MÁQUINA+PROG</button><button class="tabBtn" onclick="mostrarAba('abaLaudo',this)">3 LAUDO TÉCNICO</button><button class="tabBtn" onclick="mostrarAba('abaAdm',this)">5 ADM 1 ANO</button><button class="tabBtn" onclick="mostrarAba('abaPlaca',this)">7 MAPA LNK+RELÉ</button></div>
-<div id="abaSim" class="aba active"><div class="card" style="border:2px solid #facc15"><div style="display:grid;grid-template-columns:1fr 1fr;gap:6px"><select id="modelo" onchange="trocarModelo()"></select><select id="programaMaquina" onchange="trocarPrograma()" style="background:#facc15;color:#000;font-weight:900;border:2px solid #000;font-size:11px"><option value="normal">🔵 NORMAL - 82%</option><option value="pesado">🔴 PESADO 90%</option><option value="delicado">🟣 DELICADO 60%</option><option value="rapido">🟢 RÁPIDO 19min</option><option value="enxague">💧 ENXÁGUE</option><option value="centrifuga">🌀 SÓ CENTRIFUGA</option><option value="molho">🟤 COM MOLHO</option></select></div><div style="background:#fff;color:#000;padding:6px;border-radius:8px;text-align:center;margin-top:6px"><div id="nomeMaquina" style="font-weight:800;font-size:12px">Electrolux LTC10 10kg</div><div id="idMaquina" style="font-size:10px">ID: ELX-LTC10-006</div><div id="descPrograma" style="background:#e0f2fe;color:#000;padding:5px;border-radius:6px;margin-top:4px;font-weight:800;font-size:10px">🔵 NORMAL</div><div id="pressostatoStatus" style="background:#fee2e2;color:#000;padding:5px;border-radius:6px;margin-top:4px;font-weight:800;font-size:10px">🔴 PRESSOSTATO: VAZIO - 12%</div></div></div>
-<div class="card" style="border:2px solid #38bdf8"><select id="defeitoPlaca" onchange="injetarDefeitoPlaca()" style="font-size:11px"><option value="ok">✅ PLACA BOA</option><option value="triacDir">🔴 TRIAC DIR T1 BT137</option><option value="triacEsq">🔴 TRIAC ESQ T2</option><option value="triacBomba">🔴 TRIAC BOMBA T4 BT137</option><option value="triacAtuador">🔴 TRIAC ATUADOR T3 BWL11</option><option value="capacitor">🔴 CAPACITOR 15uF MOTOR</option><option value="pressostato">🔴 PRESSOSTATO TRAVADO</option><option value="releK1">🟡 RELÉ K1 AMARELO COLADO</option><option value="fusivel">⚫ FUSÍVEL 5A + LNK304 + CAP 47uF 400V - NÃO LIGA</option></select><div id="alertaPlaca" style="background:#dcfce7;color:#000;padding:6px;border-radius:8px;margin-top:4px;font-weight:800;font-size:11px">✅ PLACA BOA</div><div id="reacaoPlaca" style="background:#fff;color:#000;padding:6px;border-radius:8px;margin-top:4px;font-size:10px">Selecione programa e clique CICLO</div><div style="display:flex;gap:6px;margin-top:6px"><button onclick="iniciarCicloCompleto()" style="flex:1;font-size:11px">▶ CICLO COM PROGRAMA</button><button onclick="parar()" style="flex:1;background:#ef4444;color:#fff;font-size:11px">⏹ PARAR</button></div>
-<div style="background:#e2e8f0;border:3px solid #000;border-radius:14px;padding:8px;margin-top:8px;color:#000">
-<div style="display:flex;justify-content:space-between;font-weight:900;font-size:9px;margin-bottom:6px"><span>⏱️ <b id="tempo">0s</b></span><span>💧 <b id="nivelTxt">12%</b></span><span>🔄 <b id="etapaTxt">AGUARDANDO</b></span><span id="direcaoMotor" style="background:#000;color:#fff;padding:2px 6px;border-radius:10px;font-size:9px">⏸️ PARADO</span></div>
-<div id="status" style="font-weight:900;text-align:center;margin:4px 0;font-size:11px;background:#fff;padding:4px;border-radius:6px;border:1px solid #000">Selecione programa e clique CICLO</div>
-<div style="display:flex;gap:8px;align-items:flex-start;margin-top:8px">
-<div style="display:flex;flex-direction:column;align-items:center;gap:4px">
-<div style="position:relative;width:86px;height:86px;background:#fff;border:3px solid #000;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:inset 0 0 12px rgba(0,0,0,0.2)">
-<div id="eixoMotor" style="width:24px;height:24px;background:radial-gradient(#334155,#000);border-radius:50%;z-index:2;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:10px;border:2px solid #000">M</div>
-<div id="setaMotor" style="position:absolute;width:100%;height:100%;z-index:3;transition:transform 0.35s"><div style="position:absolute;top:2px;left:50%;margin-left:-6px;width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-bottom:12px solid #22c55e;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.5))"></div></div>
+<div class="tabs"><button class="tabBtn active" onclick="mostrarAba('abaSim',this)">1 MÁQUINA+PROG</button><button class="tabBtn" onclick="mostrarAba('abaLaudo',this)">3 LAUDO TÉCNICO</button><button class="tabBtn" onclick="mostrarAba('abaAdm',this)">5 ADM 1 ANO</button><button class="tabBtn" onclick="mostrarAba('abaPlaca',this)">7 MAPA LNK+RELÉ</button></div>
+<div id="abaSim" class="aba active">
+<div class="layout-topo-maquina">
+<div class="lado-esquerdo-selecoes">
+<div style="font-size:9px;font-weight:900;color:#facc15;text-align:center">⚙️ SELEÇÕES LADO ESQ</div>
+<select id="modelo" onchange="trocarModelo()" style="font-size:10px"></select>
+<select id="programaMaquina" onchange="trocarPrograma()" style="background:#facc15;color:#000;font-weight:900;border:2px solid #000;font-size:10px"><option value="normal">🔵 NORMAL - 82%</option><option value="pesado">🔴 PESADO 90%</option><option value="delicado">🟣 DELICADO 60%</option><option value="rapido">🟢 RÁPIDO 19min</option><option value="enxague">💧 ENXÁGUE</option><option value="centrifuga">🌀 SÓ CENTRIFUGA</option><option value="molho">🟤 COM MOLHO</option></select>
+<div style="background:#fff;color:#000;padding:4px;border-radius:6px;text-align:center"><div id="nomeMaquina" style="font-weight:800;font-size:10px">Electrolux LTC10 10kg</div><div id="idMaquina" style="font-size:8px">ID: ELX-LTC10-006</div><div id="descPrograma" style="background:#e0f2fe;color:#000;padding:3px;border-radius:4px;margin-top:3px;font-weight:800;font-size:9px">🔵 NORMAL</div><div id="pressostatoStatus" style="background:#fee2e2;color:#000;padding:3px;border-radius:4px;margin-top:3px;font-weight:800;font-size:8px">🔴 PRESSOSTATO: VAZIO - 12%</div></div>
+<select id="defeitoPlaca" onchange="injetarDefeitoPlaca()" style="font-size:9px"><option value="ok">✅ PLACA BOA</option><option value="triacDir">🔴 TRIAC DIR T1 BT137</option><option value="triacEsq">🔴 TRIAC ESQ T2</option><option value="triacBomba">🔴 TRIAC BOMBA T4 BT137</option><option value="triacAtuador">🔴 TRIAC ATUADOR T3 BWL11</option><option value="capacitor">🔴 CAPACITOR 15uF MOTOR</option><option value="pressostato">🔴 PRESSOSTATO TRAVADO</option><option value="releK1">🟡 RELÉ K1 AMARELO COLADO</option><option value="fusivel">⚫ FUSÍVEL 5A + LNK304 + CAP 47uF 400V - NÃO LIGA</option></select>
+<div id="alertaPlaca" style="background:#dcfce7;color:#000;padding:4px;border-radius:6px;font-weight:800;font-size:9px">✅ PLACA BOA</div>
+<div style="display:flex;gap:4px"><button onclick="iniciarCicloCompleto()" style="flex:1;font-size:9px;padding:8px">▶ CICLO</button><button onclick="parar()" style="flex:1;background:#ef4444;color:#fff;font-size:9px;padding:8px">⏹ PARAR</button></div>
+<div style="background:#1e293b;color:#fff;padding:3px;border-radius:6px;font-size:7px">
+<div id="ledValvula" style="background:#334155;padding:2px;border-radius:3px;margin:1px;text-align:center">🔌 VÁLVULA ⚫ OFF</div>
+<div id="ledTriacDir" style="background:#334155;padding:2px;border-radius:3px;margin:1px;text-align:center">▶ T1 DIR ⚫ OFF</div>
+<div id="ledTriacEsq" style="background:#334155;padding:2px;border-radius:3px;margin:1px;text-align:center">◀ T2 ESQ ⚫ OFF</div>
+<div id="ledTriacBomba" style="background:#334155;padding:2px;border-radius:3px;margin:1px;text-align:center">💦 T4 BOMBA ⚫ OFF</div>
+<div id="ledTriacAtuador" style="background:#334155;padding:2px;border-radius:3px;margin:1px;text-align:center">🌀 T3 ATUADOR ⚫ OFF</div>
+<div id="ledPressostato" style="background:#fee2e2;color:#000;padding:2px;border-radius:3px;margin:1px;text-align:center;font-weight:900">🔴 PRESS VAZIO</div>
 </div>
-<div style="background:#1e293b;color:#fff;padding:4px;border-radius:6px;font-size:7px;width:86px">
-<div id="ledValvula" style="background:#334155;padding:3px;border-radius:4px;margin:2px;text-align:center">🔌 VÁLVULA<br>⚫ OFF</div>
-<div id="ledTriacDir" style="background:#334155;padding:3px;border-radius:4px;margin:2px;text-align:center">▶ T1 DIR<br>⚫ OFF</div>
-<div id="ledTriacEsq" style="background:#334155;padding:3px;border-radius:4px;margin:2px;text-align:center">◀ T2 ESQ<br>⚫ OFF</div>
-<div id="ledTriacBomba" style="background:#334155;padding:3px;border-radius:4px;margin:2px;text-align:center">💦 T4 BOMBA<br>⚫ OFF</div>
-<div id="ledTriacAtuador" style="background:#334155;padding:3px;border-radius:4px;margin:2px;text-align:center">🌀 T3 ATUADOR<br>⚫ OFF</div>
-<div id="ledPressostato" style="background:#fee2e2;color:#000;padding:3px;border-radius:4px;margin:2px;text-align:center;font-weight:900">🔴 PRESS<br>VAZIO</div>
 </div>
-</div>
-<div class="maquinaElectroluxDesenho">
+<div class="lado-direito-maquina">
+<div style="background:#e2e8f0;border:3px solid #000;border-radius:12px;padding:6px;color:#000;margin:0">
+<div style="display:flex;justify-content:space-between;font-weight:900;font-size:8px;margin-bottom:4px"><span>⏱️ <b id="tempo">0s</b></span><span>💧 <b id="nivelTxt">12%</b></span><span>🔄 <b id="etapaTxt">AGUARDANDO</b></span><span id="direcaoMotor" style="background:#000;color:#fff;padding:2px 5px;border-radius:10px;font-size:8px">⏸️ PARADO</span></div>
+<div id="status" style="font-weight:900;text-align:center;margin:3px 0;font-size:10px;background:#fff;padding:3px;border-radius:5px;border:1px solid #000">Selecione programa e clique CICLO</div>
+<div class="maquinaElectroluxDesenho" style="height:520px">
 <div class="painelAzulElectrolux">
 <div class="logoElectrolux">Electrolux</div>
 <div class="displayCentral">
@@ -48,31 +67,60 @@ try{const app=initializeApp(firebaseConfig);const db=getFirestore(app);window.db
 <div class="botaoPainel" style="background:#fff;color:#000">P</div>
 <div class="botaoPainel" style="background:#facc15;color:#000">T</div>
 <div class="botaoPainel" style="background:#fff;color:#000">N</div>
-<div class="botaoPainel botaoPower" id="btnPowerPainel">⏻</div>
-<div class="botaoPainel botaoPlay" id="btnPlayPainel">▶</div>
+<div class="botaoPainel botaoPower">⏻</div>
+<div class="botaoPainel botaoPlay">▶</div>
 </div>
-<div class="seletorProgramaDesenho" id="seletorDesenho">PROG</div>
+<div class="seletorProgramaDesenho">PROG</div>
 </div>
-<div class="corpoBrancoMaquina">
+<div class="corpoBrancoMaquina" id="corpoMaquina">
+<!-- EFEITO ÁGUA MOLHANDO POR FORA -->
+<div class="aguaMolhandoFora" id="aguaMolhandoFora"></div>
+<div class="gotasTransbordo" id="gotasTransbordo">
+<div class="gota" style="left:10%;animation-delay:0s"></div>
+<div class="gota" style="left:25%;animation-delay:0.2s"></div>
+<div class="gota" style="left:40%;animation-delay:0.4s"></div>
+<div class="gota" style="left:60%;animation-delay:0.1s"></div>
+<div class="gota" style="left:75%;animation-delay:0.3s"></div>
+<div class="gota" style="left:90%;animation-delay:0.5s"></div>
+</div>
 <div class="tampaVidroDesenho">
 <div class="tamborReal3DDesenho" id="tamborReal">
 <div class="aguaReal3DDesenho" id="aguaLateral"></div>
-<div class="batedorReal3DDesenho" id="batedorReal"></div>
+<div class="batedorReal3DDesenho" id="batedorReal"><div class="paletaBatedor"></div><div class="paletaBatedor"></div><div class="paletaBatedor"></div></div>
 <div class="bolhasContainer" id="bolhasAgua"></div>
 </div>
 <div style="position:absolute;top:4px;right:6px;background:#000;color:#fff;font-size:8px;padding:3px 6px;border-radius:10px;z-index:10;font-weight:900"><span id="nivelAguaPct">12%</span> 💧</div>
 </div>
-<div style="width:90%;margin-top:8px;background:#fff;border:2px solid #000;border-radius:8px;padding:4px;display:flex;justify-content:space-between;font-size:7px;font-weight:800">
+<div style="width:90%;margin-top:6px;background:#fff;border:2px solid #000;border-radius:8px;padding:3px;display:flex;justify-content:space-between;font-size:7px;font-weight:800">
 <span>🔵 Electrolux</span><span id="modeloDesenhoTexto">LTC10 10kg</span><span>9 PROGRAMAS</span>
 </div>
 <div class="baseMaquinaDesenho"><div class="peMaquina"></div><div class="peMaquina"></div></div>
 </div>
 </div>
 </div>
+</div>
+</div>
+</div>
 </div></div></div>
-<div id="abaLaudo" class="aba"><div class="card" style="border:2px solid #22c55e"><h3 style="margin:0">📋 LAUDO TÉCNICO PROFISSIONAL</h3><div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px"><input id="laudoCliente" placeholder="Nome do Cliente"><input id="laudoFone" placeholder="WhatsApp Cliente"><input id="laudoEndereco" placeholder="Endereço"><input id="laudoData" type="date"></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:6px"><input id="laudoMaquina" readonly style="background:#e2e8f0;font-size:10px"><input id="laudoPrograma" readonly style="background:#e2e8f0;font-size:10px"></div><select id="laudoDefeito" style="font-size:11px"><option>Triac DIR T1 BT137 queimado</option><option>Triac ESQ T2 BT137 queimado</option><option>Triac Bomba T4 BT137 queimado</option><option>Triac Atuador T3 BWL11 BT137</option><option>Capacitor 15uF fraco</option><option>Pressostato travado</option><option>Placa fonte - LNK304 + Capacitor 47uF 400V</option><option>Relé K1 amarelo colado</option></select><select id="laudoCausa" style="font-size:11px"><option>Desgaste natural</option><option>Motor em curto queimou triac</option><option>Bomba travada</option><option>Atuador em curto queimou triac T3 - BWL11</option><option>Falta de aterramento + surto rede - Queimou LNK304</option></select><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px"><input id="laudoPeca" placeholder="Peça"><input id="laudoValor" placeholder="Valor R$"><input id="laudoGarantia" placeholder="Garantia"></div><textarea id="laudoObs" placeholder="Obs técnicas" style="width:100%;height:60px;background:#fff;color:#000;border-radius:8px;padding:8px;font-size:11px;margin-top:6px"></textarea><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:6px"><button onclick="gerarLaudo()" style="background:#22c55e;font-size:11px">📋 GERAR TEXTO</button><button onclick="gerarPDF()" style="background:#ef4444;color:#fff;font-size:11px">📄 GERAR PDF PRO FIX</button><button onclick="compartilharLaudo()" style="background:#25D366;color:#fff;font-size:11px">💬 WhatsApp</button></div><div id="laudoGerado" style="background:#fff;color:#000;padding:12px;border-radius:8px;margin-top:8px;white-space:pre-line;font-size:11px;border:2px solid #000;min-height:220px"></div></div></div>
+<div id="abaLaudo" class="aba"><div class="card" style="border:2px solid #22c55e;margin:0"><h3 style="margin:0 0 6px 0">📋 LAUDO TÉCNICO PROFISSIONAL V12.24 MOLHANDO</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:0"><input id="laudoCliente" placeholder="Nome do Cliente" oninput="gerarLaudoAuto()"><input id="laudoFone" placeholder="WhatsApp Cliente" oninput="gerarLaudoAuto()"><input id="laudoEndereco" placeholder="Endereço" oninput="gerarLaudoAuto()"><input id="laudoData" type="date" onchange="gerarLaudoAuto()"></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px"><input id="laudoMaquina" readonly style="background:#e2e8f0;font-size:10px"><input id="laudoPrograma" readonly style="background:#e2e8f0;font-size:10px"></div>
+<select id="laudoDefeito" onchange="gerarLaudoAuto()" style="font-size:11px"><option>Pressostato travado</option><option>Triac DIR T1 BT137 queimado</option><option>Triac ESQ T2 BT137 queimado</option><option>Triac Bomba T4 BT137 queimado</option><option>Triac Atuador T3 BWL11 BT137</option><option>Capacitor 15uF fraco</option><option>Placa fonte - LNK304 + Capacitor 47uF 400V</option><option>Relé K1 amarelo colado</option></select>
+<select id="laudoCausa" onchange="gerarLaudoAuto()" style="font-size:11px"><option>Desgaste natural</option><option>Motor em curto queimou triac</option><option>Bomba travada</option><option>Atuador em curto queimou triac T3 - BWL11</option><option>Falta de aterramento + surto rede - Queimou LNK304</option></select>
+<div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:6px;margin-top:6px">
+<input id="laudoPeca" value="Troca de componentes defeituosos" oninput="gerarLaudoAuto()">
+<input id="laudoValorPeca" type="number" value="120" oninput="calcTotalLaudo()" style="background:#e0f2fe;font-weight:900">
+<input id="laudoMaoObra" type="number" value="150" oninput="calcTotalLaudo()" style="background:#fef3c7;font-weight:900;border:2px solid #f59e0b">
+<input id="laudoTotal" readonly style="background:#facc15;color:#000;font-weight:900;border:2px solid #000">
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:4px">
+<input id="laudoGarantia" value="90 dias" oninput="gerarLaudoAuto()"><select id="laudoForma" onchange="gerarLaudoAuto()" style="font-size:11px"><option>Pix à vista</option><option>Cartão</option><option>2x no cartão</option><option>3x no cartão</option></select><input id="laudoValidade" value="7 dias" oninput="gerarLaudoAuto()">
+</div>
+<textarea id="laudoObs" oninput="gerarLaudoAuto()" placeholder="Obs técnicas" style="width:100%;height:60px;background:#fff;color:#000;border-radius:8px;padding:8px;font-size:11px;margin-top:6px"></textarea>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:6px"><button onclick="gerarLaudo()" style="background:#22c55e;font-size:11px">📋 GERAR TEXTO</button><button onclick="gerarPDF()" style="background:#ef4444;color:#fff;font-size:11px">📄 GERAR PDF PRO FIX</button><button onclick="compartilharLaudo()" style="background:#25D366;color:#fff;font-size:11px">💬 WhatsApp</button></div>
+<div id="laudoGerado" style="background:#fff;color:#000;padding:12px;border-radius:8px;margin-top:8px;white-space:pre-line;font-size:11px;border:2px solid #000;min-height:260px">Preencha os dados acima - o laudo gera automático aqui</div></div></div>
 <div id="abaAdm" class="aba"><div class="card" style="border:2px solid #f97316"><h3>👑 ADM - 1 ANO</h3><div id="admBloqueado" style="background:#fee2e2;color:#000;padding:6px;font-size:10px">🔒 Só ADM-999</div><div id="admConteudo" style="display:none"><input id="admNomeUser" placeholder="Nome Cliente"><input id="admIdUser" placeholder="ID"><select id="admStatusUser"><option value="ativo">✅ ATIVO 1 ANO 365 DIAS</option><option value="bloqueado">❌ BLOQUEADO</option></select><button onclick="cadastrarUsuarioFirebase()" style="width:100%;background:#f97316;color:#fff">➕ LIBERAR 1 ANO NO FIREBASE</button><button onclick="testarFirebase()" style="width:100%;background:#000;color:#fff;font-size:10px">🔍 TESTAR FIREBASE</button><div id="listaUsuarios" style="background:#fff;color:#000;padding:6px;border-radius:8px;margin-top:6px;font-size:9px"></div></div></div></div>
-<div id="abaPlaca" class="aba"><div class="card" style="border:2px solid #a855f7"><h3>🧠 MAPA PLACA</h3><div class="placaGrid">
+<div id="abaPlaca" class="aba"><div class="card" style="border:2px solid #a855f7;margin:0"><h3 style="margin:0 0 6px 0">🧠 MAPA PLACA - TOPO</h3><div class="placaGrid" style="margin-top:0">
 <div class="comp ok" id="c-fusivel" onclick="toggleComp('fusivel')">F1<br>FUSÍVEL 5A</div>
 <div class="comp ok" id="c-varistor" onclick="toggleComp('varistor')">VAR<br>VARISTOR</div>
 <div class="comp ok" id="c-lnk" onclick="toggleComp('lnk')">IC1<br>LNK304</div>
@@ -97,7 +145,7 @@ try{const app=initializeApp(firebaseConfig);const db=getFirestore(app);window.db
 </div></div></div>
 <footer>
 © 2026 Bancada Lavadora Pro V12.15 - Técnico Sóstenes - Tela Cheia<br>
-ID: <span id="footerId">ID-</span> | WhatsApp (61) 99553-4479 | tottybr215-dotcom.github.io/Teste-de-placas-para-conserto-/<br>
+ID: <span id="footerId">ID-</span> | WhatsApp (61) 99553-4479<br>
 Uso exclusivo para técnicos - Simulação virtual - NR10
 </footer>
 <script>
@@ -109,138 +157,159 @@ window.copiarId=function(){try{navigator.clipboard.writeText(deviceId);alert('ID
 window.enviarWhatsApp=function(){let t=encodeURIComponent('Olá Sóstenes! Meu ID da Bancada é: '+deviceId);window.open('https://wa.me/5561995534479?text='+t,'_blank');}
 window.mostrarAvisoSeguranca=function(){let a=document.getElementById('avisoSeguranca');if(a){a.style.display='flex';}}
 window.fecharAvisoSeguranca=function(){let c=document.getElementById('checkSeg');if(!c||!c.checked){alert('Marque a caixa');return;}let a=document.getElementById('avisoSeguranca');if(a){a.style.display='none';}}
-// SENHA ESCONDIDA EM CÓDIGO - NÃO APARECE NA PESQUISA
 window.acessoAdmDiscreto=function(){let k=[97,100,109,105,110,98,114,48,52,48];let segredo=String.fromCharCode(...k);let s=prompt('🔐 Acesso ADM - Digite a senha:');if(s===null)return;if(s===segredo){document.getElementById('loginId').value='ADM-999';fazerLogin();}else{alert('❌ Senha incorreta!');}}
 let timer=null,bolhasInterval=null,tempo=0,nivel=12,usuarioAtual=null,anguloMotor=0,etapaCiclo=0,tempoEtapa=0;
-function mostrarAba(id,btn){document.querySelectorAll('.aba').forEach(a=>a.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.tabBtn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}
+function mostrarAba(id,btn){document.querySelectorAll('.aba').forEach(a=>{a.classList.remove('active');a.style.display='none';});let el=document.getElementById(id);if(el){el.classList.add('active');el.style.display='block';}document.querySelectorAll('.tabBtn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');window.scrollTo({top:0,behavior:'smooth'});if(id==='abaLaudo'){setTimeout(()=>{gerarLaudoAuto();},100);}}
 window.carregarModelosSelect=function(){let s=document.getElementById('modelo');if(!s)return;s.innerHTML='';window.MODELOS.forEach((m,i)=>{let o=document.createElement('option');o.value=i;o.textContent=m.marca+' '+m.modelo;s.appendChild(o);});s.value=6;trocarModelo();trocarPrograma();}
-function trocarModelo(){let m=window.MODELOS[document.getElementById('modelo').value||0];if(!m)return;document.getElementById('nomeMaquina').textContent=m.marca+' '+m.modelo;document.getElementById('idMaquina').textContent='ID: '+m.id;let md=document.getElementById('modeloDesenhoTexto');if(md)md.textContent=m.modelo;let el=document.getElementById('laudoMaquina');if(el)el.value=m.marca+' '+m.modelo+' - ID: '+m.id;}
+function trocarModelo(){let m=window.MODELOS[document.getElementById('modelo').value||0];if(!m)return;document.getElementById('nomeMaquina').textContent=m.marca+' '+m.modelo;document.getElementById('idMaquina').textContent='ID: '+m.id;let md=document.getElementById('modeloDesenhoTexto');if(md)md.textContent=m.modelo;let el=document.getElementById('laudoMaquina');if(el)el.value=m.marca+' '+m.modelo+' - ID: '+m.id;gerarLaudoAuto();}
 function trocarPrograma(){let p=document.getElementById('programaMaquina').value;let prog=PROGRAMAS[p];document.getElementById('descPrograma').textContent=prog.desc;}
-function injetarDefeitoPlaca(){let d=document.getElementById('defeitoPlaca').value;let a=document.getElementById('alertaPlaca');let prog=PROGRAMAS[document.getElementById('programaMaquina').value];let map={ok:'✅ PLACA BOA - '+prog.nome,triacDir:'🚨 TRIAC DIR T1',triacEsq:'🚨 TRIAC ESQ T2',triacBomba:'🚨 TRIAC BOMBA T4',triacAtuador:'🚨 TRIAC ATUADOR T3 BWL11',capacitor:'🚨 CAPACITOR 15uF',pressostato:'🚨 PRESSOSTATO TRAVADO',releK1:'🟡 RELÉ K1 COLADO',fusivel:'🚨 PLACA MORTA - LNK304'};if(a){a.textContent=map[d]||map.ok;a.style.background=d==='ok'?'#dcfce7':'#fecaca';}}
-function iniciarCicloCompleto(){if(timer)clearInterval(timer);if(bolhasInterval)clearInterval(bolhasInterval);let progId=document.getElementById('programaMaquina').value;let prog=PROGRAMAS[progId];tempo=0;tempoEtapa=0;anguloMotor=0;if(progId==='centrifuga'){etapaCiclo=3;nivel=12;}else{etapaCiclo=0;if(nivel<20)nivel=12;}timer=setInterval(passoCicloReal,700);bolhasInterval=setInterval(criarBolhas,300);}
-function criarBolhas(){let c=document.getElementById('bolhasAgua');if(!c||nivel<20||etapaCiclo!==0){if(c)c.innerHTML='';return;}let b=document.createElement('div');b.style.position='absolute';b.style.left=Math.random()*80+10+'%';b.style.bottom='0px';b.style.width='5px';b.style.height='5px';b.style.background='radial-gradient(#fff,rgba(255,255,255,0.3))';b.style.borderRadius='50%';b.style.opacity='0.9';b.style.transition='bottom 1.8s ease-out';b.style.boxShadow='0 0 6px #fff';c.appendChild(b);setTimeout(()=>{b.style.bottom=nivel+'%';},40);setTimeout(()=>{b.remove();},1900);}
-function passoCicloReal(){tempo++;tempoEtapa++;let placa=document.getElementById('defeitoPlaca').value;let progId=document.getElementById('programaMaquina').value;let prog=PROGRAMAS[progId]||PROGRAMAS.normal;let nivelAlvo=prog.nivelAlvo;let tempoLavar=prog.tempoLavar;let tempoCentrifuga=prog.tempoCentrifuga;let rpmBase=prog.rpm;let statusEl=document.getElementById('status');let direcaoEl=document.getElementById('direcaoMotor');let etapaEl=document.getElementById('etapaTxt');let eixo=document.getElementById('eixoMotor');let seta=document.getElementById('setaMotor');let displayTempo=document.getElementById('displayTempoPainel');let displayEtapa=document.getElementById('displayEtapaPainel');let batedor=document.getElementById('batedorReal');let tambor=document.getElementById('tamborReal');let agua=document.getElementById('aguaLateral');let pressStatus=document.getElementById('pressostatoStatus');let ledPress=document.getElementById('ledPressostato');let ledValvula=document.getElementById('ledValvula');let ledBomba=document.getElementById('ledTriacBomba');let ledDir=document.getElementById('ledTriacDir');let ledEsq=document.getElementById('ledTriacEsq');let btnPower=document.getElementById('btnPowerPainel');let btnPlay=document.getElementById('btnPlayPainel');
-if(displayTempo)displayTempo.textContent=tempo+'s';
-if(placa==='fusivel'){if(statusEl)statusEl.textContent='⚫ PLACA MORTA - LNK304 queimados - Sem 5V';if(etapaEl)etapaEl.textContent='PLACA MORTA LNK';if(displayEtapa)displayEtapa.textContent='PLACA MORTA';if(direcaoEl){direcaoEl.textContent='⚫ OFF SEM 5V LNK';direcaoEl.style.background='#000';}if(btnPower)btnPower.style.background='#000';return;}
-if(placa==='releK1'){if(etapaCiclo===0){nivel+=5;if(nivel>95)nivel=95;if(agua)agua.style.height=nivel+'%';let nt=document.getElementById('nivelTxt');if(nt)nt.textContent=nivel+'%';let np=document.getElementById('nivelAguaPct');if(np)np.textContent=nivel+'%';if(statusEl)statusEl.textContent='🌊 RELÉ K1 COLADO - Transborda 90%+';if(pressStatus){pressStatus.innerHTML='🌊 RELÉ K1 COLADO - TRANSBORDANDO '+nivel+'%';pressStatus.style.background='#ef4444';}if(etapaEl)etapaEl.textContent='TRANSBORDANDO RELÉ';if(displayEtapa)displayEtapa.textContent='TRANSBORDANDO';if(direcaoEl){direcaoEl.textContent='🌊 K1 COLADO '+nivel+'%';direcaoEl.style.background='#ef4444';}return;}}
+function injetarDefeitoPlaca(){let d=document.getElementById('defeitoPlaca').value;let a=document.getElementById('alertaPlaca');let prog=PROGRAMAS[document.getElementById('programaMaquina').value];let map={ok:'✅ PLACA BOA - '+prog.nome,triacDir:'🚨 TRIAC DIR T1 - NÃO GIRA HORÁRIO',triacEsq:'🚨 TRIAC ESQ T2 - NÃO GIRA ANTI-HORÁRIO',triacBomba:'🚨 TRIAC BOMBA T4 - NÃO DRENA',triacAtuador:'🚨 TRIAC ATUADOR T3 BWL11 - NÃO CENTRIFUGA',capacitor:'🚨 CAPACITOR 15uF FRACO - LENTO NA AGITAÇÃO E NA CENTRIFUGA',pressostato:'🚨 PRESSOSTATO TRAVADO - TRANSBORDA',releK1:'🟡 RELÉ K1 COLADO - TRANSBORDA E MOLHA MÁQUINA',fusivel:'🚨 PLACA MORTA - LNK304 + FUSÍVEL'};if(a){a.textContent=map[d]||map.ok;a.style.background=d==='ok'?'#dcfce7':'#fecaca';}}
+function iniciarCicloCompleto(){if(timer)clearInterval(timer);if(bolhasInterval)clearInterval(bolhasInterval);let progId=document.getElementById('programaMaquina').value;tempo=0;tempoEtapa=0;anguloMotor=0;if(progId==='centrifuga'){etapaCiclo=3;nivel=5;}else{etapaCiclo=0;if(nivel<20)nivel=12;}timer=setInterval(passoCicloRealComDefeito,120);bolhasInterval=setInterval(criarBolhas,300);}
+function criarBolhas(){let c=document.getElementById('bolhasAgua');if(!c||nivel<20||etapaCiclo!==0){if(c)c.innerHTML='';return;}let b=document.createElement('div');b.style.position='absolute';b.style.left=Math.random()*80+10+'%';b.style.bottom='0px';b.style.width='5px';b.style.height='5px';b.style.background='radial-gradient(#fff,rgba(255,255,255,0.3))';b.style.borderRadius='50%';b.style.opacity='0.9';b.style.transition='bottom 1.8s ease-out';c.appendChild(b);setTimeout(()=>{b.style.bottom=nivel+'%';},40);setTimeout(()=>{b.remove();},1900);}
+function ativarMolhamento(){let m=document.getElementById('aguaMolhandoFora');let g=document.getElementById('gotasTransbordo');let corpo=document.getElementById('corpoMaquina');if(m){m.classList.add('ativo');}if(g){g.classList.add('ativo');}if(corpo){corpo.style.filter='brightness(0.9) saturate(1.2)';corpo.style.boxShadow='inset 0 0 30px rgba(2,132,199,0.6)';}}
+function desativarMolhamento(){let m=document.getElementById('aguaMolhandoFora');let g=document.getElementById('gotasTransbordo');let corpo=document.getElementById('corpoMaquina');if(m){m.classList.remove('ativo');}if(g){g.classList.remove('ativo');}if(corpo){corpo.style.filter='';corpo.style.boxShadow='';}}
+function passoCicloRealComDefeito(){
+tempo++;tempoEtapa++;
+let batedor=document.getElementById('batedorReal');
+let tambor=document.getElementById('tamborReal');
+let agua=document.getElementById('aguaLateral');
+let statusEl=document.getElementById('status');
+let direcaoEl=document.getElementById('direcaoMotor');
+let etapaEl=document.getElementById('etapaTxt');
+let displayEtapa=document.getElementById('displayEtapaPainel');
+let placa=document.getElementById('defeitoPlaca').value;
+let ledValvula=document.getElementById('ledValvula');
+let ledBomba=document.getElementById('ledTriacBomba');
+let ledDir=document.getElementById('ledTriacDir');
+let ledEsq=document.getElementById('ledTriacEsq');
+let ledAtuador=document.getElementById('ledTriacAtuador');
+let ledPress=document.getElementById('ledPressostato');
+if(placa==='fusivel'){desativarMolhamento();statusEl.textContent='⚫ PLACA MORTA - LNK304 + FUSÍVEL - Sem 5V';etapaEl.textContent='PLACA MORTA LNK';displayEtapa.textContent='PLACA MORTA';direcaoEl.textContent='⚫ OFF SEM 5V';direcaoEl.style.background='#000';document.getElementById('tempo').textContent=tempo+'s';return;}
 if(etapaCiclo===0){
-if(etapaEl)etapaEl.textContent='ENCHENDO '+prog.nome;
-if(displayEtapa)displayEtapa.textContent='ENCHENDO';
-if(statusEl)statusEl.textContent='💧 '+prog.nome+' - ENCHENDO '+nivel+'% até '+nivelAlvo+'%';
-if(direcaoEl){direcaoEl.textContent='💧 ENCHENDO '+nivel+'%→'+nivelAlvo+'%';direcaoEl.style.background='#38bdf8';}
-if(ledValvula){ledValvula.innerHTML='🔌 VÁLVULA<br>🟢 ON';ledValvula.style.background='#22c55e';}
-if(ledPress){ledPress.innerHTML='🔴 PRESS<br>VAZIO '+nivel+'%';ledPress.style.background='#fee2e2';}
-if(pressStatus)pressStatus.innerHTML='🔴 VAZIO - '+nivel+'% até '+nivelAlvo+'% CLICK';
-if(btnPower){btnPower.style.background='#22c55e';}
-if(agua)agua.classList.add('enchendo');
-if(placa==='pressostato'&&nivel>=nivelAlvo){nivel=96;if(statusEl)statusEl.textContent='🌊 TRANSBORDANDO! PRESSOSTATO TRAVADO';if(pressStatus){pressStatus.innerHTML='🌊 TRAVADO - TRANSBORDANDO '+nivel+'%';pressStatus.style.background='#ef4444';}if(agua)agua.style.height=nivel+'%';return;}
-nivel+=5;if(nivel>nivelAlvo)nivel=nivelAlvo;if(agua)agua.style.height=nivel+'%';let nt=document.getElementById('nivelTxt');if(nt)nt.textContent=nivel+'%';let np=document.getElementById('nivelAguaPct');if(np)np.textContent=nivel+'%';if(nivel>=nivelAlvo){if(pressStatus){pressStatus.innerHTML='🟢 CHEIO - '+nivelAlvo+'% - CLICK!';pressStatus.style.background='#dcfce7';}if(ledPress){ledPress.innerHTML='🟢 PRESS<br>CLICK '+nivelAlvo+'%';ledPress.style.background='#22c55e';}if(ledValvula){ledValvula.innerHTML='🔌 VÁLVULA<br>⚫ OFF';ledValvula.style.background='#334155';}if(agua)setTimeout(()=>{agua.classList.remove('enchendo');},800);setTimeout(()=>{etapaCiclo=prog.molho?0.5:1;tempoEtapa=0;},1200);}
-}else if(etapaCiclo===0.5){
-if(etapaEl)etapaEl.textContent='MOLHO '+prog.nome;
-if(displayEtapa)displayEtapa.textContent='MOLHO';
-if(statusEl)statusEl.textContent='🟤 MOLHO - '+(prog.molho-tempoEtapa)+'s';
-if(direcaoEl){direcaoEl.textContent='🟤 MOLHO '+(prog.molho-tempoEtapa)+'s';direcaoEl.style.background='#78350f';}
-if(batedor)batedor.className='batedorReal3DDesenho';
-if(tempoEtapa>=prog.molho){etapaCiclo=1;tempoEtapa=0;}
+if(placa==='pressostato' || placa==='releK1'){
+nivel+=4;if(nivel>=96)nivel=96;
+if(agua)agua.style.height=nivel+'%';
+document.getElementById('nivelTxt').textContent=nivel.toFixed(0)+'%';
+document.getElementById('nivelAguaPct').textContent=nivel.toFixed(0)+'% - TRANSBORDANDO';
+document.getElementById('pressostatoStatus').innerHTML='🌊 '+(placa==='pressostato'?'PRESSOSTATO TRAVADO':'RELÉ K1 COLADO')+' - TRANSBORDANDO '+nivel.toFixed(0)+'%';
+document.getElementById('pressostatoStatus').style.background='#ef4444';
+statusEl.textContent='🌊 TRANSBORDANDO! '+(placa==='pressostato'?'PRESSOSTATO TRAVADO':'RELÉ K1')+' - '+nivel.toFixed(0)+'% - MOLHANDO MÁQUINA';
+etapaEl.textContent='TRANSBORDANDO '+nivel.toFixed(0)+'% - MOLHANDO';
+displayEtapa.textContent='TRANSBORDANDO MOLHANDO';
+direcaoEl.textContent='🌊 '+(placa==='pressostato'?'PRESS TRAVADO':'K1 COLADO')+' '+nivel.toFixed(0)+'% - MOLHA';
+direcaoEl.style.background='#0284c7';
+ledValvula.style.background='#22c55e';ledValvula.innerHTML='🔌 VÁLVULA<br>🟢 ON';
+ledPress.style.background='#ef4444';ledPress.innerHTML='🌊 PRESS<br>TRAVADO';
+document.getElementById('tempo').textContent=tempo+'s';
+if(nivel>=85){ativarMolhamento();}else{desativarMolhamento();}
+return;
+}
+desativarMolhamento();
+nivel=Math.min(82,nivel+1.2);
+if(agua)agua.style.height=nivel+'%';
+document.getElementById('nivelTxt').textContent=nivel.toFixed(0)+'%';
+document.getElementById('nivelAguaPct').textContent=nivel.toFixed(0)+'% - ENCHENDO';
+document.getElementById('tempo').textContent=tempo+'s';
+statusEl.textContent='💧 ENCHENDO - '+nivel.toFixed(0)+'%';
+ledValvula.style.background='#22c55e';ledValvula.innerHTML='🔌 VÁLVULA<br>🟢 ON';
+if(nivel>=82){etapaCiclo=1;tempoEtapa=0;ledValvula.style.background='#334155';ledValvula.innerHTML='🔌 VÁLVULA<br>⚫ OFF';ledPress.style.background='#dcfce7';ledPress.innerHTML='🔵 PRESS<br>CHEIO 82%';}
 }else if(etapaCiclo===1){
-if(etapaEl)etapaEl.textContent='LAVANDO '+prog.nome;
-let cicloLavagem=tempoEtapa%10;let querDir=cicloLavagem<4;let pausa=cicloLavagem===4||cicloLavagem===9;
-if(tempoLavar===0){etapaCiclo=2;tempoEtapa=0;return;}
-if(pausa){
-if(statusEl)statusEl.textContent='⏸️ PAUSA - '+(tempoLavar-tempoEtapa)+'s';
-if(displayEtapa)displayEtapa.textContent='PAUSA';
-if(direcaoEl){direcaoEl.textContent='⏸️ PAUSA';direcaoEl.style.background='#f59e0b';}
-if(batedor)batedor.className='batedorReal3DDesenho';
-if(ledDir){ledDir.innerHTML='▶ T1 DIR<br>⚫ OFF';ledDir.style.background='#334155';}
-if(ledEsq){ledEsq.innerHTML='◀ T2 ESQ<br>⚫ OFF';ledEsq.style.background='#334155';}
-}else if(placa==='triacDir'&&querDir){
-if(statusEl)statusEl.textContent='❌ FALHA DIR - TRIAC DIR queimado';
-if(displayEtapa)displayEtapa.textContent='FALHA DIR';
-if(direcaoEl){direcaoEl.textContent='❌ FALHA DIR';direcaoEl.style.background='#ef4444';}
-}else if(placa==='triacEsq'&&!querDir){
-if(statusEl)statusEl.textContent='❌ FALHA ESQ - TRIAC ESQ queimado';
-if(displayEtapa)displayEtapa.textContent='FALHA ESQ';
-if(direcaoEl){direcaoEl.textContent='❌ FALHA ESQ';direcaoEl.style.background='#ef4444';}
-}else if(placa==='capacitor'){
-if(statusEl)statusEl.textContent='🔊 CAPACITOR 15uF FRACO - Ronca HUUUUM';
-if(displayEtapa)displayEtapa.textContent='RONCA CAP';
-if(direcaoEl){direcaoEl.textContent='🔊 RONCA CAP 15uF';direcaoEl.style.background='#f59e0b';}
-anguloMotor+=6;if(eixo)eixo.style.transform='rotate('+anguloMotor+'deg)';if(seta)seta.style.transform='rotate('+anguloMotor+'deg)';
-}else{
-if(querDir){
-if(statusEl)statusEl.textContent='🔄 '+prog.nome+' - LAVANDO DIR ▶ '+(tempoLavar-tempoEtapa)+'s';
-if(displayEtapa)displayEtapa.textContent='DIR ▶';
-if(direcaoEl){direcaoEl.textContent='▶ DIR '+prog.nome;direcaoEl.style.background='#22c55e';}
-anguloMotor+=50;if(eixo)eixo.style.transform='rotate('+anguloMotor+'deg)';if(seta)seta.style.transform='rotate('+anguloMotor+'deg)';
-if(batedor)batedor.className='batedorReal3DDesenho batedor-dir-desenho';
-if(ledDir){ledDir.innerHTML='▶ T1 DIR<br>🟢 ON';ledDir.style.background='#22c55e';}
-if(ledEsq){ledEsq.innerHTML='◀ T2 ESQ<br>⚫ OFF';ledEsq.style.background='#334155';}
-}else{
-if(statusEl)statusEl.textContent='🔄 '+prog.nome+' - LAVANDO ESQ ◀ '+(tempoLavar-tempoEtapa)+'s';
-if(displayEtapa)displayEtapa.textContent='ESQ ◀';
-if(direcaoEl){direcaoEl.textContent='◀ ESQ '+prog.nome;direcaoEl.style.background='#22c55e';}
-anguloMotor-=50;if(eixo)eixo.style.transform='rotate('+anguloMotor+'deg)';if(seta)seta.style.transform='rotate('+anguloMotor+'deg)';
-if(batedor)batedor.className='batedorReal3DDesenho batedor-esq-desenho';
-if(ledEsq){ledEsq.innerHTML='◀ T2 ESQ<br>🟢 ON';ledEsq.style.background='#22c55e';}
-if(ledDir){ledDir.innerHTML='▶ T1 DIR<br>⚫ OFF';ledDir.style.background='#334155';}
-}
-}
-if(tempoEtapa>=tempoLavar){etapaCiclo=2;tempoEtapa=0;}
+desativarMolhamento();
+etapaEl.textContent='AGITANDO DIR/ESQ';displayEtapa.textContent='LAVANDO';let querDir=tempoEtapa%14<7;
+if(tambor){tambor.style.transform='rotateZ(0deg)';}
+if(placa==='capacitor'){statusEl.textContent='🔊 CAPACITOR 15uF FRACO - RONCA SEM TORQUE - LENTO';direcaoEl.textContent='🔊 RONCA CAP 15uF - LENTO';direcaoEl.style.background='#f59e0b';if(batedor){batedor.className='batedorReal3DDesenho batedor-lento';}document.getElementById('tempo').textContent=tempo+'s';if(tempoEtapa>200){etapaCiclo=2;tempoEtapa=0;}return;}
+if(placa==='triacDir'&&querDir){statusEl.textContent='❌ FALHA DIR - TRIAC DIR T1 queimado';displayEtapa.textContent='FALHA DIR T1';direcaoEl.textContent='❌ FALHA DIR - T1 QUEIMADO';direcaoEl.style.background='#ef4444';if(batedor)batedor.className='batedorReal3DDesenho';ledDir.innerHTML='▶ T1 DIR<br>❌ QUEIMADO';ledDir.style.background='#ef4444';document.getElementById('tempo').textContent=tempo+'s';tempoEtapa++;if(tempoEtapa>200){etapaCiclo=2;tempoEtapa=0;}return;}
+if(placa==='triacEsq'&&!querDir){statusEl.textContent='❌ FALHA ESQ - TRIAC ESQ T2 queimado';displayEtapa.textContent='FALHA ESQ T2';direcaoEl.textContent='❌ FALHA ESQ - T2 QUEIMADO';direcaoEl.style.background='#ef4444';if(batedor)batedor.className='batedorReal3DDesenho';ledEsq.innerHTML='◀ T2 ESQ<br>❌ QUEIMADO';ledEsq.style.background='#ef4444';document.getElementById('tempo').textContent=tempo+'s';tempoEtapa++;if(tempoEtapa>200){etapaCiclo=2;tempoEtapa=0;}return;}
+if(batedor){if(querDir){batedor.className='batedorReal3DDesenho batedor-horario-rapido';direcaoEl.textContent='▶ DIR RAPIDO 0.7s - 720°';ledDir.style.background='#22c55e';ledDir.innerHTML='▶ T1 DIR<br>🟢 ON 0.7s';ledEsq.style.background='#334155';statusEl.textContent='🔄 Batedor paletas DIR RAPIDO - '+tempo+'s';}else{batedor.className='batedorReal3DDesenho batedor-antihorario-rapido';direcaoEl.textContent='◀ ESQ RAPIDO 0.7s - 720°';ledEsq.style.background='#22c55e';ledEsq.innerHTML='◀ T2 ESQ<br>🟢 ON 0.7s';ledDir.style.background='#334155';statusEl.textContent='🔄 Batedor paletas ESQ RAPIDO - '+tempo+'s';}}
+document.getElementById('tempo').textContent=tempo+'s';if(tempoEtapa>200){etapaCiclo=2;tempoEtapa=0;if(batedor)batedor.className='batedorReal3DDesenho';}
 }else if(etapaCiclo===2){
-if(etapaEl)etapaEl.textContent='DRENANDO';
-if(displayEtapa)displayEtapa.textContent='DRENANDO';
-if(statusEl)statusEl.textContent='💦 DRENANDO - Bomba T4 ON - Água '+nivel+'%';
-if(direcaoEl){direcaoEl.textContent='💦 DRENANDO '+nivel+'%';direcaoEl.style.background='#f59e0b';}
-if(ledBomba){ledBomba.innerHTML='💦 T4 BOMBA<br>🟢 ON';ledBomba.style.background='#22c55e';}
-if(batedor)batedor.className='batedorReal3DDesenho';
-if(placa==='triacBomba'){
-if(statusEl)statusEl.textContent='❌ FALHA BOMBA - T4 queimado';
-if(displayEtapa)displayEtapa.textContent='FALHA BOMBA';
-if(direcaoEl){direcaoEl.textContent='❌ BOMBA QUEIMADA';direcaoEl.style.background='#ef4444';}
-}else{
-nivel-=8;if(nivel<12)nivel=12;if(nivel<=12){etapaCiclo=3;tempoEtapa=0;if(ledBomba){ledBomba.innerHTML='💦 T4 BOMBA<br>⚫ OFF';ledBomba.style.background='#334155';}}
-if(agua)agua.style.height=nivel+'%';let nt=document.getElementById('nivelTxt');if(nt)nt.textContent=nivel+'%';let np=document.getElementById('nivelAguaPct');if(np)np.textContent=nivel+'%';}
+desativarMolhamento();
+etapaEl.textContent='DRENANDO '+nivel.toFixed(0)+'%';displayEtapa.textContent='DRENANDO';
+if(placa==='triacBomba'){statusEl.textContent='❌ FALHA BOMBA - TRIAC T4 queimado - Não drena';direcaoEl.textContent='❌ BOMBA QUEIMADA T4';direcaoEl.style.background='#ef4444';ledBomba.innerHTML='💦 T4 BOMBA<br>❌ QUEIMADO';ledBomba.style.background='#ef4444';document.getElementById('tempo').textContent=tempo+'s';return;}
+nivel=Math.max(5,nivel-2.5);if(agua)agua.style.height=nivel+'%';document.getElementById('nivelTxt').textContent=nivel.toFixed(0)+'%';document.getElementById('nivelAguaPct').textContent=nivel.toFixed(0)+'% - DRENANDO';statusEl.textContent='💦 DRENANDO - '+nivel.toFixed(0)+'% - '+tempo+'s';ledBomba.style.background='#22c55e';ledBomba.innerHTML='💦 T4 BOMBA<br>🟢 ON';document.getElementById('tempo').textContent=tempo+'s';if(nivel<=5){etapaCiclo=3;tempoEtapa=0;document.getElementById('nivelAguaPct').textContent='5% - CENTRIFUGA';ledBomba.style.background='#334155';ledBomba.innerHTML='💦 T4 BOMBA<br>⚫ OFF';ledAtuador.style.background='#22c55e';ledAtuador.innerHTML='🌀 T3 ATUADOR<br>🟢 ON';}
 }else if(etapaCiclo===3){
-if(etapaEl)etapaEl.textContent='CENTRIFUGANDO';
-let altaRot=rpmBase+tempoEtapa*2;
-if(displayEtapa)displayEtapa.textContent=altaRot+' RPM';
-if(placa==='triacAtuador'){
-if(statusEl)statusEl.textContent='❌ FALHA ATUADOR - T3 BWL11 queimado';
-if(direcaoEl){direcaoEl.textContent='❌ T3 QUEIMADO';direcaoEl.style.background='#ef4444';}
-}else{
-if(statusEl)statusEl.textContent='🌀 CENTRIFUGANDO - '+altaRot+' RPM - '+(tempoCentrifuga-tempoEtapa)+'s';
-if(direcaoEl){direcaoEl.textContent='🌀 '+altaRot+' RPM';direcaoEl.style.background='#8b5cf6';}
-anguloMotor+=120;if(eixo)eixo.style.transform='rotate('+anguloMotor+'deg)';if(seta)seta.style.transform='rotate('+anguloMotor+'deg)';
-if(batedor)batedor.className='batedorReal3DDesenho batedor-rapido-desenho';
-if(tambor)tambor.className='tamborReal3DDesenho girando';
+desativarMolhamento();
+if(placa==='capacitor'){
+let rpmLento = 65 + Math.sin(tempoEtapa/6)*15;
+rpmLento=Math.max(45,Math.min(90,rpmLento));
+anguloMotor+=rpmLento/10;
+if(tambor){tambor.style.transform='rotateZ('+anguloMotor+'deg)';tambor.style.filter='blur(0px)';}
+if(batedor){batedor.style.transform='translate(-50%,-50%) rotateZ('+anguloMotor+'deg)';batedor.className='batedorReal3DDesenho batedor-lento';}
+direcaoEl.textContent='🔊 '+rpmLento.toFixed(0)+' RPM - CAP 15uF FRACO LENTO';
+direcaoEl.style.background='#f59e0b';
+document.getElementById('tempo').textContent=tempo+'s';
+document.getElementById('displayTempoPainel').textContent=rpmLento.toFixed(0)+' RPM LENTO';
+etapaEl.textContent='CENTRIFUGA LENTA '+rpmLento.toFixed(0)+' RPM - CAP FRACO';
+displayEtapa.textContent='CAP FRACO LENTO';
+statusEl.textContent='🔊 CAP 15uF FRACO - CENTRIFUGA LENTA '+rpmLento.toFixed(0)+' RPM - '+tempo+'s';
+document.getElementById('nivelAguaPct').textContent='5% - CENTRIFUGA LENTA '+rpmLento.toFixed(0)+' RPM';
+ledAtuador.style.background='#f59e0b';
+ledAtuador.innerHTML='🌀 T3 ATUADOR<br>🟡 CAP FRACO';
+if(tempoEtapa>250){etapaCiclo=4;parar();}
+return;
 }
-if(tempoEtapa>=tempoCentrifuga){etapaCiclo=4;tempoEtapa=0;}
-}else if(etapaCiclo===4){
-if(etapaEl)etapaEl.textContent='FIM '+prog.nome;
-if(displayEtapa)displayEtapa.textContent='FIM';
-if(statusEl)statusEl.textContent='✅ FIM - Programa '+prog.nome+' FINALIZADO! Total '+tempo+'s';
-if(direcaoEl){direcaoEl.textContent='✅ FIM '+prog.nome;direcaoEl.style.background='#22c55e';}
-if(batedor)batedor.className='batedorReal3DDesenho';
-if(tambor)tambor.className='tamborReal3DDesenho';
-if(btnPlay)btnPlay.style.background='#334155';
-clearInterval(timer);clearInterval(bolhasInterval);
+if(placa==='triacAtuador'){statusEl.textContent='❌ FALHA ATUADOR - T3 BWL11 queimado - Não centrifuga';etapaEl.textContent='FALHA T3 - NÃO CENTRIFUGA';displayEtapa.textContent='FALHA T3';direcaoEl.textContent='❌ T3 QUEIMADO BWL11';direcaoEl.style.background='#ef4444';ledAtuador.innerHTML='🌀 T3 ATUADOR<br>❌ QUEIMADO';ledAtuador.style.background='#ef4444';if(batedor){batedor.className='batedorReal3DDesenho';batedor.style.transform='translate(-50%,-50%) rotateZ(0deg)';}if(tambor){tambor.style.transform='rotateZ(0deg)';}document.getElementById('tempo').textContent=tempo+'s';return;}
+let rpmReal;if(tempoEtapa<40){rpmReal=tempoEtapa*5;}else if(tempoEtapa<120){rpmReal=200+(tempoEtapa-40)*6.5;}else{rpmReal=720+Math.sin(tempoEtapa/10)*10;}rpmReal=Math.min(750,rpmReal);anguloMotor+=rpmReal/7.5;if(tambor){tambor.style.transform='rotateZ('+anguloMotor+'deg)';tambor.style.filter=rpmReal>400?'blur('+(rpmReal/600)+'px)':'blur(0px)';}if(batedor){batedor.style.transform='translate(-50%,-50%) rotateZ('+anguloMotor+'deg)';batedor.className='batedorReal3DDesenho';}direcaoEl.textContent='🌀 '+rpmReal.toFixed(0)+' RPM - Tambor + Batedor juntos';document.getElementById('tempo').textContent=tempo+'s';document.getElementById('displayTempoPainel').textContent=rpmReal.toFixed(0)+' RPM';etapaEl.textContent='CENTRIFUGANDO '+rpmReal.toFixed(0)+' RPM';statusEl.textContent='🌀 REDONDO - '+rpmReal.toFixed(0)+' RPM - '+tempo+'s';document.getElementById('nivelAguaPct').textContent='5% - CENTRIFUGA';if(tempoEtapa>250){etapaCiclo=4;parar();}
 }
-let tt=document.getElementById('tempo');if(tt)tt.textContent=tempo+'s';let rp=document.getElementById('reacaoPlaca');if(rp&&statusEl)rp.textContent=statusEl.textContent;}
-function parar(){clearInterval(timer);clearInterval(bolhasInterval);timer=null;let b=document.getElementById('batedorReal');if(b)b.className='batedorReal3DDesenho';let t=document.getElementById('tamborReal');if(t)t.className='tamborReal3DDesenho';let a=document.getElementById('aguaLateral');if(a){a.classList.remove('enchendo');}}
+}
+function parar(){desativarMolhamento();clearInterval(timer);clearInterval(bolhasInterval);timer=null;let b=document.getElementById('batedorReal');if(b){b.className='batedorReal3DDesenho';b.style.transform='translate(-50%,-50%) rotateZ(0deg)';}let t=document.getElementById('tamborReal');if(t){t.style.transform='rotateZ(0deg)';t.style.filter='blur(0px)';}document.getElementById('tempo').textContent='0s';document.getElementById('direcaoMotor').textContent='⏸️ PARADO';document.getElementById('direcaoMotor').style.background='#000';['ledValvula','ledTriacDir','ledTriacEsq','ledTriacBomba','ledTriacAtuador'].forEach(id=>{let el=document.getElementById(id);if(el){el.style.background='#334155';}});document.getElementById('ledTriacDir').innerHTML='▶ T1 DIR<br>⚫ OFF';document.getElementById('ledTriacEsq').innerHTML='◀ T2 ESQ<br>⚫ OFF';document.getElementById('ledTriacBomba').innerHTML='💦 T4 BOMBA<br>⚫ OFF';document.getElementById('ledTriacAtuador').innerHTML='🌀 T3 ATUADOR<br>⚫ OFF';document.getElementById('ledValvula').innerHTML='🔌 VÁLVULA<br>⚫ OFF';document.getElementById('status').textContent='⏹ PARADO';}
 let defeitos={fusivel:false,varistor:false,lnk:false,cap400:false,cap1000:false,rele:false,t1:false,t2:false,t3:false,t4:false,cap15:false,press:false};
 function toggleComp(c){defeitos[c]=!defeitos[c];let el=document.getElementById('c-'+c);if(!el)return;if(defeitos[c]){el.classList.remove('ok');el.classList.add('ruim');}else{el.classList.remove('ruim');el.classList.add('ok');}atualizarSaidas();}
-function atualizarSaidas(){let outV=document.getElementById('out-valvula');let outB=document.getElementById('out-bomba');let outM=document.getElementById('out-motor');let outA=document.getElementById('out-atuador');let result=document.getElementById('mapaResult');if(!outV)return;let txt='';outV.textContent='✅ OK';outB.textContent='✅ OK';outM.textContent='✅ OK';outA.textContent='✅ OK';result.style.borderLeftColor='#22c55e';if(defeitos.fusivel||defeitos.lnk||defeitos.cap400||defeitos.cap1000||defeitos.varistor){txt+='⚫ PLACA MORTA - Fonte LNK304 sem 5V\nSAÍDA: TODAS - NÃO FUNCIONAM\n';outV.textContent='❌ MORTA';outB.textContent='❌ MORTA';outM.textContent='❌ MORTA';outA.textContent='❌ MORTA';result.style.borderLeftColor='#000';}else{if(defeitos.rele){txt+='🟡 RELÉ K1 COLADO - SAÍDA: VÁLVULA Transborda\n';outV.textContent='❌ COLADO';}if(defeitos.t1){txt+='🔴 T1 DIR - SAÍDA: MOTOR Não gira horário\n';outM.textContent='❌ Não gira DIR';}if(defeitos.t2){txt+='🔴 T2 ESQ - SAÍDA: MOTOR Não gira anti-horário\n';outM.textContent='❌ Não gira ESQ';}if(defeitos.t4){txt+='🔴 T4 BOMBA - SAÍDA: BOMBA Não drena\n';outB.textContent='❌ Não drena';}if(defeitos.t3){txt+='🔴 T3 ATUADOR BWL11 - SAÍDA: ATUADOR Não centrifuga\n';outA.textContent='❌ Não centrifuga';}if(defeitos.cap15){txt+='🟡 CAP 15uF - SAÍDA: MOTOR Ronca\n';outM.textContent='🔊 Ronca';}if(defeitos.press){txt+='🔵 PRESSOSTATO - SAÍDA: VÁLVULA Transborda\n';outV.textContent='❌ Travado';}if(txt===''){txt='✅ PLACA BOA - Todas saídas OK';}}result.textContent=txt;let sel=document.getElementById('defeitoPlaca');if(sel){if(defeitos.t1)sel.value='triacDir';else if(defeitos.t2)sel.value='triacEsq';else if(defeitos.t4)sel.value='triacBomba';else if(defeitos.t3)sel.value='triacAtuador';else if(defeitos.cap15)sel.value='capacitor';else if(defeitos.press)sel.value='pressostato';else if(defeitos.rele)sel.value='releK1';else if(defeitos.fusivel||defeitos.lnk||defeitos.cap400)sel.value='fusivel';else sel.value='ok';injetarDefeitoPlaca();}}
-function resetPlaca(){Object.keys(defeitos).forEach(k=>{defeitos[k]=false;let el=document.getElementById('c-'+k);if(el){el.classList.remove('ruim');el.classList.add('ok');}});atualizarSaidas();}
+function atualizarSaidas(){let outV=document.getElementById('out-valvula');let outB=document.getElementById('out-bomba');let outM=document.getElementById('out-motor');let outA=document.getElementById('out-atuador');let result=document.getElementById('mapaResult');if(!outV)return;let txt='';outV.textContent='✅ OK';outB.textContent='✅ OK';outM.textContent='✅ OK';outA.textContent='✅ OK';result.style.borderLeftColor='#22c55e';if(defeitos.fusivel||defeitos.lnk||defeitos.cap400||defeitos.cap1000||defeitos.varistor){txt+='⚫ PLACA MORTA - Fonte LNK304 sem 5V\nSAÍDA: TODAS - NÃO FUNCIONAM\n';outV.textContent='❌ MORTA';outB.textContent='❌ MORTA';outM.textContent='❌ MORTA';outA.textContent='❌ MORTA';result.style.borderLeftColor='#000';}else{if(defeitos.rele){txt+='🟡 RELÉ K1 COLADO - SAÍDA: VÁLVULA Transborda e molha máquina\n';outV.textContent='❌ COLADO';}if(defeitos.t1){txt+='🔴 T1 DIR - SAÍDA: MOTOR Não gira horário\n';outM.textContent='❌ Não gira DIR';}if(defeitos.t2){txt+='🔴 T2 ESQ - SAÍDA: MOTOR Não gira anti-horário\n';outM.textContent='❌ Não gira ESQ';}if(defeitos.t4){txt+='🔴 T4 BOMBA - SAÍDA: BOMBA Não drena\n';outB.textContent='❌ Não drena';}if(defeitos.t3){txt+='🔴 T3 ATUADOR BWL11 - SAÍDA: ATUADOR Não centrifuga\n';outA.textContent='❌ Não centrifuga';}if(defeitos.cap15){txt+='🟡 CAP 15uF - SAÍDA: MOTOR Ronca lento + Centrifuga lenta\n';outM.textContent='🔊 Ronca lento';}if(defeitos.press){txt+='🔵 PRESSOSTATO - SAÍDA: VÁLVULA Transborda e molha máquina\n';outV.textContent='❌ Travado';}if(txt===''){txt='✅ PLACA BOA - Todas saídas OK';}}result.textContent=txt;let sel=document.getElementById('defeitoPlaca');if(sel){if(defeitos.t1)sel.value='triacDir';else if(defeitos.t2)sel.value='triacEsq';else if(defeitos.t4)sel.value='triacBomba';else if(defeitos.t3)sel.value='triacAtuador';else if(defeitos.cap15)sel.value='capacitor';else if(defeitos.press)sel.value='pressostato';else if(defeitos.rele)sel.value='releK1';else if(defeitos.fusivel||defeitos.lnk||defeitos.cap400)sel.value='fusivel';else sel.value='ok';injetarDefeitoPlaca();}}
+function resetPlaca(){Object.keys(defeitos).forEach(k=>{defeitos[k]=false;let el=document.getElementById('c-'+k);if(el){el.classList.remove('ruim');el.classList.add('ok');}});atualizarSaidas();desativarMolhamento();}
 function defeitoClassicoBWL11(){resetPlaca();toggleComp('t3');}
 let ultimoLaudoDados=null;
-function gerarLaudo(){let cliente=document.getElementById('laudoCliente').value||'Cliente';let fone=document.getElementById('laudoFone').value||'';let endereco=document.getElementById('laudoEndereco').value||'';let dataInput=document.getElementById('laudoData').value;let data=dataInput?new Date(dataInput+'T12:00:00').toLocaleDateString('pt-BR'):new Date().toLocaleDateString('pt-BR');let m=window.MODELOS[document.getElementById('modelo').value||0];let defeito=document.getElementById('laudoDefeito').value;let causa=document.getElementById('laudoCausa').value;let peca=document.getElementById('laudoPeca').value||'Conforme defeito';let valor=document.getElementById('laudoValor').value||'A combinar';let garantia=document.getElementById('laudoGarantia').value||'90 dias';let obs=document.getElementById('laudoObs').value||'';document.getElementById('laudoMaquina').value=m.marca+' '+m.modelo;document.getElementById('laudoPrograma').value='ID: '+m.id;ultimoLaudoDados={cliente,fone,endereco,data,m,defeito,causa,peca,valor,garantia,obs};let laudoTexto=`LAUDO TECNICO V12.15\nCLIENTE: ${cliente} - FONE: ${fone}\nEND: ${endereco} - DATA: ${data}\nMAQUINA: ${m.marca} ${m.modelo} - ID: ${m.id}\nDEFEITO: ${defeito}\nCAUSA: ${causa}\nPECA: ${peca} - VALOR: R$ ${valor} - GARANTIA: ${garantia}\nOBS: ${obs}`;document.getElementById('laudoGerado').textContent=laudoTexto;}
-function gerarPDF(){if(!ultimoLaudoDados)gerarLaudo();let d=ultimoLaudoDados;const {jsPDF}=window.jspdf;let doc=new jsPDF();doc.setFillColor(15,23,42);doc.rect(0,0,210,28,'F');doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(14);doc.text('BANCADA LAVADORA PRO',10,12);doc.setFontSize(10);doc.text('LAUDO TECNICO OFICIAL V12.15',10,20);doc.setFontSize(8);doc.setFont('helvetica','normal');doc.text('ID: '+deviceId+' | Data: '+d.data,120,12);doc.setTextColor(0,0,0);let y=36;doc.setFillColor(241,245,249);doc.rect(10,y,190,22,'F');doc.setFont('helvetica','bold');doc.setFontSize(9);doc.text('DADOS DO CLIENTE',12,y+6);doc.setFont('helvetica','normal');doc.setFontSize(8);doc.text('CLIENTE: '+d.cliente+' | FONE: '+d.fone,12,y+12);doc.text('END: '+d.endereco,12,y+18);y+=28;doc.setFillColor(254,226,226);let diagLines=doc.splitTextToSize('DEFEITO: '+d.defeito+' | '+d.causa,183);let alturaDiag=diagLines.length*5+12;doc.rect(10,y,190,alturaDiag,'F');doc.setFont('helvetica','bold');doc.text('DIAGNOSTICO',12,y+6);doc.setFont('helvetica','normal');doc.text(diagLines,12,y+11);y+=alturaDiag+6;doc.setFillColor(220,252,231);doc.rect(10,y,190,16,'F');doc.setFont('helvetica','bold');doc.text('SERVICO / PECAS',12,y+5);doc.setFont('helvetica','normal');doc.text('PECA: '+d.peca+' | VALOR: R$ '+d.valor+' | GARANTIA: '+d.garantia,12,y+11);y+=22;doc.text('Assinatura Cliente: ___________________',10,y);y+=8;doc.text('Tecnico Sostenes - ID: '+deviceId,10,y);doc.save('Laudo_V12_15_'+d.cliente+'.pdf');}
-function compartilharLaudo(){if(!ultimoLaudoDados)gerarLaudo();let d=ultimoLaudoDados;let texto='*LAUDO* - '+d.cliente+' - '+d.m.marca+' '+d.m.modelo+' - Defeito: '+d.defeito+' - Valor: R$ '+d.valor;let msg=encodeURIComponent(texto);window.open('https://wa.me/?text='+msg,'_blank');}
+function calcTotalLaudo(){let vp=parseFloat(document.getElementById('laudoValorPeca')?.value)||0;let mo=parseFloat(document.getElementById('laudoMaoObra')?.value)||0;let tot=vp+mo;let el=document.getElementById('laudoTotal');if(el)el.value=tot?('R$ '+tot):'';gerarLaudoAuto();return tot;}
+function gerarLaudoAuto(){
+try{
+let cliente=(document.getElementById('laudoCliente')?.value||'').trim()||'Cliente';
+let fone=(document.getElementById('laudoFone')?.value||'').trim();
+let endereco=(document.getElementById('laudoEndereco')?.value||'').trim();
+let dataInput=document.getElementById('laudoData')?.value;
+let data=dataInput?new Date(dataInput+'T12:00:00').toLocaleDateString('pt-BR'):new Date().toLocaleDateString('pt-BR');
+let modeloEl=document.getElementById('modelo');
+let m=(modeloEl && window.MODELOS && window.MODELOS[modeloEl.value])?window.MODELOS[modeloEl.value]:{marca:'Electrolux',modelo:'LTC10 10kg',id:'ELX-LTC10-006'};
+let defeito=document.getElementById('laudoDefeito')?.value||'Pressostato travado';
+let causa=document.getElementById('laudoCausa')?.value||'Desgaste natural';
+let peca=document.getElementById('laudoPeca')?.value||'Troca de componentes defeituosos';
+let valorPeca=parseFloat(document.getElementById('laudoValorPeca')?.value)||0;
+let maoObra=parseFloat(document.getElementById('laudoMaoObra')?.value)||0;
+let total=valorPeca+maoObra;
+let garantia=document.getElementById('laudoGarantia')?.value||'90 dias';
+let forma=document.getElementById('laudoForma')?.value||'Pix à vista';
+let validade=document.getElementById('laudoValidade')?.value||'7 dias';
+let obs=document.getElementById('laudoObs')?.value||'';
+let maqEl=document.getElementById('laudoMaquina');if(maqEl)maqEl.value=m.marca+' '+m.modelo+' - ID: '+m.id;
+ultimoLaudoDados={cliente,fone,endereco,data,m,defeito,causa,peca,valorPeca,maoObra,total,garantia,forma,validade,obs};
+let txt=`LAUDO TÉCNICO V12.24 MOLHANDO - COM MÃO DE OBRA
+CLIENTE: ${cliente}${fone?' - FONE: '+fone:''}
+END: ${endereco} - DATA: ${data}
+MÁQUINA: ${m.marca} ${m.modelo} - ID: ${m.id}
+DEFEITO: ${defeito}
+CAUSA: ${causa}
+PEÇA/SERVIÇO: ${peca}
+VALOR PEÇA: R$ ${valorPeca}
+MÃO DE OBRA: R$ ${maoObra}
+TOTAL: R$ ${total} - ${forma}
+GARANTIA: ${garantia} - VALIDADE: ${validade}
+OBS: ${obs||'-'}
+ID BANCADA: ${deviceId}`;
+let out=document.getElementById('laudoGerado');if(out)out.textContent=txt;
+}catch(e){let out=document.getElementById('laudoGerado');if(out)out.textContent='Erro: '+e.message;}}
+function gerarLaudo(){gerarLaudoAuto();}
+function gerarPDF(){
+try{gerarLaudoAuto();let d=ultimoLaudoDados;const {jsPDF}=window.jspdf;let doc=new jsPDF();
+doc.setFillColor(15,23,42);doc.rect(0,0,210,30,'F');doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(14);doc.text('BANCADA LAVADORA PRO',10,12);
+doc.setFontSize(10);doc.text('LAUDO TÉCNICO V12.24 MOLHANDO',10,20);doc.setFontSize(8);doc.setFont('helvetica','normal');doc.text('ID: '+deviceId+' | Data: '+d.data,120,12);
+doc.setTextColor(0,0,0);let y=38;doc.setFillColor(241,245,249);doc.rect(10,y,190,18,'F');doc.setFont('helvetica','bold');doc.setFontSize(9);doc.text('DADOS DO CLIENTE',12,y+5);doc.setFont('helvetica','normal');doc.setFontSize(8);doc.text('CLIENTE: '+d.cliente+' | FONE: '+d.fone,12,y+10);doc.text('END: '+d.endereco,12,y+15);y+=22;
+doc.setFillColor(254,226,226);let diagLines=doc.splitTextToSize('DEFEITO: '+d.defeito+' | CAUSA: '+d.causa,183);let hDiag=diagLines.length*5+10;doc.rect(10,y,190,hDiag,'F');doc.setFont('helvetica','bold');doc.text('DIAGNÓSTICO',12,y+5);doc.setFont('helvetica','normal');doc.text(diagLines,12,y+10);y+=hDiag+6;
+doc.setFillColor(220,252,231);doc.rect(10,y,190,32,'F');doc.setFont('helvetica','bold');doc.text('ORÇAMENTO',12,y+5);doc.setFont('helvetica','normal');doc.setFontSize(9);doc.text('PEÇA/SERVIÇO: '+d.peca,12,y+11);doc.text('VALOR PEÇA: R$ '+d.valorPeca+' | MÃO OBRA: R$ '+d.maoObra+' | TOTAL: R$ '+d.total,12,y+17);doc.text('PAGAMENTO: '+d.forma+' | GARANTIA: '+d.garantia+' | VALIDADE: '+d.validade,12,y+23);y+=38;doc.setFontSize(8);doc.text('OBS: '+(d.obs||'-'),12,y);y+=10;doc.text('Assinatura Cliente: ___________________________________',10,y);y+=8;doc.text('Técnico Sóstenes - ID: '+deviceId,10,y);doc.save('Laudo_V12_24_MOLHANDO_'+d.cliente.replace(/\s+/g,'_')+'.pdf');}catch(e){alert('Erro PDF: '+e.message);}}
+function compartilharLaudo(){try{gerarLaudoAuto();let d=ultimoLaudoDados;let texto=`*LAUDO V12.24 MOLHANDO* - ${d.cliente} - ${d.m.marca} ${d.m.modelo} - Defeito: ${d.defeito} - Peça R$ ${d.valorPeca} + Mão R$ ${d.maoObra} = TOTAL R$ ${d.total}`;let msg=encodeURIComponent(texto);window.open('https://wa.me/?text='+msg,'_blank');}catch(e){alert('Erro: '+e.message);}}
 async function fazerLogin(){let idDigitado=(document.getElementById('loginId').value.trim().toUpperCase()||deviceId);if(idDigitado===deviceId){usuarioAtual={id:deviceId,nome:'Trial 7 dias',status:'ativo',trial:true};entrarApp();return;}try{if(window.fb&&window.db){let snap=await window.fb.getDoc(window.fb.doc(window.db,"usuarios",idDigitado));if(snap.exists()){let u=snap.data();if(u.status!=='ativo'){document.getElementById('loginMsg').textContent='❌ ID BLOQUEADO';return;}usuarioAtual=u;entrarApp();return;}}}catch(e){}let localU=window.USUARIOS.find(x=>x.id===idDigitado);if(localU){usuarioAtual=localU;entrarApp();return;}document.getElementById('loginMsg').textContent='❌ ID não encontrado: '+idDigitado;usuarioAtual={id:deviceId,nome:'Trial 7 dias',status:'ativo',trial:true};entrarApp();}
-function entrarApp(){document.getElementById('loginCard').style.display='none';document.getElementById('conteudo').style.display='block';document.getElementById('userLogado').textContent=usuarioAtual.nome;document.getElementById('userIdShow').textContent=usuarioAtual.id;setTimeout(()=>{mostrarAvisoSeguranca();},300);if(usuarioAtual.id==='ADM-999'||usuarioAtual.adm){let ab=document.getElementById('admBloqueado');if(ab)ab.style.display='none';let ac=document.getElementById('admConteudo');if(ac)ac.style.display='block';}carregarModelosSelect();injetarDefeitoPlaca();atualizarSaidas();}
+function entrarApp(){document.getElementById('loginCard').style.display='none';document.getElementById('conteudo').style.display='block';document.getElementById('userLogado').textContent=usuarioAtual.nome;document.getElementById('userIdShow').textContent=usuarioAtual.id;setTimeout(()=>{mostrarAvisoSeguranca();},300);if(usuarioAtual.id==='ADM-999'||usuarioAtual.adm){let ab=document.getElementById('admBloqueado');if(ab)ab.style.display='none';let ac=document.getElementById('admConteudo');if(ac)ac.style.display='block';}carregarModelosSelect();injetarDefeitoPlaca();atualizarSaidas();calcTotalLaudo();gerarLaudoAuto();}
 function sair(){location.reload();}
 window.cadastrarUsuarioFirebase=async function(){let nome=document.getElementById('admNomeUser').value.trim();let id=document.getElementById('admIdUser').value.trim().toUpperCase();let st=document.getElementById('admStatusUser').value;if(!nome||!id){alert('Preencha Nome e ID');return;}let agora=Date.now();let expira=agora+365*24*60*60*1000;let novo={id,nome,status:st,adm:id==='ADM-999',criadoEm:agora,expiraEm:expira};try{if(window.fb&&window.db){await window.fb.setDoc(window.fb.doc(window.db,"usuarios",id),novo);}alert('✅ LIBERADO 1 ANO! ID: '+id);}catch(e){alert('Erro Firebase: '+e.message);}window.USUARIOS.push(novo);}
 window.testarFirebase=async function(){try{let s=await window.fb.getDocs(window.fb.collection(window.db,"usuarios"));alert('✅ Firebase OK! '+s.size+' usuários');}catch(e){alert('❌ Firebase erro: '+e.message);}}
-carregarModelosSelect();mostrarId();
+carregarModelosSelect();mostrarId();calcTotalLaudo();gerarLaudoAuto();
 setTimeout(()=>{if(window.fb){window.fb.getDocs(window.fb.collection(window.db,"usuarios")).then(s=>{let el=document.getElementById('firebaseStatus');if(el){el.textContent='✅ Firebase OK! '+s.size+' usuários';el.style.background='#dcfce7';}}).catch(e=>{let el=document.getElementById('firebaseStatus');if(el){el.textContent='❌ Firebase: '+e.message;el.style.background='#fee2e2';}});}},500);
 </script></body></html>
